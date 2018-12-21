@@ -47,6 +47,14 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
+ * Data Util
+ *
+ * to make the type conversion easily.
+ *
+ * Java is not a type safe language. But in some use cases, for example, convert properties to java object or reflection in runtime,
+ * Using default java code will throw exception when got an unexpected data, in real world, something is better to have some default value instead of breaking the code.
+ * DataUtil and .convert.* are based on this idea to treat java like a type safe language.
+ *
  * The last version was published here.
  *
  * https://github.com/eBay/Winder/blob/master/winder-core/src/main/java/org/ebayopensource/common/util/DataUtil.java
@@ -55,7 +63,7 @@ import java.util.List;
  * Modified by Sheldon Shao(xshao) on 12/09/2018), include it in femtoframework/femto-util and changed license to APL v2
  * Created by xshao on 9/16/16.
  */
-public class DataUtil {
+public class DataUtil implements DataTypes {
     /**
      * Convert value to boolean
      *
@@ -64,11 +72,6 @@ public class DataUtil {
      * @return the converted boolean
      */
     public static boolean getBoolean(Object value, boolean defValue)
-    {
-        return doGetBoolean(value, defValue);
-    }
-
-    public static Boolean doGetBoolean(Object value, Boolean defValue)
     {
         if (value == null) {
             return defValue;
@@ -79,7 +82,7 @@ public class DataUtil {
             result = ((Boolean)value);
         }
         else if (value instanceof String) {
-            return convertToBoolean((String)value, defValue);
+            return toBoolean((String)value, defValue);
         }
         else if (value instanceof Number) {
             long l = ((Number)value).longValue();
@@ -90,7 +93,6 @@ public class DataUtil {
         }
         return result;
     }
-
 
     private static final String[] VALID_TRUE
             = {"True", "true", "TRUE", "Yes", "yes", "YES",
@@ -137,19 +139,6 @@ public class DataUtil {
         return TRUE_SET.contains(value) || !FALSE_SET.contains(value) && defValue;
     }
 
-    public static Boolean convertToBoolean(String value, Boolean defValue)
-    {
-        if (TRUE_SET.contains(value)) {
-            return true;
-        }
-        else if (FALSE_SET.contains(value)) {
-            return false;
-        }
-        else {
-            return defValue;
-        }
-    }
-
     /**
      * Convert string to boolean
      * <pre>
@@ -175,6 +164,226 @@ public class DataUtil {
         return toBoolean(value, false);
     }
 
+    /**
+     * Convert object to boolean[] as much as possible
+     * @param object
+     * @param defValue
+     * @return
+     */
+    public static boolean[] getBooleans(Object object, boolean[] defValue)
+    {
+        if (object == null) {
+            return defValue;
+        }
+
+        boolean[] result = null;
+        if (object instanceof boolean[]) {
+            result = (boolean[])object;
+        }
+        else if (object instanceof Boolean) {
+            result = new boolean[]{((Boolean)object).booleanValue()};
+        }
+        else if (object instanceof Number) {
+            result = new boolean[]{getBoolean(object, false)};
+        }
+        else if (object instanceof Object[]) {
+            Object[] array = (Object[])object;
+            result = new boolean[array.length];
+            for (int i = 0; i < array.length; i++) {
+                result[i] = getBoolean(array[i], false);
+            }
+        }
+        else if (object.getClass().isArray()) {
+            int len = Array.getLength(object);
+            result = new boolean[len];
+            for (int i = 0; i < len; i++) {
+                result[i] = getBoolean(Array.get(object, i), false);
+            }
+        }
+        else if (object instanceof String) {
+            String[] array = toStrings((String)object, ',');
+            result = new boolean[array.length];
+            for (int i = 0; i < array.length; i++) {
+                result[i] = getBoolean(array[i], false);
+            }
+        }
+        else {
+            result = defValue;
+        }
+        return result;
+    }
+
+    private static int tryRadix(String str, int radix) {
+        if (str.length() > 2 && str.charAt(0) == '0') {
+            char c = str.charAt(1);
+            switch (c) {
+                case 'x':
+                case 'X':
+                    radix = 16;
+                    break;
+                case 'o':
+                case 'O':
+                    radix = 8;
+                    break;
+                case 'b':
+                case 'B':
+                    radix = 2;
+                    break;
+            }
+            if (radix != 10) {
+                str = str.substring(2);
+            }
+        }
+        return radix;
+    }
+
+    /**
+     * Convert value to byte
+     *
+     * @param value the object to convert from
+     * @return the converted byte
+     */
+    public static byte getByte(Object value, byte defValue)
+    {
+        if (value == null) {
+            return defValue;
+        }
+
+        byte result = defValue;
+        if (value instanceof Number) {
+            result = ((Number)value).byteValue();
+        }
+        else if (value instanceof String) {
+            String str = (String)value;
+            try {
+                int radix = tryRadix(str, 10);
+                result = (byte)Integer.parseInt(str, radix);
+            }
+            catch (Exception ex) {
+                result = defValue;
+            }
+        }
+        else if (value instanceof String[]) {
+            String[] strs = (String[])value;
+            if (strs.length > 0) {
+                result = getByte(strs[0], defValue);
+            }
+            else {
+                result = defValue;
+            }
+        }
+        else if (value instanceof Boolean) {
+            result = ((Boolean)value).booleanValue() ? (byte)1 : (byte)0;
+        }
+        else {
+            result = defValue;
+        }
+
+        return result;
+    }
+
+    /**
+     * Convert value to char
+     *
+     * @param value the object to convert from
+     * @return the converted char
+     */
+    public static char getChar(Object value, char defValue)
+    {
+        char result;
+        if (value != null) {
+            if (value instanceof Character) {
+                result = ((Character)value);
+            }
+            else if (value instanceof String) {
+                String str = (String)value;
+                if (str.length() > 0) {
+                    result = str.charAt(0);
+                }
+                else {
+                    result = defValue;
+                }
+            }
+            else if (value instanceof Boolean) {
+                boolean bool = ((Boolean)value);
+                result = bool ? 'Y' : 'N';
+            }
+            else {
+                result = defValue;
+            }
+        }
+        else {
+            result = defValue;
+        }
+        return result;
+    }
+
+    /**
+     * Convert value to byte[]
+     *
+     * @param value the value to convert from. This must be a byte array, or
+     *              null
+     * @return a copy of the supplied array, or null
+     */
+    public static char[] getChars(Object value, char[] defValue)
+    {
+        char[] result;
+        if (value instanceof char[]) {
+            result = (char[])value;
+        }
+        else if (value instanceof String) {
+            result = ((String)value).toCharArray();
+        }
+        else if (value instanceof CharSequence) {
+            result = ((CharSequence)value).toString().toCharArray();
+        }
+        else {
+            result = defValue;
+        }
+        return result;
+    }
+
+    /**
+     * Convert value to short
+     *
+     * @param value the object to convert from
+     * @return the converted short
+     */
+    public static short getShort(Object value, short defValue)
+    {
+        if (value == null) {
+            return defValue;
+        }
+
+        short result = defValue;
+        if (value instanceof Number) {
+            result = ((Number)value).shortValue();
+        }
+        else if (value instanceof String) {
+            String str = (String)value;
+            try {
+                int radix = tryRadix(str, 10);
+                result = Short.parseShort(str, radix);
+            }
+            catch (Exception ex) {
+                result = defValue;
+            }
+        }
+        else if (value instanceof String[]) {
+            String[] strs = (String[])value;
+            if (strs.length > 0) {
+                result = getShort(strs[0], defValue);
+            }
+            else {
+                result = defValue;
+            }
+        }
+        else {
+            result = defValue;
+        }
+
+        return result;
+    }
 
     public static int getInt(Object value, int defValue)
     {
@@ -189,7 +398,8 @@ public class DataUtil {
         else if (value instanceof String) {
             String str = (String)value;
             try {
-                result = Integer.parseInt(str.trim(), 10);
+                int radix = tryRadix(str, 10);
+                result = Integer.parseInt(str, radix);
             }
             catch (Exception ex) {
                 result = defValue;
@@ -225,7 +435,8 @@ public class DataUtil {
         else if (value instanceof String) {
             String str = (String)value;
             try {
-                result = Long.parseLong(str.trim(), 10);
+                int radix = tryRadix(str, 10);
+                result = Long.parseLong(str, radix);
             }
             catch (Exception ex) {
                 result = defValue;
@@ -234,6 +445,51 @@ public class DataUtil {
         else if (value instanceof Boolean) {
             Boolean b = (Boolean)value;
             return b ? 1l : 0l;
+        }
+        else {
+            result = defValue;
+        }
+
+        return result;
+    }
+
+    /**
+     * Convert value to float
+     *
+     * @param value the object to convert from
+     * @return the converted float
+     */
+    public static float getFloat(Object value, float defValue)
+    {
+        if (value == null) {
+            return defValue;
+        }
+
+        float result = defValue;
+        if (value instanceof Number) {
+            result = ((Number)value).floatValue();
+        }
+        else if (value instanceof String) {
+            String str = (String)value;
+            try {
+                result = Float.parseFloat(str);
+            }
+            catch (Exception ex) {
+                result = defValue;
+            }
+        }
+        else if (value instanceof String[]) {
+            String[] strs = (String[])value;
+            if (strs.length > 0) {
+                result = getFloat(strs[0], defValue);
+            }
+            else {
+                result = defValue;
+            }
+        }
+        else if (value instanceof Boolean) {
+            Boolean b = (Boolean)value;
+            return b.booleanValue() ? 1f : 0f;
         }
         else {
             result = defValue;
@@ -279,6 +535,52 @@ public class DataUtil {
         return result;
     }
 
+    /**
+     * Convert value to byte[]
+     *
+     * @param value the value to convert from. This must be a byte array, or
+     *              null
+     * @return a copy of the supplied array, or null
+     */
+    public static byte[] getBytes(Object value, byte[] defValue)
+    {
+        if (value == null) {
+            return defValue;
+        }
+
+        byte[] result = null;
+        if (value instanceof byte[]) {
+            result = (byte[])value;
+        }
+        else if (value instanceof String) {
+            result = ((String)value).getBytes();
+        }
+        else if (value instanceof Number) {
+            result = new byte[]{getByte(value, (byte)0)};
+        }
+        else if (value instanceof Object[]) {
+            Object[] array = (Object[])value;
+            result = new byte[array.length];
+            for (int i = 0; i < array.length; i++) {
+                result[i] = getByte(array[i], (byte)0);
+            }
+        }
+        else if (value.getClass().isArray()) {
+            int len = Array.getLength(value);
+            result = new byte[len];
+            for (int i = 0; i < len; i++) {
+                result[i] = getByte(Array.get(value, i), (byte)0);
+            }
+        }
+        else if (value instanceof Boolean) {
+            result = new byte[]{getByte(value, (byte)0)};
+        }
+        else {
+            result = defValue;
+        }
+        return result;
+    }
+
     public static String getString(Object value, String defValue)
     {
         if (value == null) {
@@ -300,7 +602,7 @@ public class DataUtil {
         return str;
     }
 
-    public static String[] getStringArray(Object object, String[] defValue)
+    public static String[] getStrings(Object object, String[] defValue)
     {
         if (object == null) {
             return defValue;
@@ -314,7 +616,7 @@ public class DataUtil {
             String str = (String)object;
             str = str.trim();
 
-            result = toStringArray(str, ',');
+            result = toStrings(str, ',');
         }
         else if (object instanceof Object[]) {
             Object[] array = (Object[])object;
@@ -348,7 +650,7 @@ public class DataUtil {
         return result;
     }
 
-    public static int[] getIntArray(Object object, int[] defValue)
+    public static int[] getInts(Object object, int[] defValue)
     {
         if (object == null) {
             return defValue;
@@ -409,7 +711,7 @@ public class DataUtil {
             String str = (String)object;
             str = str.trim();
 
-            result = toStringArray(str, ',');
+            result = toStrings(str, ',');
             List<String> list = new ArrayList<>(result.length);
             Collections.addAll(list, result);
             return list;
@@ -480,7 +782,7 @@ public class DataUtil {
      * @return If<code>src == null</code> returns<code>null</code>
      *         If<code>src == ""</code> returns<code>#EMPTY_STRING_ARRAY</code>
      */
-    public static String[] toStringArray(String src, char sep) {
+    public static String[] toStrings(String src, char sep) {
         if (src == null) {
             return null;
         }
@@ -516,7 +818,7 @@ public class DataUtil {
      * "1,,2," --> {1,0,2,0}
      * "a,1,2," --> null (Exception)
      */
-    public static int[] toIntArray(String src, char sep) {
+    public static int[] toInts(String src, char sep) {
         if (src == null) {
             return null;
         }
