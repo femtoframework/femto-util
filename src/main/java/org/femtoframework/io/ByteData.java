@@ -24,7 +24,7 @@ import java.io.OutputStream;
  * Byte related interface
  *
  * @author fengyun
- * @see org.femtoframework.io.ByteArrayInputStream
+ * @see org.femtoframework.io.ByteArrayOutputStream
  */
 public interface ByteData
 {

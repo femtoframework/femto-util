@@ -24,7 +24,7 @@ import java.nio.ByteBuffer;
  * Hex
  *
  * @author fengyun
- * @version 1.00 Aug 23, 2002 2:20:36 PM
+ * @version 1.00 Aug 23, 2009 2:20:36 PM
  */
 public class Hex {
 

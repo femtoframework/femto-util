@@ -28,7 +28,7 @@ import java.util.Enumeration;
  * Load properties from classpath
  *
  * @author fengyun
- * @version 1.00 2005-2-12 15:29:36
+ * @version 1.00 2009-2-12 15:29:36
  */
 public class ClasspathProperties extends MessageProperties {
     /**

@@ -40,11 +40,15 @@
  */
 package org.femtoframework.util;
 
+import org.femtoframework.text.SimpleDate;
+import org.femtoframework.text.SimpleTime;
+
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Data Util
@@ -864,5 +868,309 @@ public class DataUtil implements DataTypes {
         }
         array[i] = neg ? -value : value;
         return array;
+    }
+
+    private static DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    public static Date getDate(Object obj)
+    {
+        return getDate(obj, format, null);
+    }
+
+    public static Date getDate(Object obj, Date defValue)
+    {
+        return getDate(obj, format, defValue);
+    }
+
+    public static Date getDate(Object obj, DateFormat format)
+    {
+        return getDate(obj, format, null);
+    }
+
+    public static Date getDate(Object obj, DateFormat format, Date defValue)
+    {
+        if (obj instanceof Date) {
+            return (Date)obj;
+        }
+        else {
+            if (obj instanceof Timestamp) {
+                Timestamp timestamp = (Timestamp)obj;
+                return new Date(timestamp.getTime()
+                        + timestamp.getNanos() / 1000000);
+            }
+            else if (obj instanceof Long) {
+                return new Date(((Long)obj).longValue());
+            }
+            else if (obj instanceof String) {
+                synchronized (format) {
+                    try {
+                        return format.parse((String)obj);
+                    }
+                    catch (Exception e) {
+                        return defValue;
+                    }
+                }
+            }
+            else if (obj instanceof SimpleDate) {
+                return ((SimpleDate)obj).getDate();
+            }
+            return defValue;
+        }
+    }
+
+    public static Timestamp getTimestamp(Object obj)
+    {
+        return getTimestamp(obj, null);
+    }
+
+    public static Timestamp getTimestamp(Object obj, Timestamp defValue)
+    {
+        if (obj instanceof Timestamp) {
+            return (Timestamp)obj;
+        }
+        else if (obj instanceof Date) {
+            return new Timestamp(((Date)obj).getTime());
+        }
+        else if (obj instanceof Long) {
+            return new Timestamp(((Long)obj).longValue());
+        }
+        else if (obj instanceof String) {
+            try {
+                return Timestamp.valueOf((String)obj);
+            }
+            catch (Exception e) {
+                return defValue;
+            }
+        }
+        else if (obj instanceof SimpleDate) {
+            Date date = ((SimpleDate)obj).getDate();
+            return new Timestamp(date.getTime());
+        }
+        return defValue;
+    }
+
+    public static Time getTime(Object obj)
+    {
+        return getTime(obj, null);
+    }
+
+    public static Time getTime(Object obj, Time defValue)
+    {
+        if (obj instanceof Time) {
+            return (Time)obj;
+        }
+        else if (obj instanceof Date) {
+            return new Time(((Date)obj).getTime());
+        }
+        else if (obj instanceof Long) {
+            return new Time(((Long)obj).longValue());
+        }
+        else if (obj instanceof String) {
+            try {
+                return Time.valueOf((String)obj);
+            }
+            catch (Exception e) {
+                return defValue;
+            }
+        }
+        else if (obj instanceof SimpleTime) {
+            SimpleTime time = (SimpleTime)obj;
+            Calendar calendar = Calendar.getInstance();
+            time.copyTo(calendar);
+            return new Time(calendar.getTime().getTime());
+        }
+        return defValue;
+    }
+
+    public static short[] getShorts(Object object, short[] defValue)
+    {
+        if (object == null) {
+            return defValue;
+        }
+
+        short[] result = null;
+        if (object instanceof short[]) {
+            result = (short[])object;
+        }
+        else if (object instanceof String) {
+            String[] array = toStrings((String)object, ',');
+            result = new short[array.length];
+            for (int i = 0; i < array.length; i++) {
+                result[i] = getShort(array[i], (short)0);
+            }
+        }
+        else if (object instanceof Number) {
+            result = new short[]{getShort(object, (short)0)};
+        }
+        else if (object instanceof Object[]) {
+            Object[] array = (Object[])object;
+            result = new short[array.length];
+            for (int i = 0; i < array.length; i++) {
+                result[i] = getShort(array[i], (short)0);
+            }
+        }
+        else if (object.getClass().isArray()) {
+            int len = Array.getLength(object);
+            result = new short[len];
+            for (int i = 0; i < len; i++) {
+                result[i] = getShort(Array.get(object, i), (short)0);
+            }
+        }
+        else if (object instanceof Boolean) {
+            result = new short[]{getShort(object, (short)0)};
+        }
+        else {
+            result = defValue;
+        }
+        return result;
+    }
+
+    public static short[] getShorts(Object object)
+    {
+        return getShorts(object, null);
+    }
+
+    public static long[] getLongs(Object object, long[] defValue)
+    {
+        if (object == null) {
+            return defValue;
+        }
+
+        long[] result = null;
+        if (object instanceof long[]) {
+            result = (long[])object;
+        }
+        else if (object instanceof String) {
+            String[] array = toStrings((String)object, ',');
+            result = new long[array.length];
+            for (int i = 0; i < array.length; i++) {
+                result[i] = getLong(array[i], 0);
+            }
+        }
+        else if (object instanceof Number) {
+            result = new long[]{getLong(object, 0)};
+        }
+        else if (object instanceof Object[]) {
+            Object[] array = (Object[])object;
+            result = new long[array.length];
+            for (int i = 0; i < array.length; i++) {
+                result[i] = getLong(array[i], 0);
+            }
+        }
+        else if (object.getClass().isArray()) {
+            int len = Array.getLength(object);
+            result = new long[len];
+            for (int i = 0; i < len; i++) {
+                result[i] = getLong(Array.get(object, i), 0l);
+            }
+        }
+        else if (object instanceof Boolean) {
+            result = new long[]{getLong(object, 0)};
+        }
+        else {
+            result = defValue;
+        }
+        return result;
+    }
+
+    public static long[] getLongs(Object object)
+    {
+        return getLongs(object, null);
+    }
+
+    public static float[] getFloats(Object object, float[] defValue)
+    {
+        if (object == null) {
+            return defValue;
+        }
+
+        float[] result = null;
+        if (object instanceof float[]) {
+            result = (float[])object;
+        }
+        else if (object instanceof String) {
+            String[] array = toStrings((String)object, ',');
+            result = new float[array.length];
+            for (int i = 0; i < array.length; i++) {
+                result[i] = getFloat(array[i], 0.0f);
+            }
+        }
+        else if (object instanceof Number) {
+            result = new float[]{getFloat(object, 0.0f)};
+        }
+        else if (object instanceof Object[]) {
+            Object[] array = (Object[])object;
+            result = new float[array.length];
+            for (int i = 0; i < array.length; i++) {
+                result[i] = getFloat(array[i], 0.0f);
+            }
+        }
+        else if (object.getClass().isArray()) {
+            int len = Array.getLength(object);
+            result = new float[len];
+            for (int i = 0; i < len; i++) {
+                result[i] = getFloat(Array.get(object, i), 0.0f);
+            }
+        }
+        else if (object instanceof Boolean) {
+            result = new float[]{getFloat(object, 0.0f)};
+        }
+        else {
+            result = defValue;
+        }
+        return result;
+    }
+
+    public static float[] getFloats(Object object)
+    {
+        return getFloats(object, null);
+    }
+
+    public static double[] getDoubles(Object object, double[] defValue)
+    {
+        if (object == null) {
+            return defValue;
+        }
+
+        double[] result = null;
+        if (object instanceof double[]) {
+            result = (double[])object;
+        }
+        else if (object instanceof String) {
+            String[] array = toStrings((String)object, ',');
+            result = new double[array.length];
+            for (int i = 0; i < array.length; i++) {
+                result[i] = getDouble(array[i], 0.0d);
+            }
+        }
+        else if (object instanceof Number) {
+            result = new double[]{getDouble(object, 0.0d)};
+        }
+        else if (object instanceof Object[]) {
+            Object[] array = (Object[])object;
+            result = new double[array.length];
+            for (int i = 0; i < array.length; i++) {
+                result[i] = getDouble(array[i], 0.0d);
+            }
+        }
+        else if (object.getClass().isArray()) {
+            int len = Array.getLength(object);
+            result = new double[len];
+            for (int i = 0; i < len; i++) {
+                result[i] = getDouble(Array.get(object, i), 0.0d);
+            }
+        }
+        else if (object instanceof Boolean) {
+            result = new double[]{getDouble(object, 0.0d)};
+        }
+        else {
+            result = defValue;
+        }
+        return result;
+    }
+
+    public static double[] getDoubles(Object object)
+    {
+        return getDoubles(object, null);
     }
 }

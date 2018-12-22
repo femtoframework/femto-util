@@ -80,9 +80,9 @@ public class DataUtilTest {
     public void toBoolean1() throws Exception {
         assertEquals(DataUtil.toBoolean("toBoolean", false), false);
         assertEquals(DataUtil.toBoolean("toBoolean", true), true);
-        assertEquals(DataUtil.convertToBoolean("toBoolean", null), null);
-        assertEquals(DataUtil.convertToBoolean("toBoolean", false), false);
-        assertEquals(DataUtil.convertToBoolean("toBoolean", true), true);
+        assertEquals(DataUtil.toBoolean("toBoolean", false), false);
+        assertEquals(DataUtil.toBoolean("toBoolean", false), false);
+        assertEquals(DataUtil.toBoolean("toBoolean", true), true);
         assertEquals(DataUtil.toBoolean("t"), true);
     }
 
@@ -143,37 +143,37 @@ public class DataUtilTest {
 
     @Test
     public void getStringArray() throws Exception {
-        assertArrayEquals(DataUtil.getStringArray(null, defaultStringArray), defaultStringArray);
-        assertArrayEquals(DataUtil.getStringArray(Boolean.TRUE, defaultStringArray), new String[] {"true"});
-        assertArrayEquals(DataUtil.getStringArray(Boolean.FALSE, defaultStringArray), new String[] {"false"});
-        assertArrayEquals(DataUtil.getStringArray("True", defaultStringArray), new String[] { "True" });
-        assertArrayEquals(DataUtil.getStringArray("99", defaultStringArray), new String[] {"99"});
-        assertArrayEquals(DataUtil.getStringArray(" 88 ", defaultStringArray), new String[] {"88"});
-        assertArrayEquals(DataUtil.getStringArray(new String[] {"DDDDD"}, defaultStringArray), new String[] {"DDDDD"});
-        assertArrayEquals(DataUtil.getStringArray(new Object(), defaultStringArray), defaultStringArray);
-        assertArrayEquals(DataUtil.getStringArray(888l, defaultStringArray), new String[] {"888"});
-        assertArrayEquals(DataUtil.getStringArray('a', defaultStringArray), new String[] {"a"});
+        assertArrayEquals(DataUtil.getStrings(null, defaultStringArray), defaultStringArray);
+        assertArrayEquals(DataUtil.getStrings(Boolean.TRUE, defaultStringArray), new String[] {"true"});
+        assertArrayEquals(DataUtil.getStrings(Boolean.FALSE, defaultStringArray), new String[] {"false"});
+        assertArrayEquals(DataUtil.getStrings("True", defaultStringArray), new String[] { "True" });
+        assertArrayEquals(DataUtil.getStrings("99", defaultStringArray), new String[] {"99"});
+        assertArrayEquals(DataUtil.getStrings(" 88 ", defaultStringArray), new String[] {"88"});
+        assertArrayEquals(DataUtil.getStrings(new String[] {"DDDDD"}, defaultStringArray), new String[] {"DDDDD"});
+        assertArrayEquals(DataUtil.getStrings(new Object(), defaultStringArray), defaultStringArray);
+        assertArrayEquals(DataUtil.getStrings(888l, defaultStringArray), new String[] {"888"});
+        assertArrayEquals(DataUtil.getStrings('a', defaultStringArray), new String[] {"a"});
 
-        assertArrayEquals(DataUtil.getStringArray(new Object[] {'a', 123} , defaultStringArray), new String[] {"a", "123"});
-        assertArrayEquals(DataUtil.getStringArray(new int[] {345, 123} , defaultStringArray), new String[] {"345", "123"});
+        assertArrayEquals(DataUtil.getStrings(new Object[] {'a', 123} , defaultStringArray), new String[] {"a", "123"});
+        assertArrayEquals(DataUtil.getStrings(new int[] {345, 123} , defaultStringArray), new String[] {"345", "123"});
     }
 
     private static final int[] defaultIntArray = new int[0];
 
     @Test
     public void getIntArray() throws Exception {
-        assertArrayEquals(DataUtil.getIntArray(null, defaultIntArray), defaultIntArray);
-        assertArrayEquals(DataUtil.getIntArray(Boolean.TRUE, defaultIntArray), new int[] {1});
-        assertArrayEquals(DataUtil.getIntArray(Boolean.FALSE, defaultIntArray), new int[] {0});
-        assertArrayEquals(DataUtil.getIntArray("True", defaultIntArray), defaultIntArray);
-        assertArrayEquals(DataUtil.getIntArray(new Integer[] {777, 888}, defaultIntArray), new int[] { 777, 888});
-        assertArrayEquals(DataUtil.getIntArray(new Object(), defaultIntArray), defaultIntArray);
-        assertArrayEquals(DataUtil.getIntArray(888l, defaultIntArray), new int[] {888});
-        assertArrayEquals(DataUtil.getIntArray(new int[] { 777, 999}, defaultIntArray), new int[] {777, 999});
-        assertArrayEquals(DataUtil.getIntArray(new long[] { 777, 999}, defaultIntArray), new int[] {777, 999});
-        assertArrayEquals(DataUtil.getIntArray('a', defaultIntArray), defaultIntArray);
+        assertArrayEquals(DataUtil.getInts(null, defaultIntArray), defaultIntArray);
+        assertArrayEquals(DataUtil.getInts(Boolean.TRUE, defaultIntArray), new int[] {1});
+        assertArrayEquals(DataUtil.getInts(Boolean.FALSE, defaultIntArray), new int[] {0});
+        assertArrayEquals(DataUtil.getInts("True", defaultIntArray), defaultIntArray);
+        assertArrayEquals(DataUtil.getInts(new Integer[] {777, 888}, defaultIntArray), new int[] { 777, 888});
+        assertArrayEquals(DataUtil.getInts(new Object(), defaultIntArray), defaultIntArray);
+        assertArrayEquals(DataUtil.getInts(888l, defaultIntArray), new int[] {888});
+        assertArrayEquals(DataUtil.getInts(new int[] { 777, 999}, defaultIntArray), new int[] {777, 999});
+        assertArrayEquals(DataUtil.getInts(new long[] { 777, 999}, defaultIntArray), new int[] {777, 999});
+        assertArrayEquals(DataUtil.getInts('a', defaultIntArray), defaultIntArray);
 
-        assertArrayEquals(DataUtil.getIntArray(new int[] {345, 123} , defaultIntArray), new int[] {345, 123});
+        assertArrayEquals(DataUtil.getInts(new int[] {345, 123} , defaultIntArray), new int[] {345, 123});
     }
 
     @Test

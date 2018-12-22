@@ -9,7 +9,7 @@ import java.io.ObjectStreamClass;
  * Uses customized class loader for serialization
  *
  * @author fengyun
- * @version Dec 24, 2002 5:15:44 PM
+ * @version Dec 24, 2009 5:15:44 PM
  */
 public class ReflectionInputStream extends ObjectInputStream
 {

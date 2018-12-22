@@ -4,7 +4,7 @@ package org.femtoframework.lang.reflect;
  * Reflection Exception
  *
  * @author fengyun
- * @version 1.00 2005-2-8 14:13:02
+ * @version 1.00 2009-2-8 14:13:02
  */
 public class ReflectionException extends RuntimeException
 {

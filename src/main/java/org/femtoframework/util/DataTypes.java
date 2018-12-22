@@ -20,7 +20,7 @@ package org.femtoframework.util;
  * Data Type definition
  *
  * @author fengyun
- * @version 1.00 11-8-1 10:03 PM
+ * @version 1.00 2011-8-1 10:03 PM
  */
 public interface DataTypes {
     String TYPE_INT = "int";
@@ -42,7 +42,6 @@ public interface DataTypes {
     String TYPE_TIMESTAMP = "timestamp";
     String TYPE_SIMPLE_DATE = "simple_date";
     String TYPE_SIMPLE_TIME = "simple_time";
-    String TYPE_SIMPLE_DATE_TIME = "simple_date_time";
 
     //Array
     String TYPE_INTS = "ints";
@@ -51,9 +50,13 @@ public interface DataTypes {
     String TYPE_BYTE_JAVA_ARRAY = "byte[]";
     String TYPE_CHARS = "chars";
     String TYPE_CHAR_JAVA_ARRAY = "char[]";
+    String TYPE_SHORTS = "shorts";
     String TYPE_SHORT_JAVA_ARRAY = "short[]";
+    String TYPE_LONGS = "longs";
     String TYPE_LONG_JAVA_ARRAY = "long[]";
+    String TYPE_FLOATS = "floats";
     String TYPE_FLOAT_JAVA_ARRAY = "float[]";
+    String TYPE_DOUBLES = "doubles";
     String TYPE_DOUBLE_JAVA_ARRAY = "double[]";
     String TYPE_STRINGS = "strings";
     String TYPE_STRING_JAVA_ARRAY = "String[]";

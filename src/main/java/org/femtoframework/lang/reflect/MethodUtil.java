@@ -14,7 +14,7 @@ import java.io.ByteArrayOutputStream;
  * Method Util
  *
  * @author fengyun
- * @version Feb 13, 2003 11:16:22 PM
+ * @version Feb 13, 2009 11:16:22 PM
  */
 public class MethodUtil
 {
