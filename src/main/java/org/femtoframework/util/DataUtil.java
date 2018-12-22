@@ -365,6 +365,7 @@ public class DataUtil implements DataTypes {
         }
         else if (value instanceof String) {
             String str = (String)value;
+            str = str.trim();
             try {
                 int radix = tryRadix(str, 10);
                 result = Short.parseShort(str, radix);
@@ -401,6 +402,7 @@ public class DataUtil implements DataTypes {
         }
         else if (value instanceof String) {
             String str = (String)value;
+            str = str.trim();
             try {
                 int radix = tryRadix(str, 10);
                 result = Integer.parseInt(str, radix);
@@ -438,6 +440,7 @@ public class DataUtil implements DataTypes {
         }
         else if (value instanceof String) {
             String str = (String)value;
+            str = str.trim();
             try {
                 int radix = tryRadix(str, 10);
                 result = Long.parseLong(str, radix);
@@ -475,6 +478,7 @@ public class DataUtil implements DataTypes {
         }
         else if (value instanceof String) {
             String str = (String)value;
+            str = str.trim();
             try {
                 result = Float.parseFloat(str);
             }
@@ -521,6 +525,7 @@ public class DataUtil implements DataTypes {
         }
         else if (value instanceof String) {
             String str = (String)value;
+            str = str.trim();
             try {
                 result = Double.parseDouble(str.trim());
             }
