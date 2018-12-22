@@ -17,6 +17,8 @@
 package org.femtoframework.implement;
 
 
+import org.femtoframework.annotation.ImplementedBy;
+import org.femtoframework.bean.Nameable;
 import org.femtoframework.util.ClasspathProperties;
 import org.femtoframework.util.CollectionUtil;
 
@@ -27,6 +29,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+
 
 /**
  * Implementation Utility
@@ -424,6 +427,7 @@ public class ImplementUtil {
                 if (instance == null) {
                     Class<?> clazz = getImplement(name, interfaceClass, loader);
                     instance = createInstance0(clazz, singleton, interfaceClass);
+                    setName(clazz, instance, name);
                     manager.initialize(instance);
                     namedServiceCache.get(interfaceClass).put(name, instance);
                 }
@@ -432,8 +436,15 @@ public class ImplementUtil {
         else {
             Class<?> clazz = getImplement(name, interfaceClass, loader);
             instance = createInstance0(clazz, singleton, interfaceClass);
+            setName(clazz, instance, name);
         }
         return instance;
+    }
+
+    protected static void setName(Class<?> clazz, Object obj, String name) {
+        if (obj instanceof Nameable) {
+            ((Nameable)obj).setName(name);
+        }
     }
 
     /**
@@ -471,7 +482,7 @@ public class ImplementUtil {
     private static <T> T createInstance0(Class<?> clazz, boolean singleton, Class<T> interfaceClass) {
         if (clazz != null) {
             try {
-                return manager.createImplement(clazz, singleton, interfaceClass);
+                return manager.createInstance(clazz, singleton, interfaceClass);
             }
             catch (Exception e) {
                 fail(interfaceClass,"Provider " + clazz.getName() + " could not be instantiated: " + e, e);

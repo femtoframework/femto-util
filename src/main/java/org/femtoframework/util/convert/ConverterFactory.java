@@ -1,6 +1,6 @@
 package org.femtoframework.util.convert;
 
-import org.femtoframework.implement.ImplementedBy;
+import org.femtoframework.annotation.ImplementedBy;
 
 /**
  * Converter factory

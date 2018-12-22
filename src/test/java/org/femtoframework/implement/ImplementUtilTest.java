@@ -32,7 +32,7 @@ public class ImplementUtilTest
     @Test
     public void testGetImplements2() throws Exception
     {
-        ServiceInterface2 si2 =  ImplementUtil.getInstance(ServiceInterface2.class,
+        ZeroConfigService si2 =  ImplementUtil.getInstance(ZeroConfigService.class,
             ClassLoader.getSystemClassLoader());
         assertNotNull(si2);
     }
@@ -57,5 +57,13 @@ public class ImplementUtilTest
             ClassLoader.getSystemClassLoader());
         assertNotNull(clazz2);
         assertEquals(clazz1, clazz2);
+    }
+
+    @Test
+    public void testServiceManager() throws Exception
+    {
+        ServiceManager serviceManager = ImplementUtil.getInstance(ServiceManager.class);
+        assertEquals(serviceManager.getService1().toString(), "service1");
+        assertEquals(serviceManager.getService2().toString(), "service2");
     }
 }

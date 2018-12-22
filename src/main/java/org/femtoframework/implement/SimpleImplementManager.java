@@ -16,6 +16,7 @@
  */
 package org.femtoframework.implement;
 
+import org.femtoframework.bean.Initable;
 import org.femtoframework.lang.reflect.Reflection;
 import org.femtoframework.lang.reflect.ReflectionException;
 
@@ -59,7 +60,7 @@ public enum SimpleImplementManager implements ImplementManager {
      * @return
      */
     @Override
-    public <T> T createImplement(Class<?> clazz, boolean singleton, Class<T> interfaceClass) {
+    public <T> T createInstance(Class<?> clazz, boolean singleton, Class<T> interfaceClass) {
         if (clazz != null) {
             if (singleton) {
                 return (T)Reflection.newSingleton(clazz);
@@ -113,20 +114,25 @@ public enum SimpleImplementManager implements ImplementManager {
     }
 
     private void initialize(Object implementInstance, Class clazz) {
-        Method[] methods = clazz.getDeclaredMethods();
-        boolean invoked = false;
-        if (methods != null && methods.length > 0) {
-            for(Method method: methods) {
-                if (method.isAnnotationPresent(PostConstruct.class)) {
-                    Reflection.invoke(implementInstance, method);
-                    invoked = true;
+        if (implementInstance instanceof Initable) {
+            ((Initable)implementInstance).init();
+        }
+        else {
+            Method[] methods = clazz.getDeclaredMethods();
+            boolean invoked = false;
+            if (methods != null && methods.length > 0) {
+                for(Method method: methods) {
+                    if (method.isAnnotationPresent(PostConstruct.class)) {
+                        Reflection.invoke(implementInstance, method);
+                        invoked = true;
+                    }
                 }
             }
-        }
-        if (!invoked) {
-            Class superClass = clazz.getSuperclass();
-            if (superClass != null && superClass != Object.class) {
-                initialize(implementInstance, superClass);
+            if (!invoked) {
+                Class superClass = clazz.getSuperclass();
+                if (superClass != null && superClass != Object.class) {
+                    initialize(implementInstance, superClass);
+                }
             }
         }
     }

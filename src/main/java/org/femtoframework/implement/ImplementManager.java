@@ -51,15 +51,15 @@ public interface ImplementManager {
     <T> Class<? extends T> loadClass(String className, Class<? extends T> interfaceClass, ClassLoader loader) throws ClassNotFoundException;
 
     /**
-     * Create implementation
+     * Create instance
      *
-     * @param clazz Service implementation class
+     * @param clazz Implementation instance class
      * @param singleton Try to create as singleton mode first.
      * @param interfaceClass
      * @param <T>
      * @return
      */
-    <T> T createImplement(Class<?> clazz, boolean singleton, Class<T> interfaceClass);
+    <T> T createInstance(Class<?> clazz, boolean singleton, Class<T> interfaceClass);
 
     /**
      * Get resources from class path
