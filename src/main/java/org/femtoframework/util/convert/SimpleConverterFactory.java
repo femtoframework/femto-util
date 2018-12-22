@@ -138,6 +138,22 @@ public enum SimpleConverterFactory
         converter = new InetAddressConverter();
         put(DataUtil.TYPE_INET_ADDRESS, converter);
         put("java.net.InetAddress", converter);
+
+        //Collections
+        converter = new ListConverter();
+        put(DataUtil.TYPE_LIST, converter);
+        put("java.net.List", converter);
+        put("java.net.ArrayList", converter);
+
+        converter = new MapConverter();
+        put(DataUtil.TYPE_MAP, converter);
+        put("java.net.Map", converter);
+        put("java.net.HashMap", converter);
+
+        converter = new ParametersConverter();
+        put(DataUtil.TYPE_PARAMETERS, converter);
+        put("org.femtoframework.parameters.Parameters", converter);
+        put("org.femtoframework.parameters.ParametersMap", converter);
     }
 
     private void put(String name, DataConverter converter) {

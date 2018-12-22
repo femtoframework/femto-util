@@ -40,6 +40,8 @@
  */
 package org.femtoframework.util;
 
+import org.femtoframework.parameters.Parameters;
+import org.femtoframework.parameters.ParametersMap;
 import org.femtoframework.text.SimpleDate;
 import org.femtoframework.text.SimpleTime;
 
@@ -693,6 +695,195 @@ public class DataUtil implements DataTypes {
             result = defValue;
         }
         return result;
+    }
+
+    public static <T> List<T> getList(Object obj) {
+        return getList(obj, null);
+    }
+
+    /**
+     * Convert object to List. It supports
+     * 1. List
+     * 2. Object[] to List
+     * 3. primitive[] to List
+     * 4. Set to List
+     *
+     * @param obj
+     * @param defaultValue
+     * @param <T>
+     * @return
+     */
+    public static <T> List<T> getList(Object obj, List<T> defaultValue) {
+        if (obj instanceof List) {
+            return (List)obj;
+        }
+        else if (obj instanceof Object[]) {
+            Object[] array = (Object[])obj;
+            List<T> list = new ArrayList<>(array.length);
+            for (Object anArray : array) {
+                list.add((T)anArray);
+            }
+            return list;
+        }
+        else if (obj != null && obj.getClass().isArray()) {
+            int len = Array.getLength(obj);
+            List<T> list = new ArrayList<>(len);
+            for (int i = 0; i < len; i++) {
+                list.add((T)Array.get(obj, i));
+            }
+            return list;
+        }
+        else if (obj instanceof Set) {
+            Set set = (Set)obj;
+            List list = new ArrayList(set.size());
+            list.addAll(set);
+            return list;
+        }
+        return defaultValue;
+    }
+
+    public static Map getMap(Object obj) {
+        return getMap(obj, null);
+    }
+
+    /**
+     * Convert object to Map. It supports
+     * 1. Map
+     * 2. List to Map, the key is index(Integer) in the List
+     * 3. Object[] to Map,  the key is index(Integer) in the array
+     * 4. primitive[] to Map, the key is index(Integer) in the array
+     * 5. Set to Map, Key->TRUE
+     *
+     * @param obj
+     * @param defaultValue
+     * @return
+     */
+    public static Map getMap(Object obj, Map defaultValue) {
+        if (obj instanceof Map) {
+            return (Map)obj;
+        }
+        else if (obj instanceof Set) {
+            Set set = (Set)obj;
+            Map map = new HashMap(set.size());
+            for(Object o : set) {
+                map.put(o, Boolean.TRUE);
+            }
+            return map;
+        }
+        else if (obj instanceof List) {
+            List list = (List)obj;
+            Map map = new HashMap(list.size());
+            int i = 0;
+            for(Object o : list) {
+                map.put(i++, o);
+            }
+            return map;
+        }
+        else if (obj instanceof Object[]) {
+            Object[] array = (Object[])obj;
+            Map map = new HashMap(array.length);
+            for (int i = 0; i < array.length; i ++) {
+                map.put(i, array[i]);
+            }
+            return map;
+        }
+        else if (obj != null && obj.getClass().isArray()) {
+            int len = Array.getLength(obj);
+            Map map = new HashMap(len);
+            for (int i = 0; i < len; i++) {
+                map.put(i, Array.get(obj, i));
+            }
+            return map;
+        }
+        return defaultValue;
+    }
+
+    /**
+     * Convert object to Parameters. It supports
+     * 1. Map(String, ?)
+     * 2. List to Parameters, the key is index(String) in the List
+     * 3. Object[] to Parameters,  the key is index(String) in the array
+     * 4. primitive[] to Parameters, the key is index(String) in the array
+     * 5. Set(String) to Parameters, Key->TRUE
+     *
+     * @param obj
+     * @param defaultValue
+     * @return
+     */
+    public static Parameters getParameters(Object obj, Parameters defaultValue) {
+        if (obj instanceof Parameters) {
+            return (Parameters)obj;
+        }
+        else if (obj instanceof Map) {
+            return new ParametersMap((Map)obj);
+        }
+        else if (obj instanceof Set) {
+            Set set = (Set)obj;
+            Map map = new HashMap(set.size());
+            for(Object o : set) {
+                map.put(o, Boolean.TRUE);
+            }
+            return new ParametersMap(map);
+        }
+        else if (obj instanceof List) {
+            List list = (List)obj;
+            ParametersMap map = new ParametersMap();
+            int i = 0;
+            for(Object o : list) {
+                map.put(String.valueOf(i++), o);
+            }
+            return map;
+        }
+        else if (obj instanceof Object[]) {
+            Object[] array = (Object[])obj;
+            ParametersMap map = new ParametersMap();
+            for (int i = 0; i < array.length; i ++) {
+                map.put(String.valueOf(i), array[i]);
+            }
+            return map;
+        }
+        else if (obj != null && obj.getClass().isArray()) {
+            int len = Array.getLength(obj);
+            ParametersMap map = new ParametersMap();
+            for (int i = 0; i < len; i++) {
+                map.put(String.valueOf(i), Array.get(obj, i));
+            }
+            return map;
+        }
+        return defaultValue;
+    }
+
+    /**
+     * Convert object to expected Enum.
+     * The input value supports,
+     * 1. The enum itself
+     * 2. Name of the enum (String)
+     * 3. Ordinal of the enum (Number in the range)
+     *
+     * @param clazz Expected Type
+     * @param obj Object
+     * @param defaultValue Default Value
+     * @param <T> Template
+     * @return The right enum
+     */
+    public static <T extends Enum> T getEnum(Class<T> clazz, Object obj, T defaultValue) {
+        if (clazz.isInstance(obj)) {
+            return (T) obj;
+        }
+        else if (obj instanceof String) {
+            try {
+                return (T)Enum.valueOf(clazz, ((String)obj));
+            } catch (Exception ex) {
+            }
+        }
+        else if (obj instanceof Number) {
+            int v = ((Number)obj).intValue();
+            T[] values = clazz.getEnumConstants();
+            if (v >= 0 && v < values.length) {
+                return values[v];
+            }
+        }
+        return defaultValue;
     }
 
     public static List<String> getStringList(Object object)

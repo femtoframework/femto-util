@@ -70,5 +70,10 @@ public interface DataTypes {
 
     //InetAddress
     String TYPE_INET_ADDRESS = "inet_address";
+
+    //Collections
+    String TYPE_LIST = "list"; //ArrayList
+    String TYPE_MAP = "map";  //HashMap
+    String TYPE_PARAMETERS = "parameters"; //Parameters
 }
 
