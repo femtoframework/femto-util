@@ -174,6 +174,16 @@ public class DataBindUtil {
 
     private static YAMLFactory yamlFactory = new YAMLFactory();
 
+    public static <T> T readValueFromYaml(File src, Class<T> valueType) throws IOException {
+        YAMLParser parser = yamlFactory.createParser(src);
+        return objectMapper.readValue(parser, valueType);
+    }
+
+    public static <T> T readValueFromYaml(URL src, Class<T> valueType) throws IOException {
+        YAMLParser parser = yamlFactory.createParser(src);
+        return objectMapper.readValue(parser, valueType);
+    }
+
     public static Map yamlToMap(String str) throws IOException {
         if (str != null) {
             YAMLParser parser = yamlFactory.createParser(str);

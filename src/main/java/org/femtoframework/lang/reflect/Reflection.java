@@ -9,10 +9,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -36,9 +33,10 @@ public class Reflection
      * Primitive classes for reflection of constructors.
      */
     private static HashMap<String, Class<?>> primitiveClasses;
+    private static Set<String> arrayClasses = new HashSet<String>();
 
     static {
-        primitiveClasses = new HashMap<String, Class<?>>(8);
+        primitiveClasses = new HashMap<>(8);
         primitiveClasses.put(Boolean.TYPE.toString(), Boolean.TYPE);
         primitiveClasses.put(Character.TYPE.toString(), Character.TYPE);
         primitiveClasses.put(Byte.TYPE.toString(), Byte.TYPE);
@@ -50,25 +48,56 @@ public class Reflection
 
         primitiveClasses.put("[Z", boolean[].class);
         primitiveClasses.put("boolean[]", boolean[].class);
+        primitiveClasses.put("booleans", boolean[].class);
+        arrayClasses.add("booleans");
+
         primitiveClasses.put("[B", byte[].class);
         primitiveClasses.put("byte[]", byte[].class);
+        primitiveClasses.put("bytes", byte[].class);
+        arrayClasses.add("bytes");
+
+
         primitiveClasses.put("[C", char[].class);
         primitiveClasses.put("char[]", char[].class);
+        primitiveClasses.put("chars", char[].class);
+        arrayClasses.add("chars");
+
         primitiveClasses.put("[S", short[].class);
         primitiveClasses.put("short[]", short[].class);
+        primitiveClasses.put("shorts", short[].class);
+        arrayClasses.add("shorts");
+
         primitiveClasses.put("[I", int[].class);
         primitiveClasses.put("int[]", int[].class);
+        primitiveClasses.put("ints", int[].class);
+
         primitiveClasses.put("[J", long[].class);
         primitiveClasses.put("long[]", long[].class);
+        primitiveClasses.put("longs", long[].class);
+        arrayClasses.add("longs");
+
         primitiveClasses.put("[F", float[].class);
         primitiveClasses.put("float[]", float[].class);
+        primitiveClasses.put("floats", long[].class);
+        arrayClasses.add("floats");
+
         primitiveClasses.put("[D", double[].class);
         primitiveClasses.put("double[]", double[].class);
+        primitiveClasses.put("doubles", double[].class);
+        arrayClasses.add("doubles");
 
         primitiveClasses.put("Object", Object.class);
         primitiveClasses.put("Object[]", Object[].class);
+        primitiveClasses.put("Objects", Object[].class);
+        primitiveClasses.put("objects", Object[].class);
+        arrayClasses.add("objects");
+
         primitiveClasses.put("String", String.class);
         primitiveClasses.put("String[]", String[].class);
+        primitiveClasses.put("Strings", String[].class);
+        primitiveClasses.put("strings", String[].class);
+        arrayClasses.add("strings");
+
         primitiveClasses.put("void", Void.TYPE);
     }
 
@@ -84,7 +113,8 @@ public class Reflection
         }
         return className.endsWith(ARRAY_SUFFIX)
                || className.startsWith("[L")
-               || className.endsWith("[]");
+               || className.endsWith("[]")
+                || arrayClasses.contains(className);
     }
 
     /**
@@ -501,7 +531,8 @@ public class Reflection
 
 
     /**
-     *  Return class by name, leverage cache and naming conversions
+     * Return class by name, leverage cache and naming conversions,
+     * It has primitive class and alias also
      *
      * @param className Could be primitive class, such as "int", "byte"
      */
@@ -511,7 +542,8 @@ public class Reflection
     }
 
     /**
-     *  Return class by name, leverage cache and naming conversions
+     *  Return class by name, leverage cache and naming conversions,
+     *  It has primitive class and alias also
      *
      * @param className Could be primitive class, such as "int", "byte"
      */
