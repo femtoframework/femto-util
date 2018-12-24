@@ -26,7 +26,8 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Multiple Resources
+ * Multiple Resources, it can be applied on Method
+ * javax.annotation.Resources can be applied only on Type
  *
  * @author fengyun
  * @version 1.00 2011-10-06 23:03
