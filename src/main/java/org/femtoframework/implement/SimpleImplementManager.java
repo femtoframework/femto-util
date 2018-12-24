@@ -16,7 +16,7 @@
  */
 package org.femtoframework.implement;
 
-import org.femtoframework.bean.Initable;
+import org.femtoframework.bean.Initializable;
 import org.femtoframework.lang.reflect.Reflection;
 import org.femtoframework.lang.reflect.ReflectionException;
 
@@ -114,8 +114,8 @@ public enum SimpleImplementManager implements ImplementManager {
     }
 
     private void initialize(Object implementInstance, Class clazz) {
-        if (implementInstance instanceof Initable) {
-            ((Initable)implementInstance).init();
+        if (implementInstance instanceof Initializable) {
+            ((Initializable)implementInstance).initialize();
         }
         else {
             Method[] methods = clazz.getDeclaredMethods();

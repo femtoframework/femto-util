@@ -22,5 +22,5 @@ package org.femtoframework.bean;
  * @author Sheldon Shao
  * @version 1.0
  */
-public interface Lifecycle extends Initable, Startable, Stoppable, Destroyable {
+public interface Lifecycle extends Initializable, Startable, Stoppable, Destroyable {
 }

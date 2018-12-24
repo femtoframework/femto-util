@@ -22,10 +22,10 @@ package org.femtoframework.bean;
  * @author Sheldon Shao
  * @version 1.0
  */
-public interface Initable {
+public interface Initializable {
 
     /**
      * Initialize the bean
      */
-    void init();
+    void initialize();
 }
