@@ -26,6 +26,8 @@ public interface Initializable {
 
     /**
      * Initialize the bean
+     *
+     * @throws org.femtoframework.bean.exception.InitializeException
      */
     void initialize();
 }

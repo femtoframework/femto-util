@@ -26,6 +26,8 @@ public interface Startable {
 
     /**
      * Start
+     *
+     * @throws org.femtoframework.bean.exception.StartException
      */
     void start();
 }
