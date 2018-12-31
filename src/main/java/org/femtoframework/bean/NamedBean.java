@@ -17,16 +17,16 @@
 package org.femtoframework.bean;
 
 /**
- * Namedable
+ * Named Bean, which has a getName method
  *
  * @author Sheldon Shao
  * @version 1.0
  */
-public interface Nameable {
+public interface NamedBean {
     /**
-     * Set name of the object
+     * Name of the object
      *
-     * @param name Name
+     * @return Name of the object
      */
-    void setName(String name);
+    String getName();
 }
