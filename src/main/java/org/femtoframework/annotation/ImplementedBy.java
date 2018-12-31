@@ -43,7 +43,7 @@ public @interface ImplementedBy {
      * It should be a class name.
      * Why don't use Class instead?  We don't want to expose the Class in the interface class
      *
-     * When using interface try to get implementation from META-INF/impl
+     * When using interface try to get implementation from META-INF/spec
      * if no other implements, take this type.
      *
      * @return class name of Implementation

@@ -16,12 +16,14 @@
  */
 package org.femtoframework.implement;
 
+import org.femtoframework.bean.NamedBean;
+
 /**
  * NamedService
  *
  * @author Sheldon Shao
  * @version 1.0
  */
-public interface NamedService {
+public interface NamedService extends NamedBean {
     void service(String test);
 }

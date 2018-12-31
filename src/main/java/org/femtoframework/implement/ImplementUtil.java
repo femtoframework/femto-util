@@ -71,7 +71,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ImplementUtil {
 
-    private static final String PREFIX = "META-INF/impl/";
+    private static final String PREFIX = "META-INF/spec/";
 
     private static final String IMPL_SUFFIX = ".impl";
     private static final String PROPERTIES_SUFFIX = ".properties";
