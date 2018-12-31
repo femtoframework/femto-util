@@ -99,18 +99,11 @@ public class ImplementUtil {
     protected ImplementUtil() {
     }
 
-    private static void fail(Class interfaceClass, String msg, Throwable cause)
-            throws IllegalArgumentException {
-        throw new IllegalArgumentException(interfaceClass.getName() + ": " + msg, cause);
+    private static void fail(Class interfaceClass, String msg) throws IllegalStateException {
+        throw new IllegalStateException(interfaceClass.getName() + ": " + msg);
     }
 
-    private static void fail(Class interfaceClass, String msg)
-            throws IllegalArgumentException {
-        throw new IllegalArgumentException(interfaceClass.getName() + ": " + msg);
-    }
-
-    private static void fail(Class interfaceClass, URL u, int line, String msg)
-            throws IllegalArgumentException {
+    private static void fail(Class interfaceClass, URL u, int line, String msg) throws IllegalStateException {
         fail(interfaceClass, u + ":" + line + ": " + msg);
     }
 
@@ -165,11 +158,10 @@ public class ImplementUtil {
      * @return A (possibly empty) <tt>Iterator</tt> that will yield the
      *         provider-class names in the given configuration file that are
      *         not yet members of the returned set
-     * @throws IllegalArgumentException If an I/O error occurs while reading from the given URL, or
+     * @throws IllegalStateException If an I/O error occurs while reading from the given URL, or
      *                                  if a configuration-file format error is detected
      */
-    private static Iterator parse(Class interfaceClass, URL u, Set<String> returned)
-            throws IllegalArgumentException {
+    private static Iterator parse(Class interfaceClass, URL u, Set<String> returned) throws IllegalStateException {
         List<String> names = new ArrayList<String>(5);
         try (InputStream in = u.openStream()){
             BufferedReader r = new BufferedReader(new InputStreamReader(in, "utf-8"));
@@ -200,7 +192,7 @@ public class ImplementUtil {
             this.loader = loader;
         }
 
-        public boolean hasNext() throws IllegalArgumentException {
+        public boolean hasNext() throws IllegalStateException {
             if (nextName != null) {
                 return true;
             }
@@ -223,7 +215,7 @@ public class ImplementUtil {
             return true;
         }
 
-        public Class<? extends T> next() throws IllegalArgumentException {
+        public Class<? extends T> next() throws IllegalStateException {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
@@ -488,7 +480,8 @@ public class ImplementUtil {
                 return manager.createInstance(clazz, singleton, interfaceClass);
             }
             catch (Exception e) {
-                fail(interfaceClass,"Provider " + clazz.getName() + " could not be instantiated: " + e, e);
+                throw new IllegalStateException(interfaceClass.getName() + ": "
+                        + " Implementation " + clazz.getName() + " could not be instantiated: ", e);
             }
         }
         throw new IllegalStateException("No implement of the interface " + interfaceClass);
