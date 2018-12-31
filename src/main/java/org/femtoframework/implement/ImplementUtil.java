@@ -19,6 +19,7 @@ package org.femtoframework.implement;
 
 import org.femtoframework.annotation.ImplementedBy;
 import org.femtoframework.bean.Nameable;
+import org.femtoframework.lang.reflect.NoSuchClassException;
 import org.femtoframework.util.ClasspathProperties;
 import org.femtoframework.util.CollectionUtil;
 
@@ -242,9 +243,8 @@ public class ImplementUtil {
             return manager.loadClass(className, interfaceClass, loader);
         }
         catch (ClassNotFoundException x) {
-            fail(interfaceClass, "Provider " + className + " not found");
+            throw new NoSuchClassException("Implementation " + className + " for interface:" + interfaceClass + " is not found");
         }
-        return null;
     }
 
     /**
@@ -318,8 +318,18 @@ public class ImplementUtil {
      * @return Class
      */
     public static <T> Class<?> getImplement(Class<T> interfaceClass, ClassLoader loader) {
+        ImplementedBy implementedBy = interfaceClass.getAnnotation(ImplementedBy.class);
+        if (implementedBy != null) {
+            String className = implementedBy.value();
+            try {
+                return manager.loadClass(className, interfaceClass, loader);
+            }
+            catch (ClassNotFoundException x) {
+                throw new NoSuchClassException("The class name of @ImplementedBy " + className + " in interface " +
+                            interfaceClass.getName() + " is not found.", x);
+            }
+        }
         Iterator<Class<? extends T>> it = getImplements(interfaceClass, loader);
-        //取第一个
         Class<?> first = null;
         while (it.hasNext()) {
             Class<?> clazz = it.next();
@@ -327,13 +337,6 @@ public class ImplementUtil {
                 first = clazz;
                 break;
             }
-        }
-        if (first == null) {
-            ImplementedBy implementedBy = interfaceClass.getAnnotation(ImplementedBy.class);
-            if (implementedBy != null) {
-                return loadClass(implementedBy.value(), interfaceClass, loader);
-            }
-            fail(interfaceClass, "The class never implemented the interface");
         }
         return first;
     }
