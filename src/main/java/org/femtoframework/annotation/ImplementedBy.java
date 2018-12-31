@@ -27,6 +27,9 @@ import java.lang.annotation.Target;
  * And make extensible for future.
  * But we can have a quick implementation together with the interface and make this simple declare whether the default implementation
  *
+ * The idea is similar as that in Guice, but it use the class name instead.
+ * https://github.com/google/guice/blob/master/core/src/com/google/inject/ImplementedBy.java
+ *
  * @author fengyun
  * @version 1.00 2011-08-27 17:48
  */
