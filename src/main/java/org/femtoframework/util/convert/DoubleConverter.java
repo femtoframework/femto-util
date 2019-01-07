@@ -25,6 +25,6 @@ public class DoubleConverter extends AbstractConverter<Double>
      */
     protected Double doConvert(Object obj, Double defValue)
     {
-        return DataUtil.getDouble(obj, defValue);
+        return DataUtil.getDouble(obj, defValue != null ? defValue : getDefaultValue());
     }
 }

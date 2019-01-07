@@ -24,6 +24,6 @@ public class LongConverter extends AbstractConverter<Long>
      */
     @Override
     protected Long doConvert(Object obj, Long defValue) {
-        return DataUtil.getLong(obj, defValue);
+        return DataUtil.getLong(obj, defValue != null ? defValue : getDefaultValue());
     }
 }

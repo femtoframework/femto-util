@@ -23,6 +23,6 @@ public class BooleanConverter extends AbstractConverter<Boolean> {
      * @return Converted object or default value
      */
     protected Boolean doConvert(Object obj, Boolean defValue) {
-        return DataUtil.getBoolean(obj, defValue);
+        return DataUtil.getBoolean(obj, defValue != null ? defValue : getDefaultValue());
     }
 }

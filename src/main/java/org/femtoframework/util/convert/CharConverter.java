@@ -26,6 +26,6 @@ public class CharConverter extends AbstractConverter<Character>
      */
     protected Character doConvert(Object obj, Character defValue)
     {
-        return DataUtil.getChar(obj, defValue);
+        return DataUtil.getChar(obj, defValue != null ? defValue : getDefaultValue());
     }
 }

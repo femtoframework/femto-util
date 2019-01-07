@@ -24,6 +24,6 @@ public class ShortConverter extends AbstractConverter<Short>
      */
     @Override
     protected Short doConvert(Object obj, Short defValue) {
-        return DataUtil.getShort(obj, defValue);
+        return DataUtil.getShort(obj, defValue != null ? defValue : getDefaultValue());
     }
 }

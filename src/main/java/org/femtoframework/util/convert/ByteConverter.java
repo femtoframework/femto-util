@@ -24,6 +24,6 @@ public class ByteConverter extends AbstractConverter<Byte>
      */
     protected Byte doConvert(Object obj, Byte defValue)
     {
-        return DataUtil.getByte(obj, defValue);
+        return DataUtil.getByte(obj, defValue != null ? defValue : getDefaultValue());
     }
 }

@@ -113,6 +113,18 @@ public class ConverterUtil
             }
             return array;
         }
+        else if (obj instanceof List) {
+            List list = (List)obj;
+            int len = list.size();
+            Object array = Array.newInstance(componentType, len);
+            for (int i = 0; i < len; i++) {
+                Object value = convertToType(list.get(i), componentType);
+                if (value != null) {
+                    Array.set(array, i, value);
+                }
+            }
+            return array;
+        }
         else {
             Object value = convertToType(obj, componentType);
             if (value == null) {

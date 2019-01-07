@@ -24,6 +24,6 @@ public class IntegerConverter extends AbstractConverter<Integer>
      */
     @Override
     protected Integer doConvert(Object obj, Integer defValue) {
-        return DataUtil.getInt(obj, defValue);
+        return DataUtil.getInt(obj, defValue != null ? defValue : getDefaultValue());
     }
 }

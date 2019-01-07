@@ -24,6 +24,6 @@ public class FloatConverter extends AbstractConverter<Float>
      */
     protected Float doConvert(Object obj, Float defValue)
     {
-        return DataUtil.getFloat(obj, defValue);
+        return DataUtil.getFloat(obj, defValue != null ? defValue : getDefaultValue());
     }
 }
