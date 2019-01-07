@@ -150,10 +150,16 @@ public enum SimpleConverterFactory
         put("java.net.Map", converter);
         put("java.net.HashMap", converter);
 
+        converter = new SetConverter();
+        put(DataUtil.TYPE_SET, converter);
+        put("java.util.Set", converter);
+        put("java.util.HashSet", converter);
+
         converter = new ParametersConverter();
         put(DataUtil.TYPE_PARAMETERS, converter);
         put("org.femtoframework.parameters.Parameters", converter);
         put("org.femtoframework.parameters.ParametersMap", converter);
+
     }
 
     private void put(String name, DataConverter converter) {

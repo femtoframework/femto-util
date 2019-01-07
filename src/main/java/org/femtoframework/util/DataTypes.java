@@ -75,5 +75,6 @@ public interface DataTypes {
     String TYPE_LIST = "list"; //ArrayList
     String TYPE_MAP = "map";  //HashMap
     String TYPE_PARAMETERS = "parameters"; //Parameters
+    String TYPE_SET = "set";
 }
 

@@ -798,6 +798,59 @@ public class DataUtil implements DataTypes {
         return defaultValue;
     }
 
+
+    public static Set getSet(Object obj) {
+        return getSet(obj, null);
+    }
+
+    /**
+     * Convert object to Set. It supports
+     * 0. Set
+     * 1. Map, Map.keySet
+     * 2. List to Set, the key is index(Integer) in the List
+     * 3. Object[] to Set,  the key is index(Integer) in the array
+     * 4. primitive[] to Set, the key is index(Integer) in the array
+     *
+     * @param obj
+     * @param defaultValue
+     * @return
+     */
+    public static Set getSet(Object obj, Set defaultValue) {
+        if (obj instanceof Set) {
+            return (Set)obj;
+        }
+        else if (obj instanceof Map) {
+            Map map = (Map)obj;
+            return map.keySet();
+        }
+        else if (obj instanceof List) {
+            List list = (List)obj;
+            Set set = new HashSet(list.size());
+            int i = 0;
+            for(Object o : list) {
+                set.add(o);
+            }
+            return set;
+        }
+        else if (obj instanceof Object[]) {
+            Object[] array = (Object[])obj;
+            Set map = new HashSet(array.length);
+            for (int i = 0; i < array.length; i ++) {
+                map.add(array[i]);
+            }
+            return map;
+        }
+        else if (obj != null && obj.getClass().isArray()) {
+            int len = Array.getLength(obj);
+            Set map = new HashSet(len);
+            for (int i = 0; i < len; i++) {
+                map.add(Array.get(obj, i));
+            }
+            return map;
+        }
+        return defaultValue;
+    }
+
     /**
      * Convert object to Parameters. It supports
      * 1. Map(String, ?)
