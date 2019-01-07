@@ -155,7 +155,13 @@ public class DataBindUtil {
             JsonParser jsonParser = jsonFactory.createParser(str);
             jsonParser.enable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES);
             jsonParser.enable(JsonParser.Feature.ALLOW_COMMENTS);
-            return mapper.readValue(jsonParser, HashMap.class);
+
+            try {
+                return mapper.readValue(jsonParser, HashMap.class);
+            }
+            finally {
+                jsonParser.close();
+            }
         }
         return null;
     }
@@ -166,7 +172,12 @@ public class DataBindUtil {
             jsonParser.enable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES);
             jsonParser.enable(JsonParser.Feature.ALLOW_COMMENTS);
 
-            return mapper.readValue(jsonParser, ParametersMap.class);
+            try {
+                return mapper.readValue(jsonParser, ParametersMap.class);
+            }
+            finally {
+                jsonParser.close();
+            }
         }
         return null;
     }
@@ -175,43 +186,50 @@ public class DataBindUtil {
     private static YAMLFactory yamlFactory = new YAMLFactory();
 
     public static <T> T readValueFromYaml(File src, Class<T> valueType) throws IOException {
-        YAMLParser parser = yamlFactory.createParser(src);
-        return objectMapper.readValue(parser, valueType);
+        try (YAMLParser parser = yamlFactory.createParser(src)) {
+            return objectMapper.readValue(parser, valueType);
+        }
     }
 
     public static <T> T readValueFromYaml(URL src, Class<T> valueType) throws IOException {
-        YAMLParser parser = yamlFactory.createParser(src);
-        return objectMapper.readValue(parser, valueType);
+        try (YAMLParser parser = yamlFactory.createParser(src)) {
+            return objectMapper.readValue(parser, valueType);
+        }
     }
 
     public static Map yamlToMap(String str) throws IOException {
         if (str != null) {
-            YAMLParser parser = yamlFactory.createParser(str);
-            return mapper.readValue(parser, HashMap.class);
+            try (YAMLParser parser = yamlFactory.createParser(str)) {
+                return mapper.readValue(parser, HashMap.class);
+            }
         }
         return null;
     }
 
     public static Parameters yamlToParameters(String str) throws IOException {
         if (str != null) {
-            YAMLParser parser = yamlFactory.createParser(str);
-            return mapper.readValue(parser, ParametersMap.class);
+            try (YAMLParser parser = yamlFactory.createParser(str)) {
+                return mapper.readValue(parser, ParametersMap.class);
+            }
         }
         return null;
     }
 
     public static void applyYaml(Object obj, File src) throws IOException {
-        YAMLParser parser = yamlFactory.createParser(src);
-        objectMapper.readerForUpdating(obj).readValue(parser);
+        try (YAMLParser parser = yamlFactory.createParser(src)) {
+            objectMapper.readerForUpdating(obj).readValue(parser);
+        }
     }
 
     public static void applyYaml(Object obj, URL src) throws IOException {
-        YAMLParser parser = yamlFactory.createParser(src);
-        objectMapper.readerForUpdating(obj).readValue(parser);
+        try (YAMLParser parser = yamlFactory.createParser(src)) {
+            objectMapper.readerForUpdating(obj).readValue(parser);
+        }
     }
 
     public static void applyYaml(Object obj, String src) throws IOException {
-        YAMLParser parser = yamlFactory.createParser(src);
-        objectMapper.readerForUpdating(obj).readValue(parser);
+        try (YAMLParser parser = yamlFactory.createParser(src)) {
+            objectMapper.readerForUpdating(obj).readValue(parser);
+        }
     }
 }

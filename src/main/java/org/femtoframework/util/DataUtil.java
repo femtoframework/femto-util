@@ -888,8 +888,13 @@ public class DataUtil implements DataTypes {
 
     public static List<String> getStringList(Object object)
     {
+        return getStringList(object, null);
+    }
+
+    public static List<String> getStringList(Object object, List<String> defaultValue)
+    {
         if (object == null) {
-            return null;
+            return defaultValue;
         }
 
         String[] result;
@@ -938,7 +943,7 @@ public class DataUtil implements DataTypes {
             return Collections.singletonList(object.toString());
         }
         else {
-            return null;
+            return defaultValue;
         }
     }
 

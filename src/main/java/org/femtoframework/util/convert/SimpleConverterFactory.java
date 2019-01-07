@@ -164,9 +164,10 @@ public enum SimpleConverterFactory
      * Return DataConverter by type
      *
      * @param type Type
+     * @param search try to find new converter?
      * @return
      */
-    public <T> DataConverter<T> getConverter(String type)
+    public <T> DataConverter<T> getConverter(String type, boolean search)
     {
         if (type == null) {
             throw new IllegalArgumentException("Null type");
@@ -178,7 +179,7 @@ public enum SimpleConverterFactory
             ignoreCaseType = type.toLowerCase();
         }
         DataConverter converter = converters.get(ignoreCaseType);
-        if (converter == null) {
+        if (converter == null && search) {
             converter = converters.get(ignoreCaseType);
             if (converter == null) {
                 synchronized (converters) {

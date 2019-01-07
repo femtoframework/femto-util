@@ -17,7 +17,18 @@ public interface ConverterFactory
      * @param type Type
      * @return
      */
-    <T> DataConverter<T> getConverter(String type);
+    default <T> DataConverter<T> getConverter(String type) {
+        return getConverter(type, true);
+    }
+
+    /**
+     * Return DataConverter by type
+     *
+     * @param type Type
+     * @param search try to find new converter?
+     * @return
+     */
+    <T> DataConverter<T> getConverter(String type, boolean search);
 
     /**
      * Return DataConverter by expectedType
