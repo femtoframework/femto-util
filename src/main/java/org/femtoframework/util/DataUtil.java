@@ -800,13 +800,13 @@ public class DataUtil implements DataTypes {
 
 
     public static Set getSet(Object obj) {
-        return getSet(obj, null);
+        return getSet(obj, Collections.EMPTY_SET);
     }
 
     /**
      * Convert object to Set. It supports
      * 0. Set
-     * 1. Map, Map.keySet
+     * 1. Map, clone from Map.keySet
      * 2. List to Set, the key is index(Integer) in the List
      * 3. Object[] to Set,  the key is index(Integer) in the array
      * 4. primitive[] to Set, the key is index(Integer) in the array
@@ -821,7 +821,7 @@ public class DataUtil implements DataTypes {
         }
         else if (obj instanceof Map) {
             Map map = (Map)obj;
-            return map.keySet();
+            return new HashSet(map.keySet());
         }
         else if (obj instanceof List) {
             List list = (List)obj;
