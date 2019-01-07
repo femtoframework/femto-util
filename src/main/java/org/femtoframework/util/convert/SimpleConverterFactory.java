@@ -157,7 +157,11 @@ public enum SimpleConverterFactory
     }
 
     private void put(String name, DataConverter converter) {
-        converters.put(name.toLowerCase(), converter);
+        String key = name;
+        if (!name.contains(".")) {
+            key = name.toLowerCase();
+        }
+        converters.put(key, converter);
     }
 
     /**

@@ -117,6 +117,12 @@ public class NamingFormat {
                 chars[0] = Character.toUpperCase(ch);
                 return new String(chars);
             }
+            else if (Character.isUpperCase(str.charAt(0))) {
+                char[] chars = str.toCharArray();
+                char ch = chars[0];
+                chars[0] = Character.toLowerCase(ch);
+                return new String(chars);
+            }
             return str;
         }
 
@@ -126,7 +132,7 @@ public class NamingFormat {
             sb.append(Character.toUpperCase(ch));
         }
         else {
-            sb.append(ch);
+            sb.append(Character.toLowerCase(ch));
         }
         for (int i = 1; i < len; i++) {
             ch = str.charAt(i);
