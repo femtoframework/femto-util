@@ -113,7 +113,7 @@ public interface Parameters<V> extends Map<String, V> {
     }
 
     default int[] getInts(String key) {
-        return getInts(key, null);
+        return getInts(key, DEFAULT_INT_ARRAY);
     }
 
     default int[] getInts(String key, int[] defValue) {
@@ -130,7 +130,7 @@ public interface Parameters<V> extends Map<String, V> {
     }
 
     default String[] getStrings(String key) {
-        return getStrings(key, null);
+        return getStrings(key, DEFAULT_STRING_ARRAY);
     }
 
     default String[] getStrings(String key, String[] defValue) {
