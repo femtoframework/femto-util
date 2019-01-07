@@ -50,7 +50,7 @@ import java.util.*;
  * @author Sheldon Shao xshao@ebay.com on 10/16/16.
  * @version 1.0
  */
-public class PropertyParameters extends AbstractParameters<Object> {
+public class PropertyParameters extends AbstractMap<String, Object> implements Parameters<Object> {
 
     protected Properties properties;
 

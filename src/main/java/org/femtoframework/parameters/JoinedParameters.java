@@ -32,7 +32,7 @@ import java.util.*;
  * @author Sheldon Shao xshao@ebay.com on 12/13/16.
  * @version 1.0
  */
-public class JoinedParameters<V> extends AbstractParameters<V> {
+public class JoinedParameters<V> extends AbstractMap<String, V> implements Parameters<V> {
 
     private Parameters<V> params1 = null;
     private Parameters<V> params2 = null;

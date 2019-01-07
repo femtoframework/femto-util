@@ -90,8 +90,8 @@ public class AbstractParametersTest {
 
     @Test
     public void testParameters() {
-        AbstractParameters.toParameters(new HashMap());
-        AbstractParameters.toParameters(new ParametersMap());
+        Parameters.toParameters(new HashMap());
+        Parameters.toParameters(new ParametersMap());
     }
 
     @Test

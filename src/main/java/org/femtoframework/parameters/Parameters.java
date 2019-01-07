@@ -41,11 +41,10 @@
 package org.femtoframework.parameters;
 
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.femtoframework.util.DataUtil;
+import org.femtoframework.util.convert.ConverterUtil;
 
 /**
  * Parameters to simplify the data accessing
@@ -68,39 +67,75 @@ public interface Parameters<V> extends Map<String, V> {
 
     int[] DEFAULT_INT_ARRAY = DataUtil.EMPTY_INT_ARRAY;
 
-    String getString(String key);
+    default String getString(String key) {
+        return getString(key, DEFAULT_STRING);
+    }
 
-    String getString(String key, String defValue);
+    default String getString(String key, String defValue) {
+        return DataUtil.getString(get(key), defValue);
+    }
 
-    boolean getBoolean(String key);
+    default boolean getBoolean(String key) {
+        return getBoolean(key, DEFAULT_BOOLEAN);
+    }
 
-    boolean getBoolean(String key, boolean defValue);
+    default boolean getBoolean(String key, boolean defValue) {
+        return DataUtil.getBoolean(key, defValue);
+    }
 
-    int getInt(String key);
+    default int getInt(String key) {
+        return getInt(key, DEFAULT_INT);
+    }
 
-    int getInt(String key, int defValue);
+    default int getInt(String key, int defValue) {
+        return DataUtil.getInt(get(key), defValue);
+    }
 
-    double getDouble(String key);
+    default double getDouble(String key) {
+        return getDouble(key, DEFAULT_DOUBLE);
+    }
 
-    double getDouble(String key, double defValue);
+    default double getDouble(String key, double defValue) {
+        return DataUtil.getDouble(get(key), defValue);
+    }
 
-    long getLong(String key);
+    default long getLong(String key) {
+        return getLong(key, DEFAULT_LONG);
+    }
 
-    long getLong(String key, long defValue);
+    default long getLong(String key, long defValue) {
+        return DataUtil.getLong(get(key), defValue);
+    }
 
-    V get(String key, V defValue);
+    default V get(String key, V defValue) {
+        V value = get(key);
+        return value == null ? defValue : value;
+    }
 
-    int[] getInts(String key);
+    default int[] getInts(String key) {
+        return getInts(key, null);
+    }
 
-    int[] getInts(String key, int[] defValue);
+    default int[] getInts(String key, int[] defValue) {
+        return DataUtil.getInts(get(key), defValue);
+    }
 
-    Object[] getObjects(String key);
+    default Object[] getObjects(String key) {
+        return getObjects(key, null);
+    }
 
-    Object[] getObjects(String key, Object[] defValue);
+    default Object[] getObjects(String key, Object[] defValue) {
+        Object obj = get(key);
+        return ConverterUtil.getObjects(Object.class, obj, defValue);
+    }
 
-    String[] getStrings(String key);
+    default String[] getStrings(String key) {
+        return getStrings(key, null);
+    }
 
-    String[] getStrings(String key, String[] defValue);
+    default String[] getStrings(String key, String[] defValue) {
+        return DataUtil.getStrings(get(key), defValue);
+    }
 
     /**
      * Return value as Parameters
@@ -117,15 +152,53 @@ public interface Parameters<V> extends Map<String, V> {
      * @param key Key
      * @return A list type of value
      */
-    List<String> getStringList(String key);
+    default List<String> getStringList(String key) {
+        Object value = get(key);
+        return DataUtil.getStringList(value);
+    }
 
     /**
      * Convert value as List as possible
      *
      * @param key Key
-     * @return A list type of value
+     * @return A list type of values
      */
-    <T> List<T> getList(String key);
+    default <T> List<T> getList(String key) {
+        return getList(key, null);
+    }
+
+    /**
+     * Convert value as List as possible
+     *
+     * @param key Key
+     * @return A list type of values
+     */
+    default <T> List<T> getList(String key, List defValue) {
+        Object obj = get(key);
+        return DataUtil.getList(obj, defValue);
+    }
+
+
+    /**
+     * Convert value as Set as possible
+     *
+     * @param key Key
+     * @return A set of values
+     */
+    default <T> Set<T> getSet(String key) {
+        return getSet(key, Collections.emptySet());
+    }
+
+    /**
+     * Convert value as Set as possible
+     *
+     * @param key Key
+     * @return A set of values
+     */
+    default <T> Set<T> getSet(String key, Set<T> defValue) {
+        Object obj = get(key);
+        return DataUtil.getSet(obj, defValue);
+    }
 
     /**
      * Convert parameter as Date
@@ -133,7 +206,9 @@ public interface Parameters<V> extends Map<String, V> {
      * @param key Key
      * @return convert long or Date as Date
      */
-    Date getDate(String key);
+    default Date getDate(String key) {
+        return getDate(key, null);
+    }
 
 
     /**
@@ -142,7 +217,10 @@ public interface Parameters<V> extends Map<String, V> {
      * @param key Key
      * @return convert long or Date as Date
      */
-    Date getDate(String key, Date defaultValue);
+    default Date getDate(String key, Date defaultValue) {
+        Object obj = get(key);
+        return DataUtil.getDate(obj, defaultValue);
+    }
 
     /**
      * Convert string or int as Enum
@@ -150,7 +228,9 @@ public interface Parameters<V> extends Map<String, V> {
      * @param key Key
      * @return Convert string or int as Enum
      */
-    <T extends Enum> T getEnum(Class<T> clazz, String key);
+    default <T extends Enum> T getEnum(Class<T> clazz, String key) {
+        return getEnum(clazz, key, null);
+    }
 
     /**
      * Convert string or int as Enum
@@ -158,15 +238,35 @@ public interface Parameters<V> extends Map<String, V> {
      * @param key Key
      * @return Convert string or int as Enum
      */
-    <T extends Enum> T getEnum(Class<T> clazz, String key, T defaultValue);
+    default <T extends Enum> T getEnum(Class<T> clazz, String key, T defaultValue) {
+        Object obj = get(key);
+        return DataUtil.getEnum(clazz, obj, defaultValue);
+    }
 
     /**
      * To Map
      *
      * @return Convert to Map
      */
-    Map<String, V> toMap();
+    default Map<String, V> toMap() {
+        return this;
+    }
 
+    /**
+     * Static method to convert Map to Parameters
+     *
+     * @param value Map
+     * @param <V> Expected Value type
+     * @return Parameters
+     */
+    static <V> Parameters<V> toParameters(Map value) {
+        if (value instanceof Parameters) {
+            return (Parameters)value;
+        }
+        else {
+            return new ParametersMap<>(value);
+        }
+    }
 //    /**
 //     * Convert the parameters to json format
 //     *

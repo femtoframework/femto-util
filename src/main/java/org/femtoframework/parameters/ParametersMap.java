@@ -41,7 +41,6 @@
 package org.femtoframework.parameters;
 
 
-
 import java.util.*;
 
 /**
@@ -49,7 +48,7 @@ import java.util.*;
  *
  * Created by xshao on 9/16/16.
  */
-public class ParametersMap<V> extends AbstractParameters<V> {
+public class ParametersMap<V> extends AbstractMap<String, V> implements Parameters<V> {
 
     protected Map<String, V> map;
 

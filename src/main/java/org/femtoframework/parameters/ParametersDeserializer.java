@@ -97,6 +97,6 @@ public class ParametersDeserializer<P extends Parameters<Object>> extends StdDes
             resolve(ctxt);
         }
         Map map = _mapDeserializer.deserialize(jp, ctxt);
-        return (P)AbstractParameters.toParameters(map);
+        return (P)Parameters.toParameters(map);
     }
 }
