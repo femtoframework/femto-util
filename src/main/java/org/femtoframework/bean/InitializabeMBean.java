@@ -1,5 +1,5 @@
 /**
- * Licensed to the Apache Software Foundation (ASF) under one or more
+ * Licensed to the FemtoFramework under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
@@ -17,12 +17,29 @@
 package org.femtoframework.bean;
 
 /**
- * Entire Bean lifecycle
+ * Initializable MBean
+ *
+ * Guarantee that the initialize method won't be executed twice
  *
  * @author Sheldon Shao
  * @version 1.0
  */
-public interface Lifecycle extends Initializable, Startable, Stoppable, Destroyable {
+public interface InitializabeMBean extends Initializable {
+
+    /**
+     * Return whether it is initialized
+     *
+     * @return whether it is initialized
+     */
+    boolean isInitialized();
+
+
+    /**
+     * Initialized setter for internal
+     *
+     * @param initialized BeanPhase
+     */
+    void _doSetInitialized(boolean initialized);
 
     /**
      * Initialize the bean
@@ -30,28 +47,16 @@ public interface Lifecycle extends Initializable, Startable, Stoppable, Destroya
      * @throws org.femtoframework.bean.exception.InitializeException
      */
     default void initialize() {
+        if (isInitialized()) {
+            _doSetInitialized(false);
+            _doInitialize();
+            _doSetInitialized(true);
+        }
     }
 
     /**
-     * Start
-     *
-     * @throws org.femtoframework.bean.exception.StartException
+     * Initiliaze internally
      */
-    default void start() {
+    void _doInitialize();
 
-    }
-
-    /**
-     * Stop the bean
-     */
-    default void stop() {
-
-    }
-
-    /**
-     * Destroy the bean
-     */
-    default void destroy() {
-
-    }
 }

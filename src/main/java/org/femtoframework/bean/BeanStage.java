@@ -1,5 +1,5 @@
 /**
- * Licensed to the Apache Software Foundation (ASF) under one or more
+ * Licensed to the FemtoFramework under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
@@ -17,41 +17,45 @@
 package org.femtoframework.bean;
 
 /**
- * Entire Bean lifecycle
+ * Bean Stage
  *
- * @author Sheldon Shao
- * @version 1.0
+ * @author fengyun
+ * @version 1.00 2005-9-2 21:08:35
  */
-public interface Lifecycle extends Initializable, Startable, Stoppable, Destroyable {
+public enum BeanStage {
 
     /**
-     * Initialize the bean
-     *
-     * @throws org.femtoframework.bean.exception.InitializeException
+     * The bean is disabled
      */
-    default void initialize() {
-    }
+    DISABLED,
 
     /**
-     * Start
-     *
-     * @throws org.femtoframework.bean.exception.StartException
+     * Construction stage
      */
-    default void start() {
-
-    }
+    CREATE,
 
     /**
-     * Stop the bean
+     * Calling setter or getter
      */
-    default void stop() {
+    CONFIGURE,
 
-    }
+    /**
+     * Do some simple initialization logic which simple setters are not able to do that.
+     */
+    INITIALIZE,
+
+    /**
+     * Start to run, for example, start the thread to make the bean on working state
+     */
+    START,
+
+    /**
+     * Stop running
+     */
+    STOP,
 
     /**
      * Destroy the bean
      */
-    default void destroy() {
-
-    }
+    DESTROY
 }
