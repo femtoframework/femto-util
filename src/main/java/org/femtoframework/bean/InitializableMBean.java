@@ -24,7 +24,7 @@ package org.femtoframework.bean;
  * @author Sheldon Shao
  * @version 1.0
  */
-public interface InitializabeMBean extends Initializable {
+public interface InitializableMBean extends Initializable {
 
     /**
      * Return whether it is initialized

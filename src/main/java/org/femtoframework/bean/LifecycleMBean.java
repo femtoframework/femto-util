@@ -22,7 +22,7 @@ package org.femtoframework.bean;
  * @author Sheldon Shao
  * @version 1.0
  */
-public interface LifecycleMBean extends Lifecycle, InitializabeMBean {
+public interface LifecycleMBean extends Lifecycle, InitializableMBean {
 
     /**
      * Return whether it is initialized
