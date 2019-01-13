@@ -396,4 +396,35 @@ public class SimpleImplementManager implements ImplementManager {
         }
         return config;
     }
+
+    /**
+     * Apply multiple instances
+     *
+     * @param interfaceClass Interface class
+     * @param function How to handle function
+     * @param <T> Instance Type
+     */
+    public <T> void applyInstances(Class<T> interfaceClass, InstancesFunction<T> function) {
+        ImplementManager implementManager = ImplementUtil.getImplementManager();
+        Map<String, ImplementConfig<?>> implementations = implementManager.getMultipleImplements(interfaceClass);
+        for(Map.Entry<String, ImplementConfig<?>> entry: implementations.entrySet()) {
+            String name = entry.getKey();
+            Class<? extends T> clazz = (Class<? extends T>)entry.getValue().getImplementationClass();
+            T instance = implementManager.createInstance(clazz, interfaceClass);
+            function.apply(name, instance);
+        }
+    }
+
+    /**
+     * Apply one instance
+     *
+     * @param interfaceClass Interface class
+     * @param function How to handle function
+     * @param <T> Instance Type
+     */
+    public <T> void applyInstance(Class<T> interfaceClass, InstanceFunction<T> function) {
+        ImplementManager implementManager = ImplementUtil.getImplementManager();
+        T instance = implementManager.getInstance(interfaceClass);
+        function.apply(instance);
+    }
 }

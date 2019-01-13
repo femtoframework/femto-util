@@ -301,4 +301,23 @@ public interface ImplementManager {
      * @return name to ImplementConfig mapping
      */
     Map<String, ImplementConfig<?>> getMultipleImplements(Class<?> interfaceClass, ClassLoader loader);
+
+
+    /**
+     * Apply multiple instances
+     *
+     * @param interfaceClass Interface class
+     * @param function How to handle function
+     * @param <T> Instance Type
+     */
+    <T> void applyInstances(Class<T> interfaceClass, InstancesFunction<T> function);
+
+    /**
+     * Apply one instance
+     *
+     * @param interfaceClass Interface class
+     * @param function How to handle function
+     * @param <T> Instance Type
+     */
+    <T> void applyInstance(Class<T> interfaceClass, InstanceFunction<T> function);
 }
