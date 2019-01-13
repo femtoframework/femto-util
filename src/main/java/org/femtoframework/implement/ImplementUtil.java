@@ -278,42 +278,37 @@ public class ImplementUtil {
         manager.initialize(implementInstance);
     }
 
-
     /**
-     * Returns the properties which includes a set of implementations of this interface class.
-     * For examples,
-     * <code>
-     *     public interface Foo {
-     *         void someMethod();
-     *     }
+     * Apply multiple instances
      *
-     *     #implements.properties
-     *     Foo=foo1:FooImpl1,foo2:FooImpl2
-     * </code>
-     * @param interfaceClass Interface class name
-     * @return name to ImplementConfig mapping
+     * @param interfaceClass Interface class
+     * @param function How to handle function
+     * @param <T> Instance Type
      */
-    public static Map<String, ImplementConfig<?>> getMultipleImplements(Class<?> interfaceClass) {
-        return manager.getMultipleImplements(interfaceClass);
+    public static <T> void applyInstances(Class<T> interfaceClass, InstancesFunction<String, T> function) {
+        manager.applyInstances(interfaceClass, function);
     }
 
 
     /**
-     * Returns the properties which includes a set of implementations of this interface class.
-     * For examples,
-     * <code>
-     *     public interface Foo {
-     *         void someMethod();
-     *     }
+     * Apply multiple instances
      *
-     *     #implements.properties
-     *     Foo=foo1:FooImpl1,foo2:FooImpl2
-     * </code>
-     * @param interfaceClass Interface class name
-     * @param loader Class loader for the implementations
-     * @return name to ImplementConfig mapping
+     * @param interfaceClass Interface class
+     * @param function How to handle function
+     * @param <T> Instance Type
      */
-    public static Map<String, ImplementConfig<?>> getMultipleImplements(Class<?> interfaceClass, ClassLoader loader) {
-        return manager.getMultipleImplements(interfaceClass, loader);
+    public static <T> void applyInstances(Class<T> interfaceClass, InstanceFunction<T> function) {
+        manager.applyInstances(interfaceClass, function);
+    }
+
+    /**
+     * Apply one instance
+     *
+     * @param interfaceClass Interface class
+     * @param function How to handle function
+     * @param <T> Instance Type
+     */
+    public <T> void applyInstance(Class<T> interfaceClass, InstanceFunction<T> function) {
+        manager.applyInstance(interfaceClass, function);
     }
 }

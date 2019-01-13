@@ -404,7 +404,7 @@ public class SimpleImplementManager implements ImplementManager {
      * @param function How to handle function
      * @param <T> Instance Type
      */
-    public <T> void applyInstances(Class<T> interfaceClass, InstancesFunction<T> function) {
+    public <T> void applyInstances(Class<T> interfaceClass, InstancesFunction<String, T> function) {
         ImplementManager implementManager = ImplementUtil.getImplementManager();
         Map<String, ImplementConfig<?>> implementations = implementManager.getMultipleImplements(interfaceClass);
         for(Map.Entry<String, ImplementConfig<?>> entry: implementations.entrySet()) {
@@ -412,6 +412,23 @@ public class SimpleImplementManager implements ImplementManager {
             Class<? extends T> clazz = (Class<? extends T>)entry.getValue().getImplementationClass();
             T instance = implementManager.createInstance(clazz, interfaceClass);
             function.apply(name, instance);
+        }
+    }
+
+    /**
+     * Apply multiple instances
+     *
+     * @param interfaceClass Interface class
+     * @param function How to handle function
+     * @param <T> Instance Type
+     */
+    public <T> void applyInstances(Class<T> interfaceClass, InstanceFunction<T> function) {
+        ImplementManager implementManager = ImplementUtil.getImplementManager();
+        ImplementConfig<T> config = implementManager.getImplementConfig(interfaceClass);
+        for(String implClass: config.getImplementations()) {
+            Class<? extends T> clazz = implementManager.loadClass(implClass, interfaceClass, null);
+            T instance = implementManager.createInstance(clazz, interfaceClass);
+            function.apply(instance);
         }
     }
 

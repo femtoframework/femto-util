@@ -23,7 +23,7 @@ package org.femtoframework.implement;
  * @version 1.0
  */
 @FunctionalInterface
-public interface InstancesFunction<I> {
+public interface InstancesFunction<N, I> {
 
-    void apply(String name, I instance);
+    void apply(N name, I instance);
 }

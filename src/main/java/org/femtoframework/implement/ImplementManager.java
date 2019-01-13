@@ -310,7 +310,17 @@ public interface ImplementManager {
      * @param function How to handle function
      * @param <T> Instance Type
      */
-    <T> void applyInstances(Class<T> interfaceClass, InstancesFunction<T> function);
+    <T> void applyInstances(Class<T> interfaceClass, InstancesFunction<String, T> function);
+
+
+    /**
+     * Apply multiple instances
+     *
+     * @param interfaceClass Interface class
+     * @param function How to handle function
+     * @param <T> Instance Type
+     */
+    <T> void applyInstances(Class<T> interfaceClass, InstanceFunction<T> function);
 
     /**
      * Apply one instance
