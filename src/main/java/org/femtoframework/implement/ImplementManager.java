@@ -16,9 +16,11 @@
  */
 package org.femtoframework.implement;
 
+import org.femtoframework.lang.reflect.NoSuchClassException;
+
 import java.io.IOException;
 import java.net.URL;
-import java.util.Enumeration;
+import java.util.*;
 
 /**
  * Manage the implementation
@@ -46,29 +48,213 @@ public interface ImplementManager {
      * @param loader Class Loader, it maybe null
      * @param <T> Service Interface
      * @return Service implementation
-     * @throws ClassNotFoundException either className or interfaceClass is not found
+     * @throws NoSuchClassException either className or interfaceClass is not found
      */
-    <T> Class<? extends T> loadClass(String className, Class<? extends T> interfaceClass, ClassLoader loader) throws ClassNotFoundException;
+    <T> Class<? extends T> loadClass(String className, Class<? extends T> interfaceClass, ClassLoader loader);
 
     /**
      * Create instance
      *
      * @param clazz Implementation instance class
-     * @param singleton Try to create as singleton mode first.
      * @param interfaceClass
      * @param <T>
      * @return
      */
-    <T> T createInstance(Class<?> clazz, boolean singleton, Class<T> interfaceClass);
+    <T> T createInstance(Class<? extends T> clazz, Class<T> interfaceClass);
 
     /**
-     * Get resources from class path
+     * Get a singleton of by interfaceClass
+     * The singleton will be cached and @PostContruct method got invoked.
      *
-     * @param resourceName Resource Name
-     * @param loader Current Class Loader
+     * @param interfaceClass Interface Class
+     * @param <T> expected type
+     * @return Created instance or instanced cached in this Util
      */
-    Enumeration<URL> getResources(String resourceName, ClassLoader loader) throws IOException;
+    default  <T> T getInstance(Class<T> interfaceClass) {
+        return getInstance(interfaceClass, true);
+    }
 
+    /**
+     * Get a singleton of by interfaceClass
+     * The singleton will be cached and @PostContruct method got invoked.
+     *
+     * @param interfaceClass Interface Class
+     * @param <T> expected type
+     * @return Created instance or instanced cached in this Util
+     */
+    default  <T> T getInstance(Class<T> interfaceClass, ClassLoader loader) {
+        Class<? extends T> clazz = getImplement(interfaceClass, loader);
+        return createInstance(clazz, true, interfaceClass);
+    }
+
+    /**
+     * Create instance based on given implementationClass and interface
+     *
+     * @param clazz implementation class
+     * @param singleton Whether is is singleton or not
+     * @param interfaceClass Interface class
+     * @param <T> Type
+     * @return Created instance
+     */
+    <T> T createInstance(Class<? extends T> clazz, boolean singleton, Class<T> interfaceClass);
+
+    /**
+     * Get an instance of by interfaceClass
+     *
+     * @param interfaceClass Interface Class
+     * @param singleton Whether it is singleton or not, if it is true, it will be cached and @PostContruct method got invoked.
+     * @param <T> expected type
+     * @return Created instance or instanced cached in this Util
+     */
+    default  <T> T getInstance(Class<T> interfaceClass, boolean singleton) {
+        return getInstance(interfaceClass, singleton, null);
+    }
+
+    /**
+     * Get an instance of by interfaceClass
+     *
+     * @param interfaceClass Interface Class
+     * @param singleton Whether it is singleton or not, if it is true, it will be cached and @PostContruct method got invoked.
+     * @param <T> expected type
+     * @return Created instance or instanced cached in this Util
+     */
+    default  <T> T getInstance(Class<T> interfaceClass, boolean singleton, ClassLoader loader) {
+        Class<? extends T> clazz = getImplement(interfaceClass, loader);
+        return createInstance(clazz, singleton, interfaceClass);
+    }
+
+    /**
+     * Get an implement class by interfaceClass
+     *
+     * @param interfaceClass Interface Class
+     * @param <T> expected Type
+     * @return Class
+     */
+    default <T> Class<? extends T> getImplement(Class<T> interfaceClass) {
+        return getImplement(interfaceClass, null);
+    }
+
+
+    /**
+     * Get an implement class by interfaceClass
+     *
+     * @param interfaceClass Interface Class
+     * @param loader Class Loader
+     * @param <T> expected Type
+     * @return Class
+     */
+    <T> Class<? extends T> getImplement(Class<T> interfaceClass, ClassLoader loader);
+
+    /**
+     * Returns an iterator of all the declared implementations
+     *
+     * @param interfaceClass The service's abstract service class
+     * @return Iterator
+     * @throws IllegalArgumentException If a provider-configuration file violates the specified format
+     *                                  or names a provider class that cannot be found and instantiated
+     */
+    default <T> ImplementConfig<T> getImplementConfig(Class<T> interfaceClass) throws IllegalArgumentException {
+        return getImplementConfig(interfaceClass, null);
+    }
+
+    /**
+     * Returns an iterator of all the declared implementations
+     *
+     * @param interfaceClass The service's abstract service class
+     * @param loader  Class Loader
+     * @return Iterator
+     * @throws IllegalArgumentException If a provider-configuration file violates the specified format
+     *                                  or names a provider class that cannot be found and instantiated
+     */
+    <T> ImplementConfig<T> getImplementConfig(Class<T> interfaceClass, ClassLoader loader) throws IllegalArgumentException;
+
+    /**
+     * Get a singleton of the name+interfaceClass pair
+     *
+     * @param name Name
+     * @param interfaceClass Interface Class
+     * @param <T> expected type
+     * @return Created instance or instanced cached in this Util
+     */
+    default <T> T getInstance(String name, Class<T> interfaceClass) {
+        return getInstance(name, interfaceClass, null);
+    }
+
+
+    /**
+     * Get a singleton of the name+interfaceClass pair
+     *
+     * @param name Name
+     * @param interfaceClass Interface Class
+     * @param <T> expected type
+     * @return Created instance or instanced cached in this Util
+     */
+    default <T> T getInstance(String name, Class<T> interfaceClass, ClassLoader loader) {
+        return getInstance(name, interfaceClass, true, loader);
+    }
+
+    /**
+     * Get an instance of the name+interfaceClass pair
+     *
+     * @param name Name
+     * @param interfaceClass Interface Class
+     * @param singleton Whether it is singleton
+     * @param <T> expected type
+     * @return Created instance or instanced cached in this Util
+     */
+    default <T> T getInstance(String name, Class<T> interfaceClass, boolean singleton) {
+        return getInstance(name, interfaceClass, singleton, null);
+    }
+
+    /**
+     * Get an instance of the name+interfaceClass pair
+     *
+     * @param name Name
+     * @param interfaceClass Interface Class
+     * @param singleton Whether it is singleton
+     * @param loader ClassLoader
+     * @param <T> expected type
+     * @return Created instance or instanced cached in this Util
+     */
+    <T> T getInstance(String name, Class<T> interfaceClass, boolean singleton, ClassLoader loader);
+
+    /**
+     * Returns the right implementations of this interface class and name.
+     * For examples,
+     * <code>
+     *     public interface Foo {
+     *         void someMethod();
+     *     }
+     *
+     *     #properties
+     *     foo1=FooImpl1
+     *     foo2=FooImpl2
+     * </code>
+     * @param name implementation Name
+     * @param interfaceClass Interface class name
+     * @return The right implementClass
+     */
+    default <T> Class<? extends T> getImplement(String name, Class<T> interfaceClass) {
+        return getImplement(name, interfaceClass, null);
+    }
+
+    /**
+     * Returns the right implementations of this interface class and name.
+     * For examples,
+     * <code>
+     *     public interface Foo {
+     *         void someMethod();
+     *     }
+     *
+     *     #properties
+     *     foo1=FooImpl1
+     *     foo2=FooImpl2
+     * </code>
+     * @param name implementation Name
+     * @param interfaceClass Interface class name
+     * @return The right implementClass
+     */
+    <T> Class<? extends T> getImplement(String name, Class<T> interfaceClass, ClassLoader loader);
 
     /**
      * Post Construct
@@ -78,4 +264,41 @@ public interface ImplementManager {
      * @param implementInstance
      */
     void initialize(Object implementInstance);
+
+
+    /**
+     * Returns the properties which includes a set of implementations of this interface class.
+     * For examples,
+     * <code>
+     *     public interface Foo {
+     *         void someMethod();
+     *     }
+     *
+     *     #implements.properties
+     *     Foo=foo1:FooImpl1,foo2:FooImpl2
+     * </code>
+     * @param interfaceClass Interface class name
+     * @return name to ImplementConfig mapping
+     */
+    default Map<String, ImplementConfig<?>> getMultipleImplements(Class<?> interfaceClass) {
+        return getMultipleImplements(interfaceClass, null);
+    }
+
+
+    /**
+     * Returns the properties which includes a set of implementations of this interface class.
+     * For examples,
+     * <code>
+     *     public interface Foo {
+     *         void someMethod();
+     *     }
+     *
+     *     #implements.properties
+     *     Foo=foo1:FooImpl1,foo2:FooImpl2
+     * </code>
+     * @param interfaceClass Interface class name
+     * @param loader Class loader for the implementations
+     * @return name to ImplementConfig mapping
+     */
+    Map<String, ImplementConfig<?>> getMultipleImplements(Class<?> interfaceClass, ClassLoader loader);
 }

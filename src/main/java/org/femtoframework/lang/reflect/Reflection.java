@@ -236,62 +236,6 @@ public class Reflection
     /**
      * Gets an instance of a specified class.
      *
-     * @param className the name of class.
-     * @param singleton Enum style singleton or static "getInstance" method style singleton。
-     *                  the instance.
-     * @throws ReflectionException if instantiation fails.
-     */
-    public static <T> T newInstance(String className, boolean singleton)
-        throws ReflectionException
-    {
-        Class<T> clazz = (Class<T>)internalLoadClass(className);
-        return newInstance(clazz, singleton);
-    }
-
-    /**
-     * Create a singleton
-     *
-     * @param clazz Class
-     * @throws ReflectionException
-     */
-    public static <T> T newSingleton(Class<T> clazz)
-    {
-        if (Enum.class.isAssignableFrom(clazz)) {
-            return (T)Enum.valueOf((Class<Enum>)clazz, "INSTANCE");
-        }
-        else {
-            //查找getInstance方法，如果存在调用之
-            try {
-                Method method = clazz.getDeclaredMethod("getInstance");
-                if (Modifier.isStatic(method.getModifiers())) {
-                    return (T)Reflection.invoke(null, method);
-                }
-            }
-            catch (java.lang.NoSuchMethodException ex) {
-            }
-            catch (ReflectionException ex) {
-            }
-            return newInstance(clazz);            
-        }
-    }
-
-
-
-    /**
-     * Gets an instance of a specified class.
-     *
-     * @param className the name of class.
-     * @throws ReflectionException if instantiation fails.
-     */
-    public static <T> T newSingleton(String className)
-    {
-        Class<T> clazz = (Class<T>)internalLoadClass(className);
-        return newSingleton(clazz);
-    }
-
-    /**
-     * Gets an instance of a specified class.
-     *
      * @param clazz the class.
      *              the instance.
      * @throws ReflectionException if instantiation fails.
@@ -299,36 +243,6 @@ public class Reflection
     public static <T> T newInstance(Class<T> clazz)
         throws ReflectionException
     {
-        try {
-            return clazz.newInstance();
-        }
-        catch (Exception x) {
-            throw new ObjectCreationException("Instantiation failed for " + clazz.getName(), x);
-        }
-    }
-
-    /**
-     * Gets an instance of a specified class.
-     *
-     * @param clazz the class.
-     *              the instance.
-     * @throws ReflectionException if instantiation fails.
-     */
-    public static <T> T newInstance(Class<T> clazz, boolean singleton)
-        throws ReflectionException
-    {
-        if (singleton) {
-            try {
-                Method method = clazz.getDeclaredMethod("getInstance");
-                if (Modifier.isStatic(method.getModifiers())) {
-                    return (T)Reflection.invoke(null, method);
-                }
-            }
-            catch (java.lang.NoSuchMethodException ex) {
-            }
-            catch (ReflectionException ex) {
-            }
-        }
         try {
             return clazz.newInstance();
         }

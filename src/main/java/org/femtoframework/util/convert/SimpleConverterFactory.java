@@ -12,14 +12,11 @@ import org.femtoframework.util.DataUtil;
  * @author fengyun
  * @version 1.00 2005-2-7 19:02:04
  */
-public enum SimpleConverterFactory
-    implements ConverterFactory
+public class SimpleConverterFactory implements ConverterFactory
 {
-    INSTANCE;
-
     private Map<String, DataConverter> converters = new HashMap<>(64);
 
-    private SimpleConverterFactory() {
+    public SimpleConverterFactory() {
         DataConverter converter = new StringConverter();
         put(DataUtil.TYPE_STRING, converter);
         put("java.lang.String", converter);

@@ -47,7 +47,7 @@ public interface InitializableMBean extends Initializable {
      * @throws org.femtoframework.bean.exception.InitializeException
      */
     default void initialize() {
-        if (isInitialized()) {
+        if (!isInitialized()) {
             _doSetInitialized(false);
             _doInitialize();
             _doSetInitialized(true);

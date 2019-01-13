@@ -3,6 +3,7 @@ package org.femtoframework.implement;
 import org.junit.Test;
 
 import java.util.Iterator;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -17,16 +18,15 @@ public class ImplementUtilTest
     @Test
     public void testGetImplements0() throws Exception
     {
-        Iterator it = ImplementUtil.getImplements(ServiceInterface.class);
-        assertTrue(it.hasNext());
+        ImplementConfig it = ImplementUtil.getImplementConfig(ServiceInterface.class);
+        assertTrue(it.getImplementation() != null);
     }
 
     @Test
     public void testGetImplements1() throws Exception
     {
-        Iterator it = ImplementUtil.getImplements(ServiceInterface.class,
-            ClassLoader.getSystemClassLoader());
-        assertTrue(it.hasNext());
+        ImplementConfig it = ImplementUtil.getImplementConfig(ServiceInterface.class, ClassLoader.getSystemClassLoader());
+        assertTrue(it.getImplementation() != null);
     }
 
     @Test
