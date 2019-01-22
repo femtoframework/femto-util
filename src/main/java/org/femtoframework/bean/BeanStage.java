@@ -57,5 +57,25 @@ public enum BeanStage {
     /**
      * Destroy the bean
      */
-    DESTROY
+    DESTROY;
+
+    /**
+     * Check the current stage is before the given stage?
+     *
+     * @param stage Stage
+     * @return
+     */
+    public boolean isBeforeOrCurrent(BeanStage stage) {
+        return ordinal() <= stage.ordinal();
+    }
+
+    /**
+     * Check the current stage is same or after the given stage
+     *
+     * @param stage Stage
+     * @return
+     */
+    public boolean isAfterOrCurrent(BeanStage stage) {
+        return ordinal() >= stage.ordinal();
+    }
 }
