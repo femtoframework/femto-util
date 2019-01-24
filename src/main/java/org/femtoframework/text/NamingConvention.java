@@ -16,19 +16,20 @@
  */
 package org.femtoframework.text;
 
+
 /**
  * Convert Java style naming to "_" separated name, for examples,
  *
- * "NamingFormat" to "naming_format", vice versa
+ * "NamingConvention" to "naming_convention", vice versa
  *
  * It is using in femto-coin
  *
  * @author Sheldon Shao
  * @version 1.0
  */
-public class NamingFormat {
+public interface NamingConvention {
 
-    public static final char SEP = '_';
+    char SEP = '_';
 
     /**
      * Convert Java style naming to "_" separated name
@@ -39,7 +40,7 @@ public class NamingFormat {
      * @param str Java style naming
      * @return "_" separated naming
      */
-    public static String format(String str)
+    static String format(String str)
     {
         if (str == null) {
             return null;
@@ -74,7 +75,7 @@ public class NamingFormat {
      * @param clazz Class Name
      * @return "_" separated naming
      */
-    public static String format(Class clazz)
+    static String format(Class clazz)
     {
         return format(clazz.getSimpleName());
     }
@@ -86,7 +87,7 @@ public class NamingFormat {
      * @param str "_" separated name
      * @return
      */
-    public static String parse(String str)
+    static String parse(String str)
     {
         return parse(str, true);
     }
@@ -99,7 +100,7 @@ public class NamingFormat {
      * @param firstUpperCase First Letter should be upper case or not
      * @return
      */
-    public static String parse(String str, boolean firstUpperCase)
+    static String parse(String str, boolean firstUpperCase)
     {
         if (str == null) {
             return null;
@@ -147,5 +148,75 @@ public class NamingFormat {
             }
         }
         return sb.toString();
+    }
+
+
+    /**
+     * Convert property name to method name
+     *
+     * @param name property Name
+     * @param prefix prefix (get or is)
+     * @return to Method Name
+     */
+    static String toMethodName(String name, String prefix) {
+        String methodName = NamingConvention.parse(name, true);
+        StringBuilder sb = new StringBuilder(name.length() + prefix.length());
+        sb.append(prefix);
+        sb.append(methodName);
+        return sb.toString();
+    }
+
+    String GET = "get";
+    String SET = "set";
+    String IS = "is";
+
+//    public static final HashSet<String> GETTER_IGNORES = new HashSet<String>();
+//
+//    static {
+//        GETTER_IGNORES.add("getClass");
+//        GETTER_IGNORES.add("get");
+//        GETTER_IGNORES.add("is");
+//    }
+
+    /**
+     * Convert propertyName to Getter Name
+     *
+     * @param propertyName propertyName
+     */
+    static String toGetter(String propertyName) {
+        return toMethodName(propertyName, GET);
+    }
+
+    /**
+     * Return Getter Name by propertyName+type
+     *
+     * @param propertyName propertyName
+     * @param type
+     */
+    static String toGetter(String propertyName, Class<?> type) {
+        if (type == Boolean.class || type == boolean.class) {
+            return toMethodName(propertyName, IS);
+        }
+        else {
+            return toMethodName(propertyName, GET);
+        }
+    }
+
+    /**
+     * Convert propertyName to Setter Name
+     *
+     * @param propertyName
+     */
+    static String toSetter(String propertyName) {
+        return toMethodName(propertyName, SET);
+    }
+
+    /**
+     * Convert propertyName to boolean style getter "isXxx"
+     *
+     * @param propertyName  Property Name
+     */
+    static String toBooleanGetter(String propertyName) {
+        return toMethodName(propertyName, IS);
     }
 }
