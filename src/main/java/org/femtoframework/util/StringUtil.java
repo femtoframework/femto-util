@@ -22,13 +22,13 @@ package org.femtoframework.util;
  * @author Sheldon Shao
  * @version 1.0
  */
-public class StringUtil {
+public interface StringUtil {
     /**
      * Check if the string value is valid
      *
      * @param value
      */
-    public static boolean isValid(String value) {
+    static boolean isValid(String value) {
         return value != null && !value.isEmpty();
     }
 
@@ -37,7 +37,7 @@ public class StringUtil {
      *
      * @param value
      */
-    public static boolean isInvalid(String value) {
+    static boolean isInvalid(String value) {
         return value == null || value.isEmpty();
     }
 
@@ -51,7 +51,7 @@ public class StringUtil {
      * @param str2 String 2
      * @return [true|false]
      */
-    public static boolean equals(String str1, String str2) {
+    static boolean equals(String str1, String str2) {
         if (str1 == null) {
             return str2 == null;
         }
@@ -68,7 +68,7 @@ public class StringUtil {
      * @param str2 String 2
      * @return [true|false]
      */
-    public static boolean equalsIgnoreCase(String str1,
+    static boolean equalsIgnoreCase(String str1,
                                            String str2) {
         if (str1 == null) {
             return str2 == null;

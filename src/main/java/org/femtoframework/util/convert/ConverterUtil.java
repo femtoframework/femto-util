@@ -16,9 +16,9 @@ import java.util.Map;
  * @author fengyun
  * @version 1.00 2009-2-7 19:03:24
  */
-public class ConverterUtil
+public interface ConverterUtil
 {
-    private static ConverterFactory factory = ImplementUtil.getInstance(ConverterFactory.class);
+    ConverterFactory factory = ImplementUtil.getInstance(ConverterFactory.class);
 
     /**
      * Return DataConverter by type name
@@ -26,7 +26,7 @@ public class ConverterUtil
      * @param type Type
      * @return
      */
-    public static <T> DataConverter<T> getConverter(String type) {
+    static <T> DataConverter<T> getConverter(String type) {
         return factory.getConverter(type);
     }
 
@@ -36,7 +36,7 @@ public class ConverterUtil
      * @param expectedType Expected Type class
      * @return
      */
-    public static <T> DataConverter<T> getConverter(Class<T> expectedType) {
+    static <T> DataConverter<T> getConverter(Class<T> expectedType) {
         return factory.getConverter(expectedType);
     }
 
@@ -47,7 +47,7 @@ public class ConverterUtil
      * @param type Type, @see DataTypes.*
      * @param obj  Object
      */
-    public static <T> T convertToType(Object obj, String type)
+    static <T> T convertToType(Object obj, String type)
     {
         return convertToType(obj, type, null);
     }
@@ -59,7 +59,7 @@ public class ConverterUtil
      * @param obj  Object
      * @param defValue Default value, if it is not able to convert
      */
-    public static <T> T convertToType(Object obj, String type, T defValue)
+    static <T> T convertToType(Object obj, String type, T defValue)
     {
         DataConverter<T> converter = getConverter(type);
         if (converter == null) {
@@ -74,7 +74,7 @@ public class ConverterUtil
      * @param type Type, @see DataTypes.*
      * @param obj  Object
      */
-    public static <T> T convertToType(Object obj, Class<T> type)
+    static <T> T convertToType(Object obj, Class<T> type)
     {
         return convertToType(obj, type, null);
     }
@@ -85,7 +85,7 @@ public class ConverterUtil
      * @param type Type, @see DataTypes.*
      * @param obj  Object
      */
-    public static <T> T convertToType(Object obj, Class<T> type, T defValue)
+    static <T> T convertToType(Object obj, Class<T> type, T defValue)
     {
         DataConverter<T> converter = getConverter(type);
         if (converter == null) {
@@ -100,7 +100,7 @@ public class ConverterUtil
         return converter.convert(obj, defValue);
     }
 
-    private static Object getArray0(Class componentType, Object obj, Object defValue)
+    static Object getArrayNoCheck(Class componentType, Object obj, Object defValue)
     {
         if (obj.getClass().isArray()) {
             int len = Array.getLength(obj);
@@ -144,23 +144,23 @@ public class ConverterUtil
         }
     }
 
-    public static Object getArray(Class componentType, Object obj)
+    static Object getArray(Class componentType, Object obj)
     {
         if (obj == null) {
             return null;
         }
-        return getArray0(componentType, obj, null);
+        return getArrayNoCheck(componentType, obj, null);
     }
 
-    public static Object getArray(Class<?> componentType, Object obj, Object defValue)
+    static Object getArray(Class<?> componentType, Object obj, Object defValue)
     {
         if (obj == null) {
             return null;
         }
-        return getArray0(componentType, obj, defValue);
+        return getArrayNoCheck(componentType, obj, defValue);
     }
 
-    private static Object[] getObjectArray0(Class componentType, Object obj, Object[] defValue)
+    static Object[] getObjectArrayNoCheck(Class componentType, Object obj, Object[] defValue)
     {
         if (obj.getClass().isArray()) {
             int len = Array.getLength(obj);
@@ -189,19 +189,19 @@ public class ConverterUtil
         }
     }
 
-    public static Object[] getObjects(Class componentType, Object obj)
+    static Object[] getObjects(Class componentType, Object obj)
     {
         if (obj == null) {
             return null;
         }
-        return getObjectArray0(componentType, obj, null);
+        return getObjectArrayNoCheck(componentType, obj, null);
     }
 
-    public static Object[] getObjects(Class componentType, Object obj, Object[] defValue)
+    static Object[] getObjects(Class componentType, Object obj, Object[] defValue)
     {
         if (obj == null) {
             return defValue;
         }
-        return getObjectArray0(componentType, obj, defValue);
+        return getObjectArrayNoCheck(componentType, obj, defValue);
     }
 }

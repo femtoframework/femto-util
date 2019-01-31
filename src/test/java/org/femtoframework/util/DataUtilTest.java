@@ -54,8 +54,6 @@ public class DataUtilTest {
 
     @Test
     public void getBoolean() throws Exception {
-        new DataUtil();
-
         assertEquals(DataUtil.getBoolean(null, true), true);
         assertEquals(DataUtil.getBoolean(Boolean.TRUE, false), true);
         assertEquals(DataUtil.getBoolean(Boolean.TRUE, false), true);

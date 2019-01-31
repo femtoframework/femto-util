@@ -179,6 +179,22 @@ public interface NamingConvention {
 //    }
 
     /**
+     * Convert method name to PropertyName
+     *
+     * @param methodName Method Name
+     * @param type Type
+     * @return Property Name
+     */
+    static String toPropertyName(String methodName, Class<?> type) {
+        if (type == boolean.class || type == Boolean.class) {
+            return parse(methodName.substring(2), false);
+        }
+        else {
+            return parse(methodName.substring(3), false);
+        }
+    }
+
+    /**
      * Convert propertyName to Getter Name
      *
      * @param propertyName propertyName
@@ -195,6 +211,21 @@ public interface NamingConvention {
      */
     static String toGetter(String propertyName, Class<?> type) {
         if (type == Boolean.class || type == boolean.class) {
+            return toMethodName(propertyName, IS);
+        }
+        else {
+            return toMethodName(propertyName, GET);
+        }
+    }
+
+    /**
+     * Return Getter Name by propertyName+type
+     *
+     * @param propertyName propertyName
+     * @param type Type in String
+     */
+    static String toGetter(String propertyName, String type) {
+        if (Boolean.class.getName().equalsIgnoreCase(type) || boolean.class.getName().equalsIgnoreCase(type)) {
             return toMethodName(propertyName, IS);
         }
         else {

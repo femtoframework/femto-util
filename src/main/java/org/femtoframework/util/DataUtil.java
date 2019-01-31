@@ -1,43 +1,3 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * Copyright (c) 2016 eBay Software Foundation. All rights reserved.
- *
- * Licensed under the MIT license.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- *
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
 package org.femtoframework.util;
 
 import org.femtoframework.parameters.Parameters;
@@ -69,7 +29,7 @@ import java.util.*;
  * Modified by Sheldon Shao(xshao) on 12/09/2018), include it in femtoframework/femto-util and changed license to APL v2
  * Created by xshao on 9/16/16.
  */
-public class DataUtil implements DataTypes {
+public interface DataUtil extends DataTypes {
     /**
      * Convert value to boolean
      *
@@ -77,7 +37,7 @@ public class DataUtil implements DataTypes {
      * @param defValue default value
      * @return the converted boolean
      */
-    public static boolean getBoolean(Object value, boolean defValue)
+    static boolean getBoolean(Object value, boolean defValue)
     {
         if (value == null) {
             return defValue;
@@ -100,22 +60,10 @@ public class DataUtil implements DataTypes {
         return result;
     }
 
-    private static final String[] VALID_TRUE
-            = {"True", "true", "TRUE", "Yes", "yes", "YES",
-            "On", "on", "ON", "T", "t", "Y", "y", "1"};
-
-    private static final String[] VALID_FALSE
-            = {"False", "false", "FALSE", "No", "no", "NO",
-            "Off", "off", "OFF", "F", "f", "N", "n", "0"};
-
-    private static final HashSet<String> TRUE_SET = new HashSet<String>(VALID_TRUE.length);
-    private static final HashSet<String> FALSE_SET = new HashSet<String>(VALID_FALSE.length);
-
-    static {
-        Collections.addAll(TRUE_SET, VALID_TRUE);
-        Collections.addAll(FALSE_SET, VALID_FALSE);
-    }
-
+    Set<String> TRUE_SET = CollectionUtil.asSet(new String[]{"True", "true", "TRUE", "Yes", "yes", "YES",
+            "On", "on", "ON", "T", "t", "Y", "y", "1"});
+    Set<String> FALSE_SET = CollectionUtil.asSet(new String[]{"False", "false", "FALSE", "No", "no", "NO",
+            "Off", "off", "OFF", "F", "f", "N", "n", "0"});
 
     /**
      * String to Boolean
@@ -140,7 +88,7 @@ public class DataUtil implements DataTypes {
      * @param defValue Default value
      * @return Boolean value
      */
-    public static boolean toBoolean(String value, boolean defValue)
+    static boolean toBoolean(String value, boolean defValue)
     {
         return TRUE_SET.contains(value) || !FALSE_SET.contains(value) && defValue;
     }
@@ -165,7 +113,7 @@ public class DataUtil implements DataTypes {
      * @param value String value
      * @return If the string can be converted to boolean, it returns the correct boolean
      */
-    public static boolean toBoolean(String value)
+    static boolean toBoolean(String value)
     {
         return toBoolean(value, false);
     }
@@ -176,7 +124,7 @@ public class DataUtil implements DataTypes {
      * @param defValue
      * @return
      */
-    public static boolean[] getBooleans(Object object, boolean[] defValue)
+    static boolean[] getBooleans(Object object, boolean[] defValue)
     {
         if (object == null) {
             return defValue;
@@ -219,7 +167,7 @@ public class DataUtil implements DataTypes {
         return result;
     }
 
-    private static int tryRadix(String str, int radix) {
+    static int tryRadix(String str, int radix) {
         if (str.length() > 2 && str.charAt(0) == '0') {
             char c = str.charAt(1);
             switch (c) {
@@ -249,7 +197,7 @@ public class DataUtil implements DataTypes {
      * @param value the object to convert from
      * @return the converted byte
      */
-    public static byte getByte(Object value, byte defValue)
+    static byte getByte(Object value, byte defValue)
     {
         if (value == null) {
             return defValue;
@@ -294,7 +242,7 @@ public class DataUtil implements DataTypes {
      * @param value the object to convert from
      * @return the converted char
      */
-    public static char getChar(Object value, char defValue)
+    static char getChar(Object value, char defValue)
     {
         char result;
         if (value != null) {
@@ -331,7 +279,7 @@ public class DataUtil implements DataTypes {
      *              null
      * @return a copy of the supplied array, or null
      */
-    public static char[] getChars(Object value, char[] defValue)
+    static char[] getChars(Object value, char[] defValue)
     {
         char[] result;
         if (value instanceof char[]) {
@@ -355,7 +303,7 @@ public class DataUtil implements DataTypes {
      * @param value the object to convert from
      * @return the converted short
      */
-    public static short getShort(Object value, short defValue)
+    static short getShort(Object value, short defValue)
     {
         if (value == null) {
             return defValue;
@@ -392,7 +340,7 @@ public class DataUtil implements DataTypes {
         return result;
     }
 
-    public static int getInt(Object value, int defValue)
+    static int getInt(Object value, int defValue)
     {
         if (value == null) {
             return defValue;
@@ -430,7 +378,7 @@ public class DataUtil implements DataTypes {
      * @param value the object to convert from
      * @return the converted long
      */
-    public static long getLong(Object value, long defValue)
+    static long getLong(Object value, long defValue)
     {
         if (value == null) {
             return defValue;
@@ -468,7 +416,7 @@ public class DataUtil implements DataTypes {
      * @param value the object to convert from
      * @return the converted float
      */
-    public static float getFloat(Object value, float defValue)
+    static float getFloat(Object value, float defValue)
     {
         if (value == null) {
             return defValue;
@@ -515,7 +463,7 @@ public class DataUtil implements DataTypes {
      * @param defValue The default value
      * @return the converted double
      */
-    public static double getDouble(Object value, double defValue)
+    static double getDouble(Object value, double defValue)
     {
         if (value == null) {
             return defValue;
@@ -553,7 +501,7 @@ public class DataUtil implements DataTypes {
      *              null
      * @return a copy of the supplied array, or null
      */
-    public static byte[] getBytes(Object value, byte[] defValue)
+    static byte[] getBytes(Object value, byte[] defValue)
     {
         if (value == null) {
             return defValue;
@@ -592,7 +540,7 @@ public class DataUtil implements DataTypes {
         return result;
     }
 
-    public static String getString(Object value, String defValue)
+    static String getString(Object value, String defValue)
     {
         if (value == null) {
             return defValue;
@@ -613,7 +561,7 @@ public class DataUtil implements DataTypes {
         return str;
     }
 
-    public static String[] getStrings(Object object, String[] defValue)
+    static String[] getStrings(Object object, String[] defValue)
     {
         if (object == null) {
             return defValue;
@@ -661,7 +609,7 @@ public class DataUtil implements DataTypes {
         return result;
     }
 
-    public static int[] getInts(Object object, int[] defValue)
+    static int[] getInts(Object object, int[] defValue)
     {
         if (object == null) {
             return defValue;
@@ -697,7 +645,7 @@ public class DataUtil implements DataTypes {
         return result;
     }
 
-    public static <T> List<T> getList(Object obj) {
+    static <T> List<T> getList(Object obj) {
         return getList(obj, null);
     }
 
@@ -713,7 +661,7 @@ public class DataUtil implements DataTypes {
      * @param <T>
      * @return
      */
-    public static <T> List<T> getList(Object obj, List<T> defaultValue) {
+    static <T> List<T> getList(Object obj, List<T> defaultValue) {
         if (obj instanceof List) {
             return (List)obj;
         }
@@ -742,7 +690,7 @@ public class DataUtil implements DataTypes {
         return defaultValue;
     }
 
-    public static Map getMap(Object obj) {
+    static Map getMap(Object obj) {
         return getMap(obj, null);
     }
 
@@ -758,7 +706,7 @@ public class DataUtil implements DataTypes {
      * @param defaultValue
      * @return
      */
-    public static Map getMap(Object obj, Map defaultValue) {
+    static Map getMap(Object obj, Map defaultValue) {
         if (obj instanceof Map) {
             return (Map)obj;
         }
@@ -799,7 +747,7 @@ public class DataUtil implements DataTypes {
     }
 
 
-    public static Set getSet(Object obj) {
+    static Set getSet(Object obj) {
         return getSet(obj, Collections.EMPTY_SET);
     }
 
@@ -815,7 +763,7 @@ public class DataUtil implements DataTypes {
      * @param defaultValue
      * @return
      */
-    public static Set getSet(Object obj, Set defaultValue) {
+    static Set getSet(Object obj, Set defaultValue) {
         if (obj instanceof Set) {
             return (Set)obj;
         }
@@ -863,7 +811,7 @@ public class DataUtil implements DataTypes {
      * @param defaultValue
      * @return
      */
-    public static Parameters getParameters(Object obj, Parameters defaultValue) {
+    static Parameters getParameters(Object obj, Parameters defaultValue) {
         if (obj instanceof Parameters) {
             return (Parameters)obj;
         }
@@ -919,7 +867,7 @@ public class DataUtil implements DataTypes {
      * @param <T> Template
      * @return The right enum
      */
-    public static <T extends Enum> T getEnum(Class<T> clazz, Object obj, T defaultValue) {
+    static <T extends Enum> T getEnum(Class<T> clazz, Object obj, T defaultValue) {
         if (clazz.isInstance(obj)) {
             return (T) obj;
         }
@@ -939,12 +887,12 @@ public class DataUtil implements DataTypes {
         return defaultValue;
     }
 
-    public static List<String> getStringList(Object object)
+    static List<String> getStringList(Object object)
     {
         return getStringList(object, null);
     }
 
-    public static List<String> getStringList(Object object, List<String> defaultValue)
+    static List<String> getStringList(Object object, List<String> defaultValue)
     {
         if (object == null) {
             return defaultValue;
@@ -1000,18 +948,18 @@ public class DataUtil implements DataTypes {
         }
     }
 
-    public static final String[] EMPTY_STRING_ARRAY = new String[0];
+    static final String[] EMPTY_STRING_ARRAY = new String[0];
 
-    public static final int[] EMPTY_INT_ARRAY = new int[0];
+    static final int[] EMPTY_INT_ARRAY = new int[0];
 
-    public static final String EMPTY_STRING = "";
+    static final String EMPTY_STRING = "";
 
     /**
      * Return the count of the char in the String
      * if src == null return -1;
      * if src.length() == 0 return 0;
      */
-    public static int countChar(String src, char c) {
+    static int countChar(String src, char c) {
         if (src == null) {
             return -1;
         }
@@ -1040,7 +988,7 @@ public class DataUtil implements DataTypes {
      * @return If<code>src == null</code> returns<code>null</code>
      *         If<code>src == ""</code> returns<code>#EMPTY_STRING_ARRAY</code>
      */
-    public static String[] toStrings(String src, char sep) {
+    static String[] toStrings(String src, char sep) {
         if (src == null) {
             return null;
         }
@@ -1076,7 +1024,7 @@ public class DataUtil implements DataTypes {
      * "1,,2," --> {1,0,2,0}
      * "a,1,2," --> null (Exception)
      */
-    public static int[] toInts(String src, char sep) {
+    static int[] toInts(String src, char sep) {
         if (src == null) {
             return null;
         }
@@ -1124,24 +1072,24 @@ public class DataUtil implements DataTypes {
         return array;
     }
 
-    private static DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    public static Date getDate(Object obj)
+    static Date getDate(Object obj)
     {
         return getDate(obj, format, null);
     }
 
-    public static Date getDate(Object obj, Date defValue)
+    static Date getDate(Object obj, Date defValue)
     {
         return getDate(obj, format, defValue);
     }
 
-    public static Date getDate(Object obj, DateFormat format)
+    static Date getDate(Object obj, DateFormat format)
     {
         return getDate(obj, format, null);
     }
 
-    public static Date getDate(Object obj, DateFormat format, Date defValue)
+    static Date getDate(Object obj, DateFormat format, Date defValue)
     {
         if (obj instanceof Date) {
             return (Date)obj;
@@ -1172,12 +1120,12 @@ public class DataUtil implements DataTypes {
         }
     }
 
-    public static Timestamp getTimestamp(Object obj)
+    static Timestamp getTimestamp(Object obj)
     {
         return getTimestamp(obj, null);
     }
 
-    public static Timestamp getTimestamp(Object obj, Timestamp defValue)
+    static Timestamp getTimestamp(Object obj, Timestamp defValue)
     {
         if (obj instanceof Timestamp) {
             return (Timestamp)obj;
@@ -1203,12 +1151,12 @@ public class DataUtil implements DataTypes {
         return defValue;
     }
 
-    public static Time getTime(Object obj)
+    static Time getTime(Object obj)
     {
         return getTime(obj, null);
     }
 
-    public static Time getTime(Object obj, Time defValue)
+    static Time getTime(Object obj, Time defValue)
     {
         if (obj instanceof Time) {
             return (Time)obj;
@@ -1236,7 +1184,7 @@ public class DataUtil implements DataTypes {
         return defValue;
     }
 
-    public static short[] getShorts(Object object, short[] defValue)
+    static short[] getShorts(Object object, short[] defValue)
     {
         if (object == null) {
             return defValue;
@@ -1279,12 +1227,12 @@ public class DataUtil implements DataTypes {
         return result;
     }
 
-    public static short[] getShorts(Object object)
+    static short[] getShorts(Object object)
     {
         return getShorts(object, null);
     }
 
-    public static long[] getLongs(Object object, long[] defValue)
+    static long[] getLongs(Object object, long[] defValue)
     {
         if (object == null) {
             return defValue;
@@ -1327,12 +1275,12 @@ public class DataUtil implements DataTypes {
         return result;
     }
 
-    public static long[] getLongs(Object object)
+    static long[] getLongs(Object object)
     {
         return getLongs(object, null);
     }
 
-    public static float[] getFloats(Object object, float[] defValue)
+    static float[] getFloats(Object object, float[] defValue)
     {
         if (object == null) {
             return defValue;
@@ -1375,12 +1323,12 @@ public class DataUtil implements DataTypes {
         return result;
     }
 
-    public static float[] getFloats(Object object)
+    static float[] getFloats(Object object)
     {
         return getFloats(object, null);
     }
 
-    public static double[] getDoubles(Object object, double[] defValue)
+    static double[] getDoubles(Object object, double[] defValue)
     {
         if (object == null) {
             return defValue;
@@ -1423,7 +1371,7 @@ public class DataUtil implements DataTypes {
         return result;
     }
 
-    public static double[] getDoubles(Object object)
+    static double[] getDoubles(Object object)
     {
         return getDoubles(object, null);
     }

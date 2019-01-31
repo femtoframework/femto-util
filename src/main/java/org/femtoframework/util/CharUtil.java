@@ -23,8 +23,9 @@ import org.femtoframework.util.crypto.Hex;
  *
  * @author Sheldon Shao
  */
-public class CharUtil {
-    public static char toUnicodeChar(String str, int begin)
+public interface CharUtil {
+
+    static char toUnicodeChar(String str, int begin)
     {
         if (str == null || (str.length() - begin) < 6) {
             throw new IllegalArgumentException("Malformed \\uxxxx encoding.");
@@ -64,7 +65,7 @@ public class CharUtil {
     /**
      * Convert "\\uxxxx" to unicode char
      */
-    public static char toUnicodeChar(String str)
+    static char toUnicodeChar(String str)
     {
         return toUnicodeChar(str, 0);
     }
@@ -72,14 +73,14 @@ public class CharUtil {
     /**
      * Convert char to "\\uxxxx"
      */
-    public static String toUnicodeStr(char c)
+    static String toUnicodeStr(char c)
     {
         StringBuilder sb = new StringBuilder(6);
         sb = toUnicodeStr(sb, c);
         return sb.toString();
     }
 
-    public static StringBuilder toUnicodeStr(StringBuilder sb, char c)
+    static StringBuilder toUnicodeStr(StringBuilder sb, char c)
     {
         sb.append('\\');
         sb.append('u');
@@ -95,7 +96,7 @@ public class CharUtil {
      *
      * @param nibble the nibble to convert.
      */
-    public static char toHex(int nibble)
+    static char toHex(int nibble)
     {
         return Hex.HEX_CHARS[(nibble & 0xF)];
     }

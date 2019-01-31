@@ -27,12 +27,12 @@ import java.util.*;
  * @author fengyun
  * @version 1.00 2010-2-5 20:44:57
  */
-public class ArrayUtil
+public interface ArrayUtil
 {
     /**
      * Not Found
      */
-    public static final int NOT_FOUND = -1;
+    int NOT_FOUND = -1;
 
     /**
      * Check whether byte array A has target bytes
@@ -41,7 +41,7 @@ public class ArrayUtil
      * @param target Target bytes to be checked
      * @return the index if found, otherwise it returns <code>#NOT_FOUND</code>
      */
-    public static int indexOf(byte[] source, byte[] target)
+    static int indexOf(byte[] source, byte[] target)
     {
         return indexOf(source, 0, source.length, target);
     }
@@ -53,7 +53,7 @@ public class ArrayUtil
      * @param target Target bytes to be checked
      * @return the index if found, otherwise it returns <code>#NOT_FOUND</code>
      */
-    public static int indexOf(byte[] source, int from, int to, byte[] target)
+    static int indexOf(byte[] source, int from, int to, byte[] target)
     {
         int sourceCount = to - from;
         int targetCount = target.length;
@@ -101,7 +101,7 @@ public class ArrayUtil
      *
      * @param a Array
      */
-    public static boolean isValid(Object[] a)
+    static boolean isValid(Object[] a)
     {
         return a != null && a.length > 0;
     }
@@ -111,7 +111,7 @@ public class ArrayUtil
      *
      * @param a Array
      */
-    public static boolean isInvalid(Object[] a)
+    static boolean isInvalid(Object[] a)
     {
         return a == null || a.length == 0;
     }
@@ -123,7 +123,7 @@ public class ArrayUtil
      * @param obj   Object
      * @return New Array
      */
-    public static <O> O[] add(O[] array, O obj)
+    static <O> O[] add(O[] array, O obj)
     {
         O[] newArray = (O[])Arrays.copyOf(array, array.length + 1, array.getClass());
         newArray[array.length] = obj;
@@ -138,7 +138,7 @@ public class ArrayUtil
      * @param pos  [0, array.length]
      * @return New Array
      */
-    public static <O> O[] add(O[] array, int pos, O obj)
+    static <O> O[] add(O[] array, int pos, O obj)
     {
         int len = array.length;
         if (pos < 0 || pos > len) {
@@ -165,11 +165,11 @@ public class ArrayUtil
      * @param <O>
      * @return
      */
-    public static <O> O[] remove(O[] array, O obj)
+    static <O> O[] remove(O[] array, O obj)
     {
         for (int i = 0; i < array.length; i++) {
             if (obj.equals(array[i])) {
-                return remove0(array, i);
+                return removeNoCheck(array, i);
             }
         }
         return array;
@@ -182,15 +182,15 @@ public class ArrayUtil
      * @param index
      * @return
      */
-    public static Object[] remove(Object[] array, int index)
+    static Object[] remove(Object[] array, int index)
     {
         if (index < 0 || index >= array.length) {
             throw new ArrayIndexOutOfBoundsException(index);
         }
-        return remove0(array, index);
+        return removeNoCheck(array, index);
     }
 
-    private static <O> O[] remove0(O[] array, int index)
+    static <O> O[] removeNoCheck(O[] array, int index)
     {
         Class clazz = array.getClass().getComponentType();
         int size = array.length - 1;
@@ -215,7 +215,7 @@ public class ArrayUtil
      * @param length
      * @return
      */
-    public static boolean matches(byte[] a1, int off1,
+    static boolean matches(byte[] a1, int off1,
                                   byte[] a2, int off2,
                                   int length)
     {
@@ -226,7 +226,7 @@ public class ArrayUtil
             return false;
         }
 
-        return matches0(a1, off1, a2, off2, length, false);
+        return matchesNoCheck(a1, off1, a2, off2, length, false);
     }
 
     /**
@@ -240,17 +240,17 @@ public class ArrayUtil
      * @param ignoreCase
      * @return
      */
-    public static boolean matches(byte[] a1, int off1,
+    static boolean matches(byte[] a1, int off1,
                                   byte[] a2, int off2,
                                   int length, boolean ignoreCase)
     {
-        return a1 == a2 || !(a1 == null || a2 == null) && matches0(a1, off1, a2, off2, length, ignoreCase);
+        return a1 == a2 || !(a1 == null || a2 == null) && matchesNoCheck(a1, off1, a2, off2, length, ignoreCase);
     }
 
-    private static boolean matches0(byte[] a1, int off1,
-                                    byte[] a2, int off2,
-                                    int length,
-                                    boolean ignoreCase)
+    static boolean matchesNoCheck(byte[] a1, int off1,
+                                  byte[] a2, int off2,
+                                  int length,
+                                  boolean ignoreCase)
     {
         int i = off1, max = off1 + length;
         int j = off2;
@@ -269,5 +269,192 @@ public class ArrayUtil
             }
         }
         return true;
+    }
+
+    // Search
+
+    /**
+     * Search given value in the array and address the index
+     *
+     * @param a Array
+     * @param key Key
+     * @return the index or NOT_FOUND
+     */
+    static int search(long[] a, long key)
+    {
+        return search(a, 0, a.length, key);
+    }
+
+    /**
+     * Search given value in the array and address the index
+     *
+     * @param a Array
+     * @param key Key
+     * @param from From index
+     * @param to To index(not include)
+     * @return the index or NOT_FOUND
+     */
+    static int search(long[] a, int from, int to, long key)
+    {
+        for (int i = from; i < to; i++) {
+            if (a[i] == key) {
+                return i;
+            }
+        }
+        return NOT_FOUND;
+    }
+
+    /**
+     * Search given value in the array and address the index
+     *
+     * @param a Array
+     * @param key Key
+     * @return the index or NOT_FOUND
+     */
+    static int search(int[] a, int key)
+    {
+        return search(a, 0, a.length, key);
+    }
+
+    /**
+     * Search given value in the array and address the index
+     *
+     * @param a Array
+     * @param key Key
+     * @param from From index
+     * @param to To index(not include)
+     * @return the index or NOT_FOUND
+     */
+    static int search(int[] a, int from, int to, int key)
+    {
+        for (int i = from; i < to; i++) {
+            if (a[i] == key) {
+                return i;
+            }
+        }
+        return NOT_FOUND;
+    }
+
+    /**
+     * Search given value in the array and address the index
+     *
+     * @param a Array
+     * @param key Key
+     * @return the index or NOT_FOUND
+     */
+    static int search(char[] a, char key)
+    {
+        return search(a, 0, a.length, key);
+    }
+
+    /**
+     * Search given value in the array and address the index
+     *
+     * @param a Array
+     * @param key Key
+     * @param from From index
+     * @param to To index(not include)
+     * @return the index or NOT_FOUND
+     */
+    static int search(char[] a, int from, int to, char key)
+    {
+        for (int i = from; i < to; i++) {
+            if (a[i] == key) {
+                return i;
+            }
+        }
+        return NOT_FOUND;
+    }
+    /**
+     * Search given value in the array and address the index
+     *
+     * @param a Array
+     * @param key Key
+     * @return the index or NOT_FOUND
+     */
+    static int search(byte[] a, byte key)
+    {
+        return search(a, 0, a.length, key);
+    }
+
+    /**
+     * Search given value in the array and address the index
+     *
+     * @param a Array
+     * @param key Key
+     * @param from From index
+     * @param to To index(not include)
+     * @return the index or NOT_FOUND
+     */
+    static int search(byte[] a, int from, int to, byte key)
+    {
+        for (int i = from; i < to; i++) {
+            if (a[i] == key) {
+                return i;
+            }
+        }
+        return NOT_FOUND;
+    }
+
+    /**
+     * Search given value in the array and address the index
+     *
+     * @param a Array
+     * @param key Key
+     * @return the index or NOT_FOUND
+     */
+    static <T> int search(T[] a, T key)
+    {
+        return search(a, 0, a.length, key);
+    }
+
+    /**
+     * Search given value in the array and address the index
+     *
+     * @param a Array
+     * @param key Key
+     * @param from From index
+     * @param to To index(not include)
+     * @return the index or NOT_FOUND
+     */
+    static <T> int search(T[] a, int from, int to, T key)
+    {
+        for (int i = from; i < to; i++) {
+            if (key == a[i] || key.equals(a[i])) {
+                return i;
+            }
+        }
+        return NOT_FOUND;
+    }
+
+    /**
+     * Search given value in the array and address the index
+     *
+     * @param a Array
+     * @param key Key
+     * @return the index or NOT_FOUND
+     */
+    static <T> int search(T[] a, T key, Comparator<T> comparator)
+    {
+        return search(a, 0, a.length, key, comparator);
+    }
+
+    /**
+     * Search given value in the array and address the index
+     *
+     * @param a Array
+     * @param key Key
+     * @param from From index
+     * @param to To index(not include)
+     * @return the index or NOT_FOUND
+     */
+    static <T> int search(T[] a, int from, int to, T key, Comparator<T> comparator)
+    {
+        for (int i = from; i < to; i++) {
+            if (comparator.compare(key, a[i]) == 0) {
+                return i;
+            }
+        }
+        return NOT_FOUND;
     }
 }
