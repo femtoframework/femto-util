@@ -33,10 +33,11 @@ public class Reflection
      * Primitive classes for reflection of constructors.
      */
     private static HashMap<String, Class<?>> primitiveClasses;
+    private static HashMap<String, Class<?>> preDefinedClasses;
     private static Set<String> arrayClasses = new HashSet<String>();
 
     static {
-        primitiveClasses = new HashMap<>(8);
+        primitiveClasses = new HashMap<>(64);
         primitiveClasses.put(Boolean.TYPE.toString(), Boolean.TYPE);
         primitiveClasses.put(Character.TYPE.toString(), Character.TYPE);
         primitiveClasses.put(Byte.TYPE.toString(), Byte.TYPE);
@@ -86,19 +87,22 @@ public class Reflection
         primitiveClasses.put("doubles", double[].class);
         arrayClasses.add("doubles");
 
-        primitiveClasses.put("Object", Object.class);
-        primitiveClasses.put("Object[]", Object[].class);
-        primitiveClasses.put("Objects", Object[].class);
-        primitiveClasses.put("objects", Object[].class);
+        preDefinedClasses = new HashMap<>(64);
+        preDefinedClasses.put("Object", Object.class);
+        preDefinedClasses.put("Object[]", Object[].class);
+        preDefinedClasses.put("Objects", Object[].class);
+        preDefinedClasses.put("objects", Object[].class);
         arrayClasses.add("objects");
 
-        primitiveClasses.put("String", String.class);
-        primitiveClasses.put("String[]", String[].class);
-        primitiveClasses.put("Strings", String[].class);
-        primitiveClasses.put("strings", String[].class);
+        preDefinedClasses.put("String", String.class);
+        preDefinedClasses.put("String[]", String[].class);
+        preDefinedClasses.put("Strings", String[].class);
+        preDefinedClasses.put("strings", String[].class);
         arrayClasses.add("strings");
 
-        primitiveClasses.put("void", Void.TYPE);
+        preDefinedClasses.put("void", Void.TYPE);
+
+        preDefinedClasses.putAll(primitiveClasses);
     }
 
     /**
@@ -470,7 +474,7 @@ public class Reflection
         if (loader == null) {
             loader = getClassLoader();
         }
-        Class clazz = getPrimitiveClass(className);
+        Class clazz = preDefinedClasses.get(className);
         if (clazz != null) {
             return clazz;
         }
