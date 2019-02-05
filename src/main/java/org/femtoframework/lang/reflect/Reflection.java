@@ -38,14 +38,23 @@ public class Reflection
 
     static {
         primitiveClasses = new HashMap<>(64);
-        primitiveClasses.put(Boolean.TYPE.toString(), Boolean.TYPE);
-        primitiveClasses.put(Character.TYPE.toString(), Character.TYPE);
-        primitiveClasses.put(Byte.TYPE.toString(), Byte.TYPE);
-        primitiveClasses.put(Short.TYPE.toString(), Short.TYPE);
-        primitiveClasses.put(Integer.TYPE.toString(), Integer.TYPE);
-        primitiveClasses.put(Long.TYPE.toString(), Long.TYPE);
-        primitiveClasses.put(Float.TYPE.toString(), Float.TYPE);
-        primitiveClasses.put(Double.TYPE.toString(), Double.TYPE);
+        primitiveClasses.put(Boolean.TYPE.getName(), Boolean.TYPE);
+        primitiveClasses.put(Character.TYPE.getName(), Character.TYPE);
+        primitiveClasses.put(Byte.TYPE.getName(), Byte.TYPE);
+        primitiveClasses.put(Short.TYPE.getName(), Short.TYPE);
+        primitiveClasses.put(Integer.TYPE.getName(), Integer.TYPE);
+        primitiveClasses.put(Long.TYPE.getName(), Long.TYPE);
+        primitiveClasses.put(Float.TYPE.getName(), Float.TYPE);
+        primitiveClasses.put(Double.TYPE.getName(), Double.TYPE);
+
+        primitiveClasses.put(Boolean.class.getName(), Boolean.class);
+        primitiveClasses.put(Character.class.getName(), Character.class);
+        primitiveClasses.put(Byte.class.getName(), Byte.class);
+        primitiveClasses.put(Short.class.getName(), Short.class);
+        primitiveClasses.put(Integer.class.getName(), Integer.class);
+        primitiveClasses.put(Long.class.getName(), Long.class);
+        primitiveClasses.put(Float.class.getName(), Float.class);
+        primitiveClasses.put(Double.class.getName(), Double.class);
 
         primitiveClasses.put("[Z", boolean[].class);
         primitiveClasses.put("boolean[]", boolean[].class);
@@ -376,22 +385,35 @@ public class Reflection
     /**
      * Check whether the class is a primitive class
      *
-     * @param className
+     * @param className Class Name or Type Name
      */
     public static boolean isPrimitiveClass(String className)
     {
         return primitiveClasses.containsKey(className);
     }
 
-//    /**
-//     * 判断是否属于基本数据类型
-//     *
-//     * @param clazz
-//     */
-//    public static boolean isPrimitiveClass(Class clazz)
-//    {
-//        return primitiveClasses.containsValue(clazz);
-//    }
+    /**
+     * What is non-structure type?
+     *
+     * 1. Primitive
+     * 2. String
+     * 3. Enum
+     * 4. Array of #1, #2, #3  One dimension array
+     *
+     *
+     * @param clazz Class Name or Type Name
+     * @return IsNonStructureClass
+     */
+    public static boolean isNonStructureClass(Class<?> clazz) {
+        if (clazz.isArray()) {
+            Class componentType = clazz.getComponentType();
+            //Avoid to use recursion
+            return isPrimitiveClass(componentType.getName()) || String.class == componentType || Enum.class.isAssignableFrom(componentType);
+        }
+        else {
+            return isPrimitiveClass(clazz.getName()) || String.class == clazz || Enum.class.isAssignableFrom(clazz);
+        }
+    }
 
     /**
      * check for primitive and widening.  Take from the 1.4 code

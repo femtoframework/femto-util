@@ -1,5 +1,8 @@
 package org.femtoframework.util;
 
+import org.femtoframework.parameters.Parameters;
+import org.femtoframework.parameters.ParametersMap;
+
 import java.util.*;
 
 /**
@@ -78,6 +81,18 @@ public interface CollectionUtil {
         public void clear()
         {
         }
+    }
+
+    Parameters EMPTY_PARAMETERS = new ParametersMap(Collections.emptyMap());
+
+    /**
+     * Return Empty Parameters
+     *
+     * @param <V>
+     * @return Empty Parameters
+     */
+    default <V> Parameters<V> emptyParameters() {
+        return (Parameters<V>)EMPTY_PARAMETERS;
     }
 
     /**
