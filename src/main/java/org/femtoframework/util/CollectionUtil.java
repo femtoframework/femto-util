@@ -91,7 +91,7 @@ public interface CollectionUtil {
      * @param <V>
      * @return Empty Parameters
      */
-    default <V> Parameters<V> emptyParameters() {
+    static <V> Parameters<V> emptyParameters() {
         return (Parameters<V>)EMPTY_PARAMETERS;
     }
 

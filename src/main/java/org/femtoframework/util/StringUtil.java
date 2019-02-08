@@ -1,20 +1,6 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.femtoframework.util;
+
+import static org.femtoframework.util.DataUtil.EMPTY_STRING;
 
 /**
  * String Util
@@ -74,5 +60,63 @@ public interface StringUtil {
             return str2 == null;
         }
         return str1.equalsIgnoreCase(str2);
+    }
+
+    /**
+     * Join objects to String
+     *
+     * @param array Object Array
+     * @param sep Separator
+     * @return String
+     */
+    static String toString(Object[] array, char sep) {
+        if (array == null) {
+            return null;
+        }
+        return toString(array, 0, array.length, sep);
+    }
+
+    /**
+     * Join objects to String
+     *
+     * @param array Object Array
+     * @param off Offset
+     * @param len Length of Array
+     * @param sep Separator
+     * @return String
+     */
+    static String toString(Object[] array, int off, int len, char sep) {
+        if (array == null) {
+            return null;
+        }
+
+        if (off < 0) {
+            throw new ArrayIndexOutOfBoundsException("Off=" + off);
+        }
+        if (len < 0) {
+            throw new ArrayIndexOutOfBoundsException("Len=" + len);
+        }
+
+        int end = off + len;
+        if (end > array.length) {
+            throw new ArrayIndexOutOfBoundsException("Invalid off=" + off + " or len=" + len
+                    + " array length=" + array.length);
+        }
+
+        if (len == 0) {
+            return EMPTY_STRING;
+        }
+        else if (len == 1) {
+            return String.valueOf(array[off]);
+        }
+        else {
+            StringBuilder sb = new StringBuilder();
+            sb.append(array[off]);
+            for (int i = off + 1; i < end; i++) {
+                sb.append(sep);
+                sb.append(array[i]);
+            }
+            return sb.toString();
+        }
     }
 }
