@@ -162,7 +162,7 @@ public interface ImplementManager {
      *
      * @param interfaceClass The service's abstract service class
      * @param loader  Class Loader
-     * @return Iterator
+     * @return null if there is no implementation settings
      * @throws IllegalArgumentException If a provider-configuration file violates the specified format
      *                                  or names a provider class that cannot be found and instantiated
      */

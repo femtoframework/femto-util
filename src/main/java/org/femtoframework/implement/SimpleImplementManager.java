@@ -225,11 +225,17 @@ public class SimpleImplementManager implements ImplementManager {
                     }
                 }
             }
-            SimpleImplementConfig<T> sic = new SimpleImplementConfig<>(interfaceClass, null, this, implementations);
-            Map<String, ImplementConfig<?>> map = new HashMap<>(2);
-            map.put(null, sic);
-            configs.put(interfaceClass, map);
-            return sic;
+
+            if (!implementations.isEmpty()) {
+                SimpleImplementConfig<T> sic = new SimpleImplementConfig<>(interfaceClass, null, this, implementations);
+                Map<String, ImplementConfig<?>> map = new HashMap<>(2);
+                map.put(null, sic);
+                configs.put(interfaceClass, map);
+                return sic;
+            }
+            else {
+                return null;
+            }
         }
         return (ImplementConfig<T>)config.get(null);
     }
@@ -425,10 +431,12 @@ public class SimpleImplementManager implements ImplementManager {
     public <T> void applyInstances(Class<T> interfaceClass, InstanceFunction<T> function) {
         ImplementManager implementManager = ImplementUtil.getImplementManager();
         ImplementConfig<T> config = implementManager.getImplementConfig(interfaceClass);
-        for(String implClass: config.getImplementations()) {
-            Class<? extends T> clazz = implementManager.loadClass(implClass, interfaceClass, null);
-            T instance = implementManager.createInstance(clazz, interfaceClass);
-            function.apply(instance);
+        if (config != null) {
+            for (String implClass : config.getImplementations()) {
+                Class<? extends T> clazz = implementManager.loadClass(implClass, interfaceClass, null);
+                T instance = implementManager.createInstance(clazz, interfaceClass);
+                function.apply(instance);
+            }
         }
     }
 
