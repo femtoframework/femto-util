@@ -236,4 +236,104 @@ public interface Parameters<V> extends Map<String, V> {
             return new ParametersMap<>(value);
         }
     }
+
+    /**
+     * Constructs a simple parameters
+     *
+     * @param key Key1
+     * @param value Value1
+     * @param <V> Value type
+     * @return parameters
+     */
+    static <V> Parameters<V> of(String key, V value) {
+        ParametersMap<V> map = new ParametersMap<>();
+        map.put(key, value);
+        return map;
+    }
+
+    /**
+     * Constructs a simple parameters
+     *
+     * @param key1 Key1
+     * @param value1 Value1
+     * @param key2 Key2
+     * @param value2 Value2
+     * @param <V> Value type
+     * @return parameters
+     */
+    static <V> Parameters<V> of(String key1, V value1, String key2, V value2) {
+        ParametersMap<V> map = new ParametersMap<>();
+        map.put(key1, value1);
+        map.put(key2, value2);
+        return map;
+    }
+
+    /**
+     * Constructs a simple parameters
+     *
+     * @param key1 Key1
+     * @param value1 Value1
+     * @param key2 Key2
+     * @param value2 Value2
+     * @param key3 Key3
+     * @param value3 Value3
+     * @param <V> Value type
+     * @return parameters
+     */
+    static <V> Parameters<V> of(String key1, V value1, String key2, V value2, String key3, V value3) {
+        ParametersMap<V> map = new ParametersMap<>();
+        map.put(key1, value1);
+        map.put(key2, value2);
+        map.put(key3, value3);
+        return map;
+    }
+
+    /**
+     * Constructs a simple parameters
+     *
+     * @param key1 Key1
+     * @param value1 Value1
+     * @param key2 Key2
+     * @param value2 Value2
+     * @param key3 Key3
+     * @param value3 Value3
+     * @param key4 Key4
+     * @param value4 Value4
+     * @param <V> Value type
+     * @return parameters
+     */
+    static <V> Parameters<V> of(String key1, V value1, String key2, V value2, String key3, V value3, String key4, V value4) {
+        ParametersMap<V> map = new ParametersMap<>();
+        map.put(key1, value1);
+        map.put(key2, value2);
+        map.put(key3, value3);
+        map.put(key4, value4);
+        return map;
+    }
+
+    /**
+     * Constructs a simple parameters
+     *
+     * @param key1 Key1
+     * @param value1 Value1
+     * @param key2 Key2
+     * @param value2 Value2
+     * @param key3 Key3
+     * @param value3 Value3
+     * @param key4 Key4
+     * @param value4 Value4
+     * @param key5 Key5
+     * @param value5 Value5
+     * @param <V> Value type
+     * @return parameters
+     */
+    static <V> Parameters<V> of(String key1, V value1, String key2, V value2, String key3, V value3, String key4, V value4, String key5, V value5) {
+        ParametersMap<V> map = new ParametersMap<>();
+        map.put(key1, value1);
+        map.put(key2, value2);
+        map.put(key3, value3);
+        map.put(key4, value4);
+        map.put(key5, value5);
+        return map;
+    }
 }
