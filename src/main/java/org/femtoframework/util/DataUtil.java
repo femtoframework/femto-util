@@ -2,15 +2,17 @@ package org.femtoframework.util;
 
 import org.femtoframework.parameters.Parameters;
 import org.femtoframework.parameters.ParametersMap;
-import org.femtoframework.text.SimpleDate;
-import org.femtoframework.text.SimpleTime;
 
 import java.lang.reflect.Array;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.temporal.*;
 import java.util.*;
+
+import static java.time.temporal.ChronoField.MILLI_OF_SECOND;
+import static java.time.temporal.ChronoField.OFFSET_SECONDS;
 
 /**
  * Data Util
@@ -361,6 +363,14 @@ public interface DataUtil extends DataTypes {
                 result = defValue;
             }
         }
+        else if (value instanceof Temporal) {//Seconds
+            Temporal temporal = (Temporal)value;
+            return temporal.get(OFFSET_SECONDS);
+        }
+        else if (value instanceof TemporalAmount) {
+            TemporalAmount amount = (TemporalAmount)value;
+            return (int)amount.get(ChronoUnit.SECONDS);
+        }
         else if (value instanceof Boolean) {
             Boolean b = (Boolean)value;
             return b ? 1 : 0;
@@ -399,9 +409,17 @@ public interface DataUtil extends DataTypes {
                 result = defValue;
             }
         }
+        else if (value instanceof Temporal) {//Milliseconds
+            Temporal temporal = (Temporal)value;
+            return temporal.getLong(MILLI_OF_SECOND);
+        }
+        else if (value instanceof TemporalAmount) {//Milliseconds
+            TemporalAmount amount = (TemporalAmount)value;
+            return amount.get(ChronoUnit.MILLIS);
+        }
         else if (value instanceof Boolean) {
             Boolean b = (Boolean)value;
-            return b ? 1l : 0l;
+            return b ? 1L : 0L;
         }
         else {
             result = defValue;
@@ -483,6 +501,10 @@ public interface DataUtil extends DataTypes {
                 result = defValue;
             }
         }
+        else if (value instanceof Temporal) {//Milliseconds
+            Temporal temporal = (Temporal)value;
+            return temporal.getLong(MILLI_OF_SECOND);
+        }
         else if (value instanceof Boolean) {
             Boolean b = (Boolean)value;
             return b ? 1d : 0d;
@@ -554,6 +576,14 @@ public interface DataUtil extends DataTypes {
                 || value instanceof Boolean
                 || value instanceof Character) {
             str = value.toString();
+        }
+        else if (value instanceof Temporal) {
+            Temporal temporal = (Temporal)value;
+            return temporal.toString();
+        }
+        else if (value instanceof TemporalAmount) {
+            TemporalAmount amount = (TemporalAmount)value;
+            return amount.toString();
         }
         else {
             str = defValue;
@@ -1113,8 +1143,8 @@ public interface DataUtil extends DataTypes {
                     }
                 }
             }
-            else if (obj instanceof SimpleDate) {
-                return ((SimpleDate)obj).getDate();
+            else if (obj instanceof Temporal) {
+                return new Date(((Temporal)obj).getLong(MILLI_OF_SECOND));
             }
             return defValue;
         }
@@ -1144,9 +1174,8 @@ public interface DataUtil extends DataTypes {
                 return defValue;
             }
         }
-        else if (obj instanceof SimpleDate) {
-            Date date = ((SimpleDate)obj).getDate();
-            return new Timestamp(date.getTime());
+        else if (obj instanceof Temporal) {
+            return new Timestamp (((Temporal)obj).getLong(MILLI_OF_SECOND));
         }
         return defValue;
     }
@@ -1165,7 +1194,7 @@ public interface DataUtil extends DataTypes {
             return new Time(((Date)obj).getTime());
         }
         else if (obj instanceof Long) {
-            return new Time(((Long)obj).longValue());
+            return new Time(((Long)obj));
         }
         else if (obj instanceof String) {
             try {
@@ -1175,11 +1204,9 @@ public interface DataUtil extends DataTypes {
                 return defValue;
             }
         }
-        else if (obj instanceof SimpleTime) {
-            SimpleTime time = (SimpleTime)obj;
-            Calendar calendar = Calendar.getInstance();
-            time.copyTo(calendar);
-            return new Time(calendar.getTime().getTime());
+        else if (obj instanceof Temporal) {
+            Temporal temporal = (Temporal)obj;
+            return new Time(temporal.getLong(MILLI_OF_SECOND));
         }
         return defValue;
     }

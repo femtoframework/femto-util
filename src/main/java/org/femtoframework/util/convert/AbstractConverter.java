@@ -9,7 +9,7 @@ package org.femtoframework.util.convert;
 public abstract class AbstractConverter<T>
     implements DataConverter<T>
 {
-    private String type;
+    protected String type;
     private T defaultValue;
 
     /**

@@ -40,8 +40,8 @@ public interface DataTypes {
     String TYPE_DATE = "date";
     String TYPE_TIME = "time";
     String TYPE_TIMESTAMP = "timestamp";
-    String TYPE_SIMPLE_DATE = "simple_date";
-    String TYPE_SIMPLE_TIME = "simple_time";
+//    String TYPE_SIMPLE_DATE = "simple_date";
+//    String TYPE_SIMPLE_TIME = "simple_time";
 
     //Array
     String TYPE_INTS = "ints";
@@ -76,5 +76,21 @@ public interface DataTypes {
     String TYPE_MAP = "map";  //HashMap
     String TYPE_PARAMETERS = "parameters"; //Parameters
     String TYPE_SET = "set";
+
+    //Java8.Time
+    String TYPE_DURATION = "duration";
+    String TYPE_INSTANT = "instant";
+    String TYPE_LOCAL_DATE = "local_date";
+    String TYPE_LOCAL_TIME = "local_time";
+    String TYPE_LOCAL_DATE_TIME = "local_date_time";
+    String TYPE_MONTH_DAY = "month_day";
+    String TYPE_OFFSET_DATE_TIME = "offset_date_time";
+    String TYPE_OFFSET_TIME = "offset_time";
+    String TYPE_PERIOD = "period";
+    String TYPE_YEAR = "year";
+    String TYPE_YEAR_MONTH = "year_month";
+    String TYPE_ZONED_DATE_TIME = "zoned_date_time";
+    String TYPE_ZONE_OFFSET = "zone_offset";
+
 }
 
