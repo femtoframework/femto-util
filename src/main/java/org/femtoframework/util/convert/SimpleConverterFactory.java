@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.femtoframework.implement.ImplementUtil;
+import org.femtoframework.util.DataType;
 import org.femtoframework.util.convert.time.TemporalAmountConverter;
 import org.femtoframework.util.convert.time.TemporalConverter;
 
@@ -147,6 +148,10 @@ public class SimpleConverterFactory implements ConverterFactory
         put("java.util.Set", converter);
         put("java.util.HashSet", converter);
 
+        converter = new PropertiesConverter();
+        put(TYPE_PROPERTIES, converter);
+        put("java.util.Properties", converter);
+
         converter = new ParametersConverter();
         put(TYPE_PARAMETERS, converter);
         put("org.femtoframework.parameters.Parameters", converter);
@@ -154,27 +159,27 @@ public class SimpleConverterFactory implements ConverterFactory
         
         
         //Time
-        converter = new TemporalAmountConverter(TYPE_PERIOD);
+        converter = new TemporalAmountConverter(DataType.PERIOD);
         put(TYPE_PERIOD, converter);
         put("java.time.Period", converter);
 
-        converter = new TemporalAmountConverter(TYPE_DURATION);
+        converter = new TemporalAmountConverter(DataType.DURATION);
         put(TYPE_DURATION, converter);
         put("java.time.Duration", converter);
 
-        converter = new TemporalConverter(TYPE_INSTANT);
+        converter = new TemporalConverter(DataType.INSTANT);
         put(TYPE_INSTANT, converter);
         put("java.time.Instant", converter);
 
-        converter = new TemporalConverter(TYPE_LOCAL_DATE);
+        converter = new TemporalConverter(DataType.LOCAL_DATE);
         put(TYPE_LOCAL_DATE, converter);
         put("java.time.LocalDate", converter);
 
-        converter = new TemporalConverter(TYPE_LOCAL_TIME);
+        converter = new TemporalConverter(DataType.LOCAL_TIME);
         put(TYPE_LOCAL_TIME, converter);
         put("java.time.LocalTime", converter);
 
-        converter = new TemporalConverter(TYPE_LOCAL_DATE_TIME);
+        converter = new TemporalConverter(DataType.LOCAL_DATE_TIME);
         put(TYPE_LOCAL_DATE_TIME, converter);
         put("java.time.LocalDateTime", converter);
     }

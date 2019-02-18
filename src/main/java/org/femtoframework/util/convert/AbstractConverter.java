@@ -1,5 +1,7 @@
 package org.femtoframework.util.convert;
 
+import org.femtoframework.util.DataType;
+
 /**
  * Abstract Converter
  *
@@ -31,6 +33,10 @@ public abstract class AbstractConverter<T>
 
     protected AbstractConverter(String type) {
         this.type = type;
+    }
+
+    protected AbstractConverter(DataType dataType) {
+        this(dataType.getName());
     }
 
     protected AbstractConverter(String type, T defaultValue) {

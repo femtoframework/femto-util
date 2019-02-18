@@ -1,5 +1,6 @@
 package org.femtoframework.util.convert.time;
 
+import org.femtoframework.util.DataType;
 import org.femtoframework.util.convert.AbstractConverter;
 
 import java.time.Duration;
@@ -31,8 +32,11 @@ import java.time.temporal.TemporalAmount;
  */
 public class TemporalAmountConverter<TA extends TemporalAmount> extends AbstractConverter<TA> {
 
-    public TemporalAmountConverter(String type) {
+    private DataType dataType;
+
+    public TemporalAmountConverter(DataType type) {
         super(type);
+        this.dataType = type;
     }
 
 
@@ -47,10 +51,10 @@ public class TemporalAmountConverter<TA extends TemporalAmount> extends Abstract
     protected TA doConvert(Object obj, TA defValue) {
         if (obj instanceof CharSequence) {
             try {
-                switch (type) {
-                    case "period":
+                switch (dataType) {
+                    case PERIOD:
                         return (TA) Period.parse((CharSequence) obj);
-                    case "duration":
+                    case DURATION:
                         return (TA) Duration.parse((CharSequence) obj);
                 }
             }
@@ -59,18 +63,18 @@ public class TemporalAmountConverter<TA extends TemporalAmount> extends Abstract
             }
         }
         else if (obj instanceof Long) {
-            switch (type) {
-                case "period": //Days
+            switch (dataType) {
+                case PERIOD: //Days
                     return (TA) Period.ofDays(((Long)obj).intValue());
-                case "duration"://Milliseconds
+                case DURATION://Milliseconds
                     return (TA) Duration.ofMillis((Long)obj);
             }
         }
         else if (obj instanceof Integer) {
-            switch (type) {
-                case "period": //Days
+            switch (dataType) {
+                case PERIOD: //Days
                     return (TA) Period.ofDays((Integer)obj);
-                case "duration": //Seconds
+                case DURATION: //Seconds
                     return (TA) Duration.of((Integer)obj, ChronoUnit.SECONDS);
             }
         }

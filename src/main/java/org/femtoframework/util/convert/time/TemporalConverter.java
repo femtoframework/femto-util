@@ -1,5 +1,6 @@
 package org.femtoframework.util.convert.time;
 
+import org.femtoframework.util.DataType;
 import org.femtoframework.util.convert.AbstractConverter;
 
 import java.time.Instant;
@@ -26,8 +27,11 @@ import java.time.temporal.Temporal;
  */
 public class TemporalConverter <T extends Temporal> extends AbstractConverter<T> {
 
-    public TemporalConverter(String type) {
+    private DataType dataType;
+
+    public TemporalConverter(DataType type) {
         super(type);
+        this.dataType = type;
     }
 
     /**
@@ -42,14 +46,14 @@ public class TemporalConverter <T extends Temporal> extends AbstractConverter<T>
         if (obj instanceof CharSequence) {
             CharSequence seq = (CharSequence)obj;
             try {
-                switch (type) {
-                    case "instant":
+                switch (dataType) {
+                    case INSTANT:
                         return (T) Instant.parse(seq);
-                    case "local_date":
+                    case LOCAL_DATE:
                         return (T) LocalDate.parse(seq);
-                    case "local_time":
+                    case LOCAL_TIME:
                         return (T) LocalTime.parse(seq);
-                    case "local_date_time":
+                    case LOCAL_DATE_TIME:
                         return (T) LocalDateTime.parse(seq);
                 }
             }
