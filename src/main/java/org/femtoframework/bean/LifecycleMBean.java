@@ -73,7 +73,7 @@ public interface LifecycleMBean extends Lifecycle, InitializableMBean {
     }
 
     /**
-     * Initiliaze internally
+     * Initialize internally
      */
     default void _doInitialize() {
 
@@ -86,6 +86,9 @@ public interface LifecycleMBean extends Lifecycle, InitializableMBean {
      */
     default void start() {
         if (getBeanPhase().ordinal() < BeanPhase.STARTING.ordinal() ) {
+            //Make sure it has call initialized already
+            initialize();
+
             _doSetPhase(BeanPhase.STARTING);
             _doStart();
             _doSetPhase(BeanPhase.STARTED);
@@ -121,6 +124,10 @@ public interface LifecycleMBean extends Lifecycle, InitializableMBean {
      */
     default void destroy() {
         if (getBeanPhase().ordinal() < BeanPhase.DESTROYING.ordinal() ) {
+
+            //Stop first
+            stop();
+
             _doSetPhase(BeanPhase.DESTROYING);
             _doDestroy();
             _doSetPhase(BeanPhase.DESTROYED);
