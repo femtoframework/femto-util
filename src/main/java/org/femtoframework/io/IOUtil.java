@@ -231,4 +231,18 @@ public class IOUtil {
         }
         return total;
     }
+
+    /**
+     * Close the closeable quietly
+     *
+     * @param closeable Closeable
+     */
+    public static void close(Closeable closeable) {
+        try {
+            closeable.close();
+        }
+        catch(IOException ioe) {
+            //
+        }
+    }
 }
