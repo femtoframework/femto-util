@@ -43,6 +43,6 @@ public class EventListeners<L extends EventListener> implements EventListener {
     }
 
     public void removeListener(L listener) {
-        listeners.add(listener);
+        listeners.remove(listener);
     }
 }
