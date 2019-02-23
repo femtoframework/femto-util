@@ -1,12 +1,12 @@
 package org.femtoframework.util.timer;
 
-import junit.framework.Assert;
-import org.junit.Ignore;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Calendar;
 import java.util.Date;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -59,9 +59,9 @@ public class CronEntryTest {
         long next = entry.getNextRunningTime();
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(next);
-        Assert.assertEquals(calendar.get(Calendar.DAY_OF_MONTH), nextDay);
-        Assert.assertEquals(calendar.get(Calendar.HOUR_OF_DAY), 0);
-        Assert.assertEquals(calendar.get(Calendar.MINUTE), 50);
+        assertEquals(calendar.get(Calendar.DAY_OF_MONTH), nextDay);
+        assertEquals(calendar.get(Calendar.HOUR_OF_DAY), 0);
+        assertEquals(calendar.get(Calendar.MINUTE), 50);
     }
 
     @Test

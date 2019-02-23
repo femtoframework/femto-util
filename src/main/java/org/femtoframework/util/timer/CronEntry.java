@@ -352,7 +352,8 @@ public class CronEntry
      */
     public Calendar next(long now)
     {
-        if (Math.abs(nextRunningTime - now) < 1000) {
+        long time = Math.abs(nextRunningTime - now);
+        if (time < 1000) {
             now = Math.max(nextRunningTime, now) + 1000;
         }
         Calendar cal = Calendar.getInstance();

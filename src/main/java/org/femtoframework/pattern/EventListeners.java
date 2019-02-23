@@ -17,6 +17,14 @@ public class EventListeners<L extends EventListener> implements EventListener {
         this.listeners.add(listener);
     }
 
+    public EventListeners(List<L> listeners) {
+        this.listeners = listeners;
+    }
+
+    public int getListenerCount() {
+        return listeners.size();
+    }
+
     public List<L> getListeners() {
         return listeners;
     }
