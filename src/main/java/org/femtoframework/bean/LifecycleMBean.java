@@ -73,13 +73,6 @@ public interface LifecycleMBean extends Lifecycle, InitializableMBean {
     }
 
     /**
-     * Initialize internally
-     */
-    default void _doInitialize() {
-
-    }
-
-    /**
      * Start
      *
      * @throws org.femtoframework.bean.exception.StartException
@@ -96,12 +89,6 @@ public interface LifecycleMBean extends Lifecycle, InitializableMBean {
     }
 
     /**
-     * Start internally
-     */
-    default void _doStart() {
-    }
-
-    /**
      * Stop the bean
      */
     default void stop() {
@@ -112,11 +99,6 @@ public interface LifecycleMBean extends Lifecycle, InitializableMBean {
         }
     }
 
-    /**
-     * Stop internally
-     */
-    default void _doStop() {
-    }
 
 
     /**
@@ -132,6 +114,25 @@ public interface LifecycleMBean extends Lifecycle, InitializableMBean {
             _doDestroy();
             _doSetPhase(BeanPhase.DESTROYED);
         }
+    }
+
+    /**
+     * Initialize internally
+     */
+    default void _doInitialize() {
+
+    }
+
+    /**
+     * Start internally
+     */
+    default void _doStart() {
+    }
+
+    /**
+     * Stop internally
+     */
+    default void _doStop() {
     }
 
     /**
