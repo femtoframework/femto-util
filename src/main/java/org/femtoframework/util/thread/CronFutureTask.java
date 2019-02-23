@@ -52,10 +52,6 @@ class CronFutureTask<V> extends ScheduledFutureTask<V>
      */
     public long nextExecutionTime(long now)
     {
-        long period = Math.abs(nextExecutionTime - now);
-        if (period < 1000) {
-            now = Math.max(nextExecutionTime, now) + 1000;
-        }
         return entry.nextRunningTime(now);
     }
 }

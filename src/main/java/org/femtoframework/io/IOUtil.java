@@ -245,4 +245,136 @@ public class IOUtil {
             //
         }
     }
+
+    /**
+     * 从输入流中读取给定长度的数据
+     *
+     * @param input 输入流
+     * @param bytes 要填充的数俎
+     * @param off   起始位置
+     * @param len   长度
+     */
+    public static int readFully(InputStream input,
+                                byte[] bytes, int off, int len)
+            throws IOException
+    {
+        if (len < 0) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        int n = 0;
+        int read;
+        while (n < len) {
+            read = input.read(bytes, off + n, len - n);
+            if (read <= 0) {
+                break;
+            }
+            n += read;
+        }
+        return n;
+    }
+
+    /**
+     * 从输入流中读取数据填充数组
+     *
+     * @param input 输入流
+     * @param bytes 要填充的数俎
+     */
+    public static int readFully(InputStream input, byte[] bytes)
+            throws IOException
+    {
+        return readFully(input, bytes, 0, bytes.length);
+    }
+
+    /**
+     * 从Reader中读取给定长度的数据
+     *
+     * @param reader Reader
+     * @param chars  要填充的数俎
+     * @param off    起始位置
+     * @param len    长度
+     */
+    public static int readFully(Reader reader,
+                                char[] chars, int off, int len)
+            throws IOException
+    {
+        if (len < 0) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        int n = 0;
+        int read;
+        while (n < len) {
+            read = reader.read(chars, off + n, len - n);
+            if (read <= 0) {
+                break;
+            }
+            n += read;
+        }
+        return n;
+    }
+
+    /**
+     * 从Reader中读取数据填充数组
+     *
+     * @param reader Reader
+     * @param chars  要填充的数俎
+     */
+    public static int readFully(Reader reader, char[] chars)
+            throws IOException
+    {
+        return readFully(reader, chars, 0, chars.length);
+    }
+
+    /**
+     * 读取一行的数据
+     *
+     * @param input 输入流
+     * @param bytes 数据
+     * @param off   起始位置
+     * @param len   长度
+     */
+    public static int readLine(InputStream input,
+                               byte[] bytes, int off, int len)
+            throws IOException {
+        if (len <= 0) {
+            return 0;
+        }
+
+        int count = 0, c;
+        while ((c = input.read()) != -1) {
+            bytes[off++] = (byte)c;
+            count++;
+            if (c == '\n' || count == len) {
+                break;
+            }
+        }
+        return count > 0 ? count : -1;
+    }
+
+    /**
+     * 读取一行的数据
+     *
+     * @param reader 输入流
+     * @param chars  数据
+     * @param off    起始位置
+     * @param len    长度
+     */
+    public static int readLine(Reader reader,
+                               char[] chars, int off, int len)
+            throws IOException {
+        if (len <= 0) {
+            return 0;
+        }
+
+        int count = 0, c;
+        while ((c = reader.read()) != -1) {
+            chars[off++] = (char)c;
+            count++;
+            if (c == '\n' || count == len) {
+                break;
+            }
+        }
+        return count > 0 ? count : -1;
+    }
 }
