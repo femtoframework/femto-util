@@ -59,7 +59,7 @@ public class SingleThreadScheduler extends AbstractExecutorService implements Li
     }
 
     protected void ensureStarted() {
-        if (BeanPhase.STARTED.isBeforeOrCurrent(getBeanPhase())) {
+        if (getBeanPhase().isBefore(BeanPhase.STARTING)) {
             start();
         }
     }

@@ -135,7 +135,24 @@ public enum BeanPhase {
      * Check the current Phase is before the given Phase?
      *
      * @param phase Phase
-     * @return
+     */
+    public boolean isBefore(BeanPhase phase) {
+        return ordinal() < phase.ordinal();
+    }
+
+    /**
+     * Check the current Phase is after the given Phase
+     *
+     * @param phase Phase
+     */
+    public boolean isAfter(BeanPhase phase) {
+        return ordinal() > phase.ordinal();
+    }
+
+    /**
+     * Check the current Phase is before the given Phase?
+     *
+     * @param phase Phase
      */
     public boolean isBeforeOrCurrent(BeanPhase phase) {
         return ordinal() <= phase.ordinal();
@@ -145,7 +162,6 @@ public enum BeanPhase {
      * Check the current Phase is same or after the given Phase
      *
      * @param phase Phase
-     * @return
      */
     public boolean isAfterOrCurrent(BeanPhase phase) {
         return ordinal() >= phase.ordinal();
