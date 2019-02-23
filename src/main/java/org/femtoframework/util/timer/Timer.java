@@ -151,7 +151,7 @@ public class Timer
             throw new IllegalArgumentException("Negative delay.");
 //            delay = 0;
         }
-        if (period <= 0) {
+        if (period < 0) {
             throw new IllegalArgumentException("Non-positive period:" + period);
         }
         sched(task, System.currentTimeMillis() + delay, -period);
@@ -197,7 +197,7 @@ public class Timer
 //            delay = 0;
         }
         if (period <= 0) {
-            throw new IllegalArgumentException("Non-positive period.");
+            throw new IllegalArgumentException("Non-positive period:" + period);
         }
         sched(task, System.currentTimeMillis() + delay, period);
     }

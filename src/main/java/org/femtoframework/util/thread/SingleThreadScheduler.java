@@ -150,7 +150,11 @@ public class SingleThreadScheduler extends AbstractExecutorService implements Li
         task.setCron(cron);
         long now = System.currentTimeMillis();
         long next = task.nextExecutionTime(now);
-        timer.schedule(task, next - now, next - now);
+        long period = next - now;
+        if (period <= 0) {
+            period = 1000;
+        }
+        timer.schedule(task, period, period);
         return task;
     }
 
