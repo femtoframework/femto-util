@@ -9,6 +9,7 @@ import org.femtoframework.bean.info.PropertyInfo;
 import org.femtoframework.lang.reflect.Reflection;
 import org.femtoframework.parameters.Parameters;
 import org.femtoframework.parameters.ParametersMap;
+import org.femtoframework.text.NamingConvention;
 
 import java.util.*;
 
@@ -82,7 +83,12 @@ public class SimpleBeanInfo implements BeanInfo {
      */
     @Override
     public PropertyInfo getProperty(String propertyName) {
-        return properties.get(propertyName);
+        PropertyInfo propertyInfo =  properties.get(propertyName);
+        if (propertyInfo == null) {
+            String formatted = NamingConvention.format(propertyName);
+            return properties.get(formatted);
+        }
+        return propertyInfo;
     }
 
     /**
