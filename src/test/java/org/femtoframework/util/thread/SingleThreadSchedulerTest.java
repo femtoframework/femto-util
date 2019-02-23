@@ -57,8 +57,8 @@ public class SingleThreadSchedulerTest
     {
         SingleThreadScheduler scheduler = new SingleThreadScheduler();
         TestRunnable tr = new TestRunnable();
-        ScheduledFuture future = scheduler.schedule(tr,"60/10 * *");
-        Thread.sleep(8*1000);
+        ScheduledFuture future = scheduler.schedule(tr,"60/5 * *");
+        Thread.sleep(7*1000);
         assertTrue(tr.getCount() > 0);
         future.cancel(true);
         //todo test Cron
