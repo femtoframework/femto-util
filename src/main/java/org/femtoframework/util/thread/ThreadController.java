@@ -22,6 +22,7 @@ public class ThreadController extends LifecycleThread implements Executor, Logga
      *
      * @see ThreadContainer
      */
+    @Ignore
     private ThreadContainer container;
 
     /**

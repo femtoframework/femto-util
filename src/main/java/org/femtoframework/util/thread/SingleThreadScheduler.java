@@ -1,6 +1,7 @@
 package org.femtoframework.util.thread;
 
 import org.femtoframework.bean.BeanPhase;
+import org.femtoframework.bean.annotation.Ignore;
 import org.femtoframework.util.timer.RunnableTask;
 import org.femtoframework.util.timer.Timer;
 
@@ -14,6 +15,7 @@ import java.util.concurrent.*;
  */
 public class SingleThreadScheduler extends AbstractExecutorService implements LifecycleExecutorService, ScheduleService {
 
+    @Ignore
     private Timer timer;
 
     private boolean daemon = false;
