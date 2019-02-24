@@ -377,4 +377,57 @@ public class IOUtil {
         }
         return count > 0 ? count : -1;
     }
+
+    /**
+     * Skip given number of bytes
+     *
+     * @param is
+     * @param n
+     * @throws java.io.IOException
+     */
+    public static int skipFully(InputStream is, int n)
+            throws IOException {
+        //skip data
+        ByteBuffer byteBuf = getByteBuffer();
+        byte[] buf = byteBuf.array();
+        int bufLen;
+        int left = n;
+        while (left > 0) {
+            bufLen = is.read(buf, 0, Math.min(BYTE_BUFFER_SIZE, left));
+            if (bufLen > 0) {
+                left -= bufLen;
+            }
+            else {
+                break;
+            }
+        }
+        return n - left;
+    }
+
+
+    /**
+     * Skip given number of bytes
+     *
+     * @param reader
+     * @param n
+     * @throws java.io.IOException
+     */
+    public static int skipFully(Reader reader, int n)
+            throws IOException {
+        //skip data
+        CharBuffer charBuf = getCharBuffer();
+        char[] buf = charBuf.array();
+        int bufLen;
+        int left = n;
+        while (left > 0) {
+            bufLen = reader.read(buf, 0, Math.min(CHAR_BUFFER_SIZE, left));
+            if (bufLen > 0) {
+                left -= bufLen;
+            }
+            else {
+                break;
+            }
+        }
+        return n - left;
+    }
 }
