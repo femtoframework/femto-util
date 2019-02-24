@@ -33,7 +33,7 @@ public class SimpleImplementConfig<T> implements ImplementConfig<T> {
 
     private Class<T> interfaceClass;
     private ImplementManager implementManager;
-    private List<String> implementations = Collections.EMPTY_LIST;
+    private List<String> implementations;
     private String name;
 
     public SimpleImplementConfig(Class<T> interfaceClass, String name, ImplementManager manager, List<String> implementations) {

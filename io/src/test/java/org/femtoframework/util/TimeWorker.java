@@ -10,8 +10,7 @@ import java.util.List;
  * @author fengyun
  * @version 2.0
  */
-public class TimeWorker
-        implements java.io.Serializable
+public class TimeWorker implements java.io.Serializable
 {
     public static final int INITIAL_SIZE = 5;
 
@@ -25,8 +24,8 @@ public class TimeWorker
 
     public TimeWorker(int initialSize)
     {
-        description = new ArrayList<String>(initialSize);
-        points = new ArrayList<Long>(initialSize);
+        description = new ArrayList<>(initialSize);
+        points = new ArrayList<>(initialSize);
     }
 
     public void addTimePoint()

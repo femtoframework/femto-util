@@ -392,7 +392,7 @@ public class SimpleImplementManager implements ImplementManager {
 
                         ImplementConfig<?> ic = config.get(name);
                         if (ic == null) {
-                            ic = new SimpleImplementConfig<>(interfaceClass, name, this, Collections.EMPTY_LIST);
+                            ic = new SimpleImplementConfig<>(interfaceClass, name, this, Collections.emptyList());
                             config.put(name, ic);
                         }
                         ic.setImplementation(implClass);
