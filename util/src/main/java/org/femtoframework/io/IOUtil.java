@@ -4,6 +4,7 @@ import java.io.*;
 import java.lang.ref.SoftReference;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
+import java.nio.channels.*;
 
 /**
  * IO Utilities
@@ -429,5 +430,66 @@ public class IOUtil {
             }
         }
         return n - left;
+    }
+
+
+    /**
+     * 关闭SelectableChannel，并且从选取器中取消
+     *
+     * @param channel
+     * @param selector
+     */
+    public static void close(SelectableChannel channel, Selector selector)
+    {
+        if (channel != null) {
+            if (selector != null) {
+                SelectionKey key = channel.keyFor(selector);
+                if (key != null) {
+                    key.cancel();
+                }
+            }
+            close(channel);
+        }
+    }
+
+    /**
+     * 关闭选取Key
+     *
+     * @param key SelectionKey
+     */
+    public static void close(SelectionKey key)
+    {
+        if (key != null) {
+            key.cancel();
+            close(key.channel());
+        }
+    }
+
+    /**
+     * 从一个通道中读取，写到另一个通道中去
+     *
+     * @param from
+     * @param to
+     * @return
+     */
+    public static int copyTo(ReadableByteChannel from, WritableByteChannel to)
+            throws IOException
+    {
+        if (from == null) {
+            throw new IllegalArgumentException("Null readable byte channel");
+        }
+        if (to == null) {
+            throw new IllegalArgumentException("Null writable byte channel");
+        }
+        ByteBuffer buffer = getByteBuffer();
+        int read = 0;
+        int r = 0;
+        while ((r = from.read(buffer)) > 0) {
+            read += r;
+            buffer.flip();
+            to.write(buffer);
+            buffer.clear();
+        }
+        return r < 0 && read == 0 ? r : read;
     }
 }

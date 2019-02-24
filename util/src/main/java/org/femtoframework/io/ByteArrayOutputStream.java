@@ -1,22 +1,9 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.femtoframework.io;
 
+import org.femtoframework.nio.ByteBufferPool;
+
 import java.io.*;
+import java.nio.ByteBuffer;
 
 /**
  * Couple differences with java.io.ByteArrayOutputStream
@@ -26,6 +13,10 @@ import java.io.*;
  */
 public class ByteArrayOutputStream extends OutputStream implements ByteData
 {
+    /**
+     * ByteBuffer
+     */
+    protected ByteBuffer buffer;
 
     /**
      * The buffer where data is stored.
@@ -49,42 +40,65 @@ public class ByteArrayOutputStream extends OutputStream implements ByteData
 
     /**
      * Creates a new byte array output stream. The buffer capacity is
-     * initially 256 bytes, though its size increases if necessary.
+     * initially 32 bytes, though its size increases if necessary.
      */
     public ByteArrayOutputStream()
     {
-        this(256);
+        this(1024);
     }
 
     /**
-     * Creates a new byte array output stream by given size
+     * Creates a new byte array output stream. The buffer capacity is
+     * initially 32 bytes, though its size increases if necessary.
      */
     public ByteArrayOutputStream(int size)
     {
         if (size < 0) {
             throw new IllegalArgumentException("Negative initial size: " + size);
         }
-        this.buf = new byte[size];
+        if (size <= ByteBufferPool.SIZE_1024) {
+            this.buffer = ByteBufferPool.allocate();
+            this.buf = buffer.array();
+        }
+        else if (size <= ByteBufferPool.SIZE_8192) {
+            this.buffer = ByteBufferPool.allocateBySize(size);
+            this.buf = buffer.array();
+        }
+        else {
+            this.buf = new byte[size];
+        }
+        this.count = 0;
     }
 
-    public ByteArrayOutputStream(byte[] buf) {
+    public ByteArrayOutputStream(byte[] buf)
+    {
         this.buf = buf;
+        this.count = 0;
     }
 
     private void ensureCapacity(int newCount)
     {
+        ByteBuffer newBuffer = null;
         byte newBuf[];
         int newSize = buf.length << 1;
         while (newSize < newCount) {
             newSize = newSize << 1;
         }
 
-        newBuf = new byte[newSize];
+        if (ByteBufferPool.hasPool(newSize)) {
+            newBuffer = ByteBufferPool.allocate(newSize);
+            newBuf = newBuffer.array();
+        }
+        else {
+            newBuf = new byte[newSize];
+        }
 
         if (count > 0) {
             System.arraycopy(buf, 0, newBuf, 0, count);
         }
         buf = newBuf;
+        ByteBufferPool.recycle(buffer);
+        buffer = newBuffer;
     }
 
     /**
@@ -116,7 +130,8 @@ public class ByteArrayOutputStream extends OutputStream implements ByteData
         ensureOpen();
         if ((off < 0) || (off > b.length) || (len < 0) ||
                 ((off + len) > b.length) || ((off + len) < 0)) {
-            throw new IndexOutOfBoundsException("Length of bytes:" + b.length + " off:" + off + " len:" + len);
+            throw new IndexOutOfBoundsException("Length of bytes:" + b.length
+                    + " off:" + off + " len:" + len);
         }
         else if (len == 0) {
             return;
@@ -213,7 +228,8 @@ public class ByteArrayOutputStream extends OutputStream implements ByteData
      *          If the named encoding is not supported.
      * @since JDK1.1
      */
-    public String toString(String enc) throws UnsupportedEncodingException
+    public String toString(String enc)
+            throws UnsupportedEncodingException
     {
         return new String(buf, 0, count, enc);
     }
@@ -226,10 +242,14 @@ public class ByteArrayOutputStream extends OutputStream implements ByteData
      */
     public void close()
     {
+        if (buffer != null) {
+            buf = null;
+            ByteBufferPool.recycle(buffer);
+            buffer = null;
+        }
         buf = null;
         count = -1;
     }
-
     public InputStream getInputStream() throws IOException
     {
         ensureOpen();
