@@ -9,6 +9,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.URL;
+import java.time.Instant;
+import java.time.temporal.Temporal;
+import java.time.temporal.TemporalAmount;
 import java.util.*;
 
 
@@ -408,10 +411,14 @@ public class Reflection
         if (clazz.isArray()) {
             Class componentType = clazz.getComponentType();
             //Avoid to use recursion
-            return isPrimitiveClass(componentType.getName()) || String.class == componentType || Enum.class.isAssignableFrom(componentType);
+            return isPrimitiveClass(componentType.getName()) || String.class == componentType ||
+                    Enum.class.isAssignableFrom(componentType) || Temporal.class.isAssignableFrom(componentType)
+                    || TemporalAmount.class.isAssignableFrom(componentType);
         }
         else {
-            return isPrimitiveClass(clazz.getName()) || String.class == clazz || Enum.class.isAssignableFrom(clazz);
+            return isPrimitiveClass(clazz.getName()) || String.class == clazz || Enum.class.isAssignableFrom(clazz)
+                    || Temporal.class.isAssignableFrom(clazz)
+                    || TemporalAmount.class.isAssignableFrom(clazz);
         }
     }
 
