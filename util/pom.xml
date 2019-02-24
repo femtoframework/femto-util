@@ -9,10 +9,9 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.femtoframework.util</groupId>
   <artifactId>femto-util</artifactId>
   <packaging>jar</packaging>
-  <version>0.7.0-SNAPSHOT</version>
+  <version>7.0.0-SNAPSHOT</version>
 
   <dependencies>
     <dependency>
