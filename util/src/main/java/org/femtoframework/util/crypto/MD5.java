@@ -199,13 +199,13 @@ public class MD5 {
     /*
        md5Transform是MD5核心变换程序，有md5Update调用，block是分块的原始字节
     */
-    private static final void transform(byte block[],
+    private static void transform(byte block[],
                                         int[] state,
                                         int[] dec) {
         int a = state[0], b = state[1], c = state[2], d = state[3];
         int[] x = dec;
 
-        decode(block, x, 64);
+        decode(block, x);
 
         /* Round 1 */
         a += ((b & c) | (~b & d)) + x[0] + 0xd76aa478; /* 1 */
@@ -378,9 +378,7 @@ public class MD5 {
     /**
      * Decode把byte数组按顺序合成成int数组
      */
-    private static void decode(byte[] input,
-                                     int[] output,
-                                     int len) {
+    private static void decode(byte[] input, int[] output) {
 /*
         int ch1, ch2, ch3, ch4;
         for (int i = 0, j = 0; j < len; i++) {
