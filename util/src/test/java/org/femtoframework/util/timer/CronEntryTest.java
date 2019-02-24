@@ -30,6 +30,7 @@ public class CronEntryTest {
         System.out.print(next);
         System.out.print("|");
         System.out.println(dif);
+        System.out.println();
         assertTrue(dif > 0 && dif < 60 * 1000);
     }
 
@@ -47,7 +48,8 @@ public class CronEntryTest {
         System.out.print(next);
         System.out.print("|");
         System.out.println(dif);
-        assertTrue(dif > 0 && dif < 60 * 1000);
+        System.out.println();
+        assertTrue(dif >= 0 && dif < 60 * 1000);
     }
 
     @Test
@@ -120,7 +122,7 @@ public class CronEntryTest {
         long now = System.currentTimeMillis();
         long next = entry.getNextRunningTime(now);
         System.out.println(now + "|" + next + "|" + (next - now));
-        assertTrue(next > now);
+        assertTrue(next >= now);
     }
 
     @Test

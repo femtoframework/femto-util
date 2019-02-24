@@ -192,4 +192,27 @@
     <url>https://github.com/femtoframework/femto-util</url>
     <tag>femto-util-7.0.0</tag>
   </scm>
+
+  <organization>
+    <name>FemtoFramework</name>
+  </organization>
+  <issueManagement>
+    <system>github</system>
+    <url>https://github.com/femtoframework/femto-util/issues</url>
+  </issueManagement>
+
+  <developers>
+    <developer>
+      <id>shaoxt</id>
+      <name>Sheldon Shao</name>
+      <url>https://www.linkedin.com/in/sheldon-shao-1330711b/</url>
+      <roles>
+        <role>Administrator</role>
+        <role>Developer</role>
+      </roles>
+      <properties>
+        <picUrl>https://avatars2.githubusercontent.com/u/1782780</picUrl>
+      </properties>
+    </developer>
+  </developers>
 </project>
