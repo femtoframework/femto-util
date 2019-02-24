@@ -1,6 +1,7 @@
 package org.femtoframework.io;
 
 import org.femtoframework.util.TimeWorker;
+import org.junit.Test;
 
 import java.io.*;
 
@@ -24,6 +25,7 @@ public class CodecUtilTest {
 
     public static final String STR3 = "apdfap";
 
+    @Test
     public void testReadUnsignedInt() throws Exception {
         assertEquals(0xFFFFFFFFL);
         assertEquals(0x12345678L);
@@ -40,6 +42,7 @@ public class CodecUtilTest {
         NutletBean.assertEquals(l, l2);
     }
 
+    @Test
     public void testWriteUnsignedInt() throws Exception {
         long l = 0xFFFFFFFFL;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -48,6 +51,7 @@ public class CodecUtilTest {
         NutletBean.assertEquals(bytes, new byte[]{(byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF});
     }
 
+    @Test
     public void testWriteString1() throws Exception {
         TimeWorker timer = new TimeWorker(3);
         timer.addTimePoint("WriteString1");
@@ -61,6 +65,7 @@ public class CodecUtilTest {
         timer.printResult();
     }
 
+    @Test
     public void testWriteString2() throws Exception {
         TimeWorker timer = new TimeWorker(3);
         timer.addTimePoint("WriteString2");
@@ -132,6 +137,7 @@ public class CodecUtilTest {
         }
     }
 
+    @Test
     public void testWriteUnsignedShort() throws Exception {
         assertEquals(0xFFFF);
         assertEquals(0x5678);
