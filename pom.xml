@@ -4,10 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.femtoframework</groupId>
-  <artifactId>femto-util</artifactId>
-  <packaging>jar</packaging>
-  <version>0.7.0-SNAPSHOT</version>
+  <groupId>org.femtoframework.util</groupId>
+  <artifactId>femto-parent</artifactId>
+  <packaging>pom</packaging>
+  <version>7.0.0-SNAPSHOT</version>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -15,24 +15,35 @@
     <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>1.7.7</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.inject</groupId>
-      <artifactId>javax.inject</artifactId>
-      <version>1</version>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.12</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+  <modules>
+    <module>util</module>
+  </modules>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>1.7.7</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.inject</groupId>
+        <artifactId>javax.inject</artifactId>
+        <version>1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.femtoframework.util</groupId>
+        <artifactId>femto-util</artifactId>
+        <version>7.0.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.12</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <build>
     <resources>
       <resource>
@@ -179,6 +190,6 @@
     <connection>scm:git:git@github.com:femtoframework/femto-util.git</connection>
     <developerConnection>scm:git:git@github.com:femtoframework/femto-util.git</developerConnection>
     <url>https://github.com/femtoframework/femto-util</url>
-    <tag>femto-util-0.7.0</tag>
+    <tag>femto-util-7.0.0</tag>
   </scm>
 </project>
