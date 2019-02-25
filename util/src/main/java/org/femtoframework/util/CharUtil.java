@@ -10,6 +10,14 @@ import org.femtoframework.util.crypto.Hex;
  */
 public interface CharUtil {
 
+    String LINE_SEPARATOR = System.getProperty("line.separator", "\n");
+    byte[] LINE_SEPARATOR_BYTES = LINE_SEPARATOR.getBytes();
+    char[] LINE_SEPARATOR_CHARS = LINE_SEPARATOR.toCharArray();
+
+    String CRLF = "\r\n";
+    byte[] CRLF_BYTES = CRLF.getBytes();
+    char[] CRLF_CHARS = CRLF.toCharArray();
+
     /**
      * Determine whether a character is a hexadecimal character.
      *
