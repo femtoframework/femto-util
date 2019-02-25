@@ -86,9 +86,9 @@ public class LocalizedStatusException extends StatusException implements Localiz
      * 格式说明:如果对应的资源文件路径为 org/femtoframework/util/i18n/error_zh_CN.properties的话<br>
      * 相应的资源URI为：org.femtoframework.util.i18n.error
      *
-     * @param resourceURI 资源URI
+     * @param resourcesURI 资源URI
      */
-    protected void setResourcesURI(String resourceURI) {
+    protected void setResourcesURI(String resourcesURI) {
         this.resourcesURI = resourcesURI;
     }
 

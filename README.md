@@ -1,5 +1,19 @@
 # femto-util
 Femto Utility
+### Parameters
+Typesafe Map
+### Convert
+Unified converter for different types of object conversion.
+For examples, converts String to Number, Instant, Date etc.
+### Thread
+Thread pool and crontab style scheduler
+### Implement
+Service Locator implementation
+### Bean
+Common interfaces and Bean Info helps POJO management
+
+### Pattern
+Common Design Pattern and Environment definition
 
 # femto-io
 Femto IO and Object Codec
