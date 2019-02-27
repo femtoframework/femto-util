@@ -50,13 +50,13 @@ public abstract class AbstractResourcesFactory
         Resources res = obj.get(locale);
         if (res == null) {
             try {
-                res = doCreate(name, locale);
+                res = doCreate(name, locale, false);
             }
             catch (MissingResourceException mre) {
                 //如果资源没有找到
                 Locale defaultLocale = LocaleUtil.getLocaleByLanguage(locale.getLanguage());
                 if (defaultLocale != null) {
-                    res = doCreate(name, defaultLocale);
+                    res = doCreate(name, defaultLocale, false);
                 }
             }
             if (res != null) {
@@ -66,7 +66,7 @@ public abstract class AbstractResourcesFactory
         return res;
     }
 
-    protected abstract Resources doCreate(String name, Locale locale);
+    protected abstract Resources doCreate(String name, Locale locale, boolean internal);
 
     /**
      * 只创建资源，不进行Cache
@@ -77,7 +77,7 @@ public abstract class AbstractResourcesFactory
      */
     public Resources createResources(String name, Locale locale)
     {
-        return doCreate(name, locale);
+        return doCreate(name, locale, false);
     }
 
     /**

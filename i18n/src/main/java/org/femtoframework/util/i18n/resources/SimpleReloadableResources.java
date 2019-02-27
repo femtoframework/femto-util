@@ -169,6 +169,6 @@ public class SimpleReloadableResources implements ReloadableResources
      */
     public void reload()
     {
-        resources = factory.doCreate(getName(), getLocale());
+        resources = factory.doCreate(getName(), getLocale(), true);
     }
 }

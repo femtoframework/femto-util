@@ -102,6 +102,10 @@ public class LocalizedStatusException extends StatusException implements Localiz
         return arguments;
     }
 
+    public String getLocalizedMessage() {
+        return LocalizedThrowable.super.getLocalizedMessage();
+    }
+
     /**
      * 根据MessageLocale返回完整的本地化消息，包括NextStatus的消息
      *

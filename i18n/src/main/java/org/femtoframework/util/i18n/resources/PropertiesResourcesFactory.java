@@ -17,10 +17,10 @@ public class PropertiesResourcesFactory extends AbstractResourcesFactory
      * @param locale
      * @return
      */
-    protected Resources doCreate(String name, Locale locale)
+    protected Resources doCreate(String name, Locale locale, boolean internal)
     {
         PropertiesResources resources = new PropertiesResources(name, locale);
-        if (resources.isReloadable()) {
+        if (!internal && resources.isReloadable()) {
             return new SimpleReloadableResources(this, resources);
         }
         return resources;
