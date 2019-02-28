@@ -17,9 +17,6 @@
 package org.femtoframework.implement;
 
 
-import java.util.*;
-
-
 /**
  * Implementation Utility
  *
@@ -274,8 +271,8 @@ public class ImplementUtil {
      *
      * @param implementInstance
      */
-    public static void initialize(Object implementInstance) {
-        manager.initialize(implementInstance);
+    public static void init(Object implementInstance) {
+        manager.init(implementInstance);
     }
 
     /**

@@ -271,7 +271,7 @@ public class SimpleImplementManager implements ImplementManager {
                     Class<? extends T> clazz = getImplement(name, interfaceClass, loader);
                     instance = createInstance0(clazz, interfaceClass);
                     setName(clazz, instance, name);
-                    initialize(instance);
+                    init(instance);
                     namedServiceCache.get(interfaceClass).put(name, instance);
                 }
             }
@@ -323,11 +323,11 @@ public class SimpleImplementManager implements ImplementManager {
      * @param implementInstance
      */
     @Override
-    public void initialize(Object implementInstance) {
-        initialize(implementInstance, implementInstance.getClass());
+    public void init(Object implementInstance) {
+        init(implementInstance, implementInstance.getClass());
     }
 
-    protected void initialize(Object implementInstance, Class clazz) {
+    protected void init(Object implementInstance, Class clazz) {
         if (implementInstance instanceof Initializable) {
             ((Initializable)implementInstance).init();
         }
@@ -345,7 +345,7 @@ public class SimpleImplementManager implements ImplementManager {
             if (!invoked) {
                 Class superClass = clazz.getSuperclass();
                 if (superClass != null && superClass != Object.class) {
-                    initialize(implementInstance, superClass);
+                    init(implementInstance, superClass);
                 }
             }
         }

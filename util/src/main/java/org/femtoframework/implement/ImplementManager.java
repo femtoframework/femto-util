@@ -263,7 +263,7 @@ public interface ImplementManager {
      *
      * @param implementInstance
      */
-    void initialize(Object implementInstance);
+    void init(Object implementInstance);
 
 
     /**
