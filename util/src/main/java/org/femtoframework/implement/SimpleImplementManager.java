@@ -329,7 +329,7 @@ public class SimpleImplementManager implements ImplementManager {
 
     protected void initialize(Object implementInstance, Class clazz) {
         if (implementInstance instanceof Initializable) {
-            ((Initializable)implementInstance).initialize();
+            ((Initializable)implementInstance).init();
         }
         else {
             Method[] methods = clazz.getDeclaredMethods();

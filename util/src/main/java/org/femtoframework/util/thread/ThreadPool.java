@@ -79,7 +79,7 @@ public class ThreadPool extends AbstractExecutorService implements ThreadContain
         stopThePool = false;
     }
 
-    public void _doInitialize()
+    public void _doInit()
     {
         if (logger == null) {
             logger = LoggerFactory.getLogger(getName());

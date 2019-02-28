@@ -29,7 +29,7 @@ public interface Lifecycle extends Initializable, Startable, Stoppable, Destroya
      *
      * @throws org.femtoframework.bean.exception.InitializeException
      */
-    default void initialize() {
+    default void init() {
     }
 
     /**

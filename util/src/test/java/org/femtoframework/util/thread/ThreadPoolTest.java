@@ -35,7 +35,7 @@ public class ThreadPoolTest
     public void testDoInit() throws Exception
     {
         ThreadPool pool = new ThreadPool();
-        pool.initialize();
+        pool.init();
     }
 
     /**
@@ -47,7 +47,7 @@ public class ThreadPoolTest
     public void testDoStart() throws Exception
     {
         ThreadPool pool = new ThreadPool();
-        pool.initialize();
+        pool.init();
         pool.start();
 
         pool.stop();
@@ -580,7 +580,7 @@ public class ThreadPoolTest
     public void testCreateThread() throws Exception
     {
         final ThreadPool pool = new ThreadPool();
-        pool.initialize();
+        pool.init();
 
         assertEquals(0, pool.getCurrentThreadCount());
         pool.createThread();

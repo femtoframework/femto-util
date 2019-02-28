@@ -135,7 +135,7 @@ public class SingleThreadExecutor extends AbstractExecutorService implements Lif
     /**
      * 初始化实现
      */
-    public void _doInitialize()
+    public void _doInit()
     {
         thread = new SingleThread();
         thread.setDaemon(daemon);

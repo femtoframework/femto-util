@@ -64,10 +64,10 @@ public interface LifecycleMBean extends Lifecycle, InitializableMBean {
      *
      * @throws org.femtoframework.bean.exception.InitializeException
      */
-    default void initialize() {
+    default void init() {
         if (getBeanPhase().ordinal() < BeanPhase.INITIALIZING.ordinal()) {
             _doSetPhase(BeanPhase.INITIALIZING);
-            _doInitialize();
+            _doInit();
             _doSetPhase(BeanPhase.INITIALIZED);
         }
     }
@@ -80,7 +80,7 @@ public interface LifecycleMBean extends Lifecycle, InitializableMBean {
     default void start() {
         if (getBeanPhase().ordinal() < BeanPhase.STARTING.ordinal() ) {
             //Make sure it has call initialized already
-            initialize();
+            init();
 
             _doSetPhase(BeanPhase.STARTING);
             _doStart();
@@ -119,7 +119,7 @@ public interface LifecycleMBean extends Lifecycle, InitializableMBean {
     /**
      * Initialize internally
      */
-    default void _doInitialize() {
+    default void _doInit() {
 
     }
 

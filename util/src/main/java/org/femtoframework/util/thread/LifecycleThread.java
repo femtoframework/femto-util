@@ -67,7 +67,7 @@ public abstract class LifecycleThread implements LifecycleMBean, Runnable, Named
         this.beanPhase = phase;
     }
 
-    public void _doInitialize()
+    public void _doInit()
     {
         thread = createThread();
         thread.setDaemon(daemon);
