@@ -239,11 +239,12 @@ public class IOUtil {
      * @param closeable Closeable
      */
     public static void close(Closeable closeable) {
-        try {
-            closeable.close();
-        }
-        catch(IOException ioe) {
-            //
+        if (closeable != null) {
+            try {
+                closeable.close();
+            } catch (IOException ioe) {
+                //
+            }
         }
     }
 

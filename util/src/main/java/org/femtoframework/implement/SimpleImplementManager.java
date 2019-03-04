@@ -128,6 +128,7 @@ public class SimpleImplementManager implements ImplementManager {
                 return clazz.newInstance();
             }
             catch (Exception e) {
+                throw new IllegalStateException("Create instance exception " + clazz, e);
             }
         }
         throw new IllegalStateException("No implement of the service " + interfaceClass);

@@ -498,6 +498,7 @@ public class ThreadPool extends AbstractExecutorService implements ThreadContain
             toOpen = maxThreads;
         }
 
+        int openThreads = 0;
         for (int i = currentThreadCount; i < toOpen; i++) {
             ThreadController controller = createThread();
 
@@ -505,10 +506,11 @@ public class ThreadPool extends AbstractExecutorService implements ThreadContain
                 pool[tail] = controller;
                 tail = ++tail % mask;
             }
+            openThreads ++;
         }
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("Open threads:" + toOpen);
+        if (logger.isDebugEnabled() && (openThreads) > 0) {
+            logger.debug("Open threads:" + openThreads);
         }
     }
 
