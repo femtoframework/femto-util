@@ -1,6 +1,12 @@
 package org.femtoframework.parameters;
 
 
+import org.femtoframework.io.DataCodec;
+
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.util.*;
 
 /**
@@ -8,7 +14,7 @@ import java.util.*;
  *
  * Created by xshao on 9/16/16.
  */
-public class ParametersMap<V> extends AbstractMap<String, V> implements Parameters<V> {
+public class ParametersMap<V> extends AbstractMap<String, V> implements Parameters<V>, Externalizable {
 
     protected Map<String, V> map;
 
@@ -55,5 +61,35 @@ public class ParametersMap<V> extends AbstractMap<String, V> implements Paramete
 
     public Map<String, V> toMap() {
         return map;
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeInt(map.size());
+        for(Map.Entry<String, V> entry: map.entrySet()) {
+            DataCodec.writeSingle(out, entry.getKey());
+            out.writeObject(entry.getValue());
+        }
+    }
+
+    @Override
+    public void readExternal(ObjectInput ois) throws IOException, ClassNotFoundException {
+        int size = ois.readInt();
+        if (size > 64 * 1024) {
+            throw new IOException("The map size is too big:" + size);
+        }
+
+        if (map == null) {
+            map = new HashMap<>((int)(size*1.2));
+        }
+        else {
+            map.clear();
+        }
+
+        for (int i = 0; i < size; i++) {
+            String key = DataCodec.readSingle(ois);
+            V value = (V)ois.readObject();
+            map.put(key, value);
+        }
     }
 }

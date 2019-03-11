@@ -30,6 +30,21 @@ import java.util.*;
 public interface ArrayUtil
 {
     /**
+     * 索引检查
+     *
+     * @param off   数组起始偏指
+     * @param len   有效访问长度
+     * @param index 索引
+     * @throws ArrayIndexOutOfBoundsException <code>index<off||index>=off+len</code>
+     */
+    static void indexCheck(int off, int len, int index)
+    {
+        if (index < off || index >= off + len) {
+            throw new ArrayIndexOutOfBoundsException("Index out of bound:" + index);
+        }
+    }
+
+    /**
      * Not Found
      */
     int NOT_FOUND = -1;
@@ -271,6 +286,50 @@ public interface ArrayUtil
         return true;
     }
 
+    /**
+     * 判断两个数组中的数组大小和每个元素是否相等<br>
+     *
+     * @param a1     数组1
+     * @param off1   起始位置1
+     * @param a2     数组2
+     * @param off2   起始位置2
+     * @param length 比较长度
+     * @return <tt>true</tt> 是否匹配
+     */
+    static boolean matches(Object[] a1, int off1,
+                                  Object[] a2, int off2,
+                                  int length)
+    {
+        return a1 == a2 || !(a1 == null || a2 == null) && matchesNoCheck(a1, off1, a2, off2, length);
+    }
+
+    /**
+     * 判断两个数组中的数组大小和每个元素是否相等<br>
+     *
+     * @param a1     数组1
+     * @param off1   起始位置1
+     * @param a2     数组2
+     * @param off2   起始位置2
+     * @param length 比较长度
+     * @return <tt>true</tt> 是否匹配
+     */
+    static boolean matchesNoCheck(Object[] a1, int off1,
+                                    Object[] a2, int off2,
+                                    int length)
+    {
+        int i = off1, max = off1 + length;
+        int j = off2;
+        Object obj1, obj2;
+        for (; i < max; i++, j++) {
+            obj1 = a1[i];
+            obj2 = a2[j];
+            if (!(obj1 == null ? obj2 == null : obj1.equals(obj2))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     // Search
 
     /**
@@ -456,5 +515,38 @@ public interface ArrayUtil
             }
         }
         return NOT_FOUND;
+    }
+
+    /**
+     * 对象数组到Iterator的转换
+     *
+     * @param array 对象数组
+     */
+    static <T> Enumeration<T> enumerate(T... array)
+    {
+        if (isInvalid(array)) {
+            return Collections.emptyEnumeration();
+        }
+        else {
+            return new ArrayIterator<T>(array);
+        }
+    }
+
+    /**
+     * 对象数组到Iterator的转换
+     *
+     * @param array 对象数组
+     * @param off   起始偏值
+     * @param len   需要被枚举的数组长度
+     *              Iterator的转换
+     */
+    static <T> Enumeration<T> enumerate(T[] array, int off, int len)
+    {
+        if (isInvalid(array) || len == 0 || off > len) {
+            return Collections.emptyEnumeration();
+        }
+        else {
+            return new ArrayIterator<T>(array, off, len);
+        }
     }
 }
