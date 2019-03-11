@@ -31,8 +31,8 @@ public class HexTest
     public void testDecode1() throws Exception
     {
         String str = NutletUtil.getString();
-        String encode = Hex.encode(str);
-        assertEquals(str, Hex.decode(encode));
+        String encode = Hex.encode(str, "utf8");
+        assertEquals(str, Hex.decode(encode, "utf8"));
     }
 
 
