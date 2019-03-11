@@ -65,10 +65,15 @@ public class ParametersMap<V> extends AbstractMap<String, V> implements Paramete
 
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
-        out.writeInt(map.size());
-        for(Map.Entry<String, V> entry: map.entrySet()) {
-            DataCodec.writeSingle(out, entry.getKey());
-            out.writeObject(entry.getValue());
+        if (map == null) {
+            out.writeInt(-1);
+        }
+        else {
+            out.writeInt(map.size());
+            for (Map.Entry<String, V> entry : map.entrySet()) {
+                DataCodec.writeSingle(out, entry.getKey());
+                out.writeObject(entry.getValue());
+            }
         }
     }
 
@@ -79,8 +84,13 @@ public class ParametersMap<V> extends AbstractMap<String, V> implements Paramete
             throw new IOException("The map size is too big:" + size);
         }
 
+        if (size < 0) {
+            map = null;
+            return;
+        }
+
         if (map == null) {
-            map = new HashMap<>((int)(size*1.2));
+            map = new HashMap<>(size == 0 ? 4 : (int)(size*1.2));
         }
         else {
             map.clear();
