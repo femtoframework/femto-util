@@ -4,7 +4,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <name>Femto Util</name>
   <groupId>org.femtoframework.util</groupId>
   <artifactId>femto-parent</artifactId>
   <packaging>pom</packaging>
@@ -16,6 +15,14 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <logback.version>1.2.3</logback.version>
   </properties>
+
+  <name>femto-util</name>
+  <description>Femto useful utilities</description>
+  <url>https://github.com/femtoframework/femto-util</url>
+  <organization>
+    <name>FemtoFraemwork</name>
+    <url>https://github.com/femtoframework/</url>
+  </organization>
 
   <modules>
     <module>util</module>
