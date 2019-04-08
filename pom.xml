@@ -232,9 +232,15 @@
     <tag>femto-util-7.0.0</tag>
   </scm>
 
-  <organization>
-    <name>FemtoFramework</name>
-  </organization>
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+      <comments>A business-friendly OSS license</comments>
+    </license>
+  </licenses>
+
   <issueManagement>
     <system>github</system>
     <url>https://github.com/femtoframework/femto-util/issues</url>
