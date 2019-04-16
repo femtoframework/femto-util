@@ -125,7 +125,7 @@ public interface FloatFormat {
 
     /**
      * 将浮点数格式化成"XXXX.XXX"的形式<br>
-     * 并追加到<code>StringBuffer</code>上去<br>
+     * 并追加到<code>StringBuilder</code>上去<br>
      *
      * @param sb       StringBuffer
      * @param i        浮点数
@@ -142,9 +142,9 @@ public interface FloatFormat {
             i = -i;
         }
 
-        //todo
-        if (round) {
-        }
+//        //todo
+//        if (round) {
+//        }
 
         i += Math.pow(0.1d, fraction + 2);
 
