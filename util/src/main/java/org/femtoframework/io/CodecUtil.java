@@ -323,7 +323,7 @@ public class CodecUtil implements CodecConstants {
         return sb.toString();
     }
 
-    protected static void fromUTFX(byte[] bytes, int utflen, StringBuilder sb)
+    public static void fromUTFX(byte[] bytes, int utflen, StringBuilder sb)
             throws IOException {
         int c, char2, char3;
         int count = 0;
@@ -402,7 +402,7 @@ public class CodecUtil implements CodecConstants {
         return size;
     }
 
-    static ByteBuffer toUTFX(String str) throws IOException {
+    public static ByteBuffer toUTFX(String str) throws IOException {
         int strlen = str.length();
         int utflen = 0;
         CharBuffer charBuffer;
