@@ -238,14 +238,16 @@ public class IOUtil {
      *
      * @param closeable Closeable
      */
-    public static void close(Closeable closeable) {
+    public static boolean close(Closeable closeable) {
         if (closeable != null) {
             try {
                 closeable.close();
+                return true;
             } catch (IOException ioe) {
                 //
             }
         }
+        return false;
     }
 
     /**
@@ -492,5 +494,22 @@ public class IOUtil {
             buffer.clear();
         }
         return r < 0 && read == 0 ? r : read;
+    }
+
+    /**
+     * 安全关闭嵌套的输入流，前者嵌套后者
+     *
+     * @param input1 输入流1
+     * @param input2 输入流2
+     */
+    public static boolean close(Closeable input1, Closeable input2) {
+        boolean closed = false;
+        if (input1 != null) {
+            closed = IOUtil.close(input1);
+        }
+        if (!closed) {
+            closed = IOUtil.close(input2);
+        }
+        return closed;
     }
 }
