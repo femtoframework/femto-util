@@ -26,9 +26,10 @@
 
   <modules>
     <module>util</module>
-    <module>io</module>
     <module>selector</module>
+    <module>io</module>
     <module>i18n</module>
+    <module>text</module>
   </modules>
 
   <dependencyManagement>
@@ -62,12 +63,17 @@
       </dependency>
       <dependency>
         <groupId>org.femtoframework.util</groupId>
+        <artifactId>femto-selector</artifactId>
+        <version>7.0.1-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.femtoframework.util</groupId>
         <artifactId>femto-io</artifactId>
         <version>7.0.1-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.femtoframework.util</groupId>
-        <artifactId>femto-selector</artifactId>
+        <artifactId>femto-text</artifactId>
         <version>7.0.1-SNAPSHOT</version>
       </dependency>
       <dependency>
