@@ -55,6 +55,31 @@ public class LocaleUtil {
     }
 
     /**
+     * Return the locale by simple string
+     *
+     * @param locale Locale in String
+     * @return Locale Object
+     */
+    public static Locale getLocale(String locale) {
+        if (locale == null || locale.isEmpty()) {
+            return Locale.getDefault();
+        }
+        String lowerCase = locale.toLowerCase();
+        lowerCase = lowerCase.replace('-', '_');
+        Locale l = locales.get(lowerCase);
+        if (l != null) {
+            return l;
+        }
+        else { //Fallback to the JDK default implementation
+            if (lowerCase.indexOf('_') < 0) {
+                return getLocaleByLanguage(lowerCase);
+            }
+            locale = locale.replace('_', '-');
+            return new Locale.Builder().setLanguageTag(locale).build();
+        }
+    }
+
+    /**
      * 根据语言，返回默认的Locale
      *
      * @param language 语言
@@ -62,6 +87,9 @@ public class LocaleUtil {
      */
     public static Locale getLocaleByLanguage(String language)
     {
-        return language2Locales.get(language);
+        if (language == null || language.isEmpty()) {
+            return Locale.getDefault();
+        }
+        return language2Locales.get(language.toLowerCase());
     }
 }
