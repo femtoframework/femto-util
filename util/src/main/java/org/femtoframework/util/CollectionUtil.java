@@ -5,6 +5,8 @@ import org.femtoframework.parameters.ParametersMap;
 
 import java.util.*;
 
+import static java.util.Collections.emptyIterator;
+
 /**
  * Collection Util which Collections doesn't have
  */
@@ -109,5 +111,120 @@ public interface CollectionUtil {
         HashSet<T> set = new HashSet<>(array.length);
         Collections.addAll(set, array);
         return set;
+    }
+
+    /**
+     * 判断数组时候有效
+     *
+     * @param coll
+     */
+    static boolean isValid(Collection coll)
+    {
+        return coll != null && !coll.isEmpty();
+    }
+
+    /**
+     * 判断数组时候无效
+     *
+     * @param coll
+     */
+    static boolean isInvalid(Collection coll)
+    {
+        return coll == null || coll.isEmpty();
+    }
+
+    /**
+     * 判断数组时候有效
+     *
+     * @param map
+     */
+    static boolean isValid(Map map)
+    {
+        return map != null && !map.isEmpty();
+    }
+
+    /**
+     * 判断数组时候无效
+     *
+     * @param map
+     */
+    static boolean isInvalid(Map map)
+    {
+        return map == null || map.isEmpty();
+    }
+
+    /**
+     * 如果map为<code>null</code>，返回<code>EMPTY_ITERATOR</code>
+     *
+     * @param map
+     */
+    static <K> Iterator<K> keys(Map<K, ?> map)
+    {
+        if (isValid(map)) {
+            return map.keySet().iterator();
+        }
+        else {
+            return emptyIterator();
+        }
+    }
+
+    /**
+     * 如果map为<code>null</code>，返回<code>EMPTY_ITERATOR</code>
+     *
+     * @param map
+     */
+    static <K> Set<K> keySet(Map<K, ?> map)
+    {
+        if (isValid(map)) {
+            return map.keySet();
+        }
+        else {
+            return Collections.emptySet();
+        }
+    }
+
+    /**
+     * 如果map为<code>null</code>，返回<code>EMPTY_ITERATOR</code>
+     *
+     * @param map
+     */
+    static <V> Iterator<V> values(Map<?, V> map)
+    {
+        if (isValid(map)) {
+            return map.values().iterator();
+        }
+        else {
+            return emptyIterator();
+        }
+    }
+
+    /**
+     * 如果map为<code>null</code>，返回<code>EMPTY_ITERATOR</code>
+     *
+     * @param map
+     */
+    static <V> Collection<V> valueSet(Map<?, V> map)
+    {
+        if (isValid(map)) {
+            return map.values();
+        }
+        else {
+            return Collections.emptySet();
+        }
+    }
+
+    /**
+     * 如果map为<code>null</code>，返回<code>EMPTY_ITERATOR</code>
+     *
+     * @param map
+     */
+    static <K, V> Set<Map.Entry<K, V>> entrySet(Map<K, V> map)
+    {
+        if (isValid(map)) {
+            return map.entrySet();
+        }
+        else {
+            return Collections.emptySet();
+        }
     }
 }
