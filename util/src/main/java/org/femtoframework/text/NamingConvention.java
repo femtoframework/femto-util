@@ -195,6 +195,22 @@ public interface NamingConvention {
     }
 
     /**
+     * Convert method name to PropertyName
+     *
+     * @param methodName Method Name
+     * @param prefix Prefix
+     * @return Property Name
+     */
+    static String toPropertyName(String methodName, String prefix) {
+        if (methodName.startsWith(prefix)) {
+            return parse(methodName.substring(prefix.length()), false);
+        }
+        else {
+            return methodName;
+        }
+    }
+
+    /**
      * Convert propertyName to Getter Name
      *
      * @param propertyName propertyName
