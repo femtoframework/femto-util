@@ -496,6 +496,17 @@ public class IOUtil {
         return r < 0 && read == 0 ? r : read;
     }
 
+    public static void close(AutoCloseable autoCloseable) {
+        if (autoCloseable != null) {
+            try {
+                autoCloseable.close();
+            }
+            catch(Exception ioe) {
+                //
+            }
+        }
+    }
+
     /**
      * 安全关闭嵌套的输入流，前者嵌套后者
      *
