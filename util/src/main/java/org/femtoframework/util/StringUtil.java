@@ -119,4 +119,23 @@ public interface StringUtil {
             return sb.toString();
         }
     }
+
+    /**
+     * Checks whether the String contains only digit characters.
+     * Null and blank string will return false.
+     *
+     * @param str the string to check
+     * @return boolean contains only unicode numeric
+     */
+    static boolean isDigits(String str) {
+        if (isInvalid(str)) {
+            return false;
+        }
+        for (int i = 0; i < str.length(); i++) {
+            if (!Character.isDigit(str.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
