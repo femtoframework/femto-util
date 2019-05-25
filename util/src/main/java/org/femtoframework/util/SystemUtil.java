@@ -155,7 +155,8 @@ public class SystemUtil {
                 environmentClass = DefaultEnvironment.class.getName();
             }
             String env = System.getProperty("femto.environment");
-            env = env != null ? System.getenv("FEMTO_ENV") : "dev";
+            env = StringUtil.isInvalid(env) ? System.getenv("FEMTO_ENV") : env;
+            env = StringUtil.isInvalid(env) ? "dev" : env;
             try {
                 Class<?> clazz = Reflection.loadClass(environmentClass);
                 if (!Enum.class.isAssignableFrom(clazz)) {
