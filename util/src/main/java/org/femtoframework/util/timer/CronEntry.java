@@ -80,6 +80,7 @@ public class CronEntry
         this.hour = hour;
         this.bHours = new boolean[24];
         CrontabUtil.parseToken(hour, bHours, false);
+        nextRunningTime = -1;
     }
 
     /**
@@ -96,6 +97,7 @@ public class CronEntry
         this.minute = minute;
         this.bMinutes = new boolean[60];
         CrontabUtil.parseToken(minute, bMinutes, false);
+        nextRunningTime = -1;
     }
 
     /**
@@ -112,6 +114,7 @@ public class CronEntry
         this.second = second;
         this.bSeconds = new boolean[60];
         CrontabUtil.parseToken(second, bSeconds, false);
+        nextRunningTime = -1;
     }
 
     /**
@@ -128,6 +131,7 @@ public class CronEntry
         this.month = month;
         this.bMonths = new boolean[12];
         CrontabUtil.parseToken(month, bMonths, true);
+        nextRunningTime = -1;
     }
 
     /**
@@ -143,6 +147,7 @@ public class CronEntry
         this.dayOfWeek = dayOfWeek;
         this.bDaysOfWeek = new boolean[7];
         CrontabUtil.parseToken(dayOfWeek, bDaysOfWeek, false);
+        nextRunningTime = -1;
     }
 
     /**
@@ -158,6 +163,7 @@ public class CronEntry
         this.dayOfMonth = dayOfMonth;
         this.bDaysOfMonth = new boolean[31];
         CrontabUtil.parseToken(dayOfMonth, bDaysOfMonth, true);
+        nextRunningTime = -1;
     }
 
     /**
@@ -171,6 +177,7 @@ public class CronEntry
             year = ALL;
         }
         this.year = year;
+        nextRunningTime = -1;
     }
 
     /**
@@ -183,6 +190,7 @@ public class CronEntry
     public void setBusinessDay(boolean runInBusinessDays)
     {
         this.runInBusinessDay = runInBusinessDays;
+        nextRunningTime = -1;
     }
 
     /**
