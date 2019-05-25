@@ -65,6 +65,9 @@ public class CrontabUtil
                 end--;
             }
             String str = token.substring(index + 1);
+            if (str.endsWith(".0")) { //Fix syntax "08" in Yaml file
+                str = str.substring(0, str.length()-2);
+            }
             int each = DataUtil.getInt(str, -1);
             if (each == -1) {
                 throw new CronParseException("Invalid each:" + str);
@@ -109,6 +112,9 @@ public class CrontabUtil
             return;
         }
 
+        if (token.endsWith(".0")) { //Fix syntax "08" in Yaml file
+            token = token.substring(0, token.length()-2);
+        }
         int iValue = DataUtil.getInt(token, -1);
         if (iValue == -1) {
             throw new CronParseException("Invalid value:" + token);

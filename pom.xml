@@ -14,7 +14,7 @@
     <logback.version>1.2.3</logback.version>
   </properties>
 
-  <name>femto-util</name>
+  <name>femto-parent</name>
   <description>Femto useful utilities</description>
   <url>https://github.com/femtoframework/femto-util</url>
   <organization>
