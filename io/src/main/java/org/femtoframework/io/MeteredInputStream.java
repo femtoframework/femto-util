@@ -1,0 +1,154 @@
+package org.femtoframework.io;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+/**
+ * 可以计算读取了多少数据的输入流
+ *
+ * @author fengyun
+ */
+public class MeteredInputStream
+    extends InputStream
+{
+    private int offset = 0;
+
+    private InputStream input;
+
+    public MeteredInputStream(InputStream input)
+    {
+        this.input = input;
+    }
+
+    /**
+     * 返回当前的位置
+     *
+     * @return
+     */
+    public int getOffset()
+    {
+        return offset;
+    }
+
+
+    /**
+     * Reads the next byte of data from the input stream. The value byte is
+     * returned as an <code>int</code> in the range <code>0</code> to
+     * <code>255</code>. If no byte is available because the end of the stream
+     * has been reached, the value <code>-1</code> is returned. This method
+     * blocks until input data is available, the end of the stream is detected,
+     * or an exception is thrown.
+     * <p/>
+     * <p> A subclass must provide an implementation of this method.
+     *
+     * @return the next byte of data, or <code>-1</code> if the end of the
+     *         stream is reached.
+     * @throws IOException if an I/O error occurs.
+     */
+    public int read() throws IOException
+    {
+        int r = input.read();
+        if (r != -1) {
+            offset++;
+        }
+        return r;
+    }
+
+    /**
+     * Reads up to <code>len</code> bytes of data from the input stream into
+     * an array of bytes.  An attempt is made to read as many as
+     * <code>len</code> bytes, but a smaller number may be read, possibly
+     * zero. The number of bytes actually read is returned as an integer.
+     * <p/>
+     * <p> This method blocks until input data is available, end of file is
+     * detected, or an exception is thrown.
+     * <p/>
+     * <p> If <code>b</code> is <code>null</code>, a
+     * <code>NullPointerException</code> is thrown.
+     * <p/>
+     * <p> If <code>off</code> is negative, or <code>len</code> is negative, or
+     * <code>off+len</code> is greater than the length of the array
+     * <code>b</code>, then an <code>IndexOutOfBoundsException</code> is
+     * thrown.
+     * <p/>
+     * <p> If <code>len</code> is zero, then no bytes are read and
+     * <code>0</code> is returned; otherwise, there is an attempt to read at
+     * least one byte. If no byte is available because the stream is at end of
+     * file, the value <code>-1</code> is returned; otherwise, at least one
+     * byte is read and stored into <code>b</code>.
+     * <p/>
+     * <p> The first byte read is stored into element <code>b[off]</code>, the
+     * next one into <code>b[off+1]</code>, and so on. The number of bytes read
+     * is, at most, equal to <code>len</code>. Let <i>k</i> be the number of
+     * bytes actually read; these bytes will be stored in elements
+     * <code>b[off]</code> through <code>b[off+</code><i>k</i><code>-1]</code>,
+     * leaving elements <code>b[off+</code><i>k</i><code>]</code> through
+     * <code>b[off+len-1]</code> unaffected.
+     * <p/>
+     * <p> In every case, elements <code>b[0]</code> through
+     * <code>b[off]</code> and elements <code>b[off+len]</code> through
+     * <code>b[b.length-1]</code> are unaffected.
+     * <p/>
+     * <p> If the first byte cannot be read for any reason other than end of
+     * file, then an <code>IOException</code> is thrown. In particular, an
+     * <code>IOException</code> is thrown if the input stream has been closed.
+     * <p/>
+     * <p> The <code>read(b,</code> <code>off,</code> <code>len)</code> method
+     * for class <code>InputStream</code> simply calls the method
+     * <code>read()</code> repeatedly. If the first such call results in an
+     * <code>IOException</code>, that exception is returned from the call to
+     * the <code>read(b,</code> <code>off,</code> <code>len)</code> method.  If
+     * any subsequent call to <code>read()</code> results in a
+     * <code>IOException</code>, the exception is caught and treated as if it
+     * were end of file; the bytes read up to that point are stored into
+     * <code>b</code> and the number of bytes read before the exception
+     * occurred is returned.  Subclasses are encouraged to provide a more
+     * efficient implementation of this method.
+     *
+     * @param b   the buffer into which the data is read.
+     * @param off the start offset in array <code>b</code>
+     *            at which the data is written.
+     * @param len the maximum number of bytes to read.
+     * @return the total number of bytes read into the buffer, or
+     *         <code>-1</code> if there is no more data because the end of
+     *         the stream has been reached.
+     * @throws IOException if an I/O error occurs.
+     * @see InputStream#read()
+     */
+    public int read(byte b[], int off, int len) throws IOException
+    {
+        int r = input.read(b, off, len);
+        if (r > 0) {
+            offset += r;
+        }
+        return r;
+    }
+
+    /**
+     * Skips over and discards <code>n</code> bytes of data from this input
+     * stream. The <code>skip</code> method may, for a variety of reasons, end
+     * up skipping over some smaller number of bytes, possibly <code>0</code>.
+     * This may result from any of a number of conditions; reaching end of file
+     * before <code>n</code> bytes have been skipped is only one possibility.
+     * The actual number of bytes skipped is returned.  If <code>n</code> is
+     * negative, no bytes are skipped.
+     * <p/>
+     * <p> The <code>skip</code> method of <code>InputStream</code> creates a
+     * byte array and then repeatedly reads into it until <code>n</code> bytes
+     * have been read or the end of the stream has been reached. Subclasses are
+     * encouraged to provide a more efficient implementation of this method.
+     *
+     * @param n the number of bytes to be skipped.
+     * @return the actual number of bytes skipped.
+     * @throws IOException if an I/O error occurs.
+     */
+    public long skip(long n) throws IOException
+    {
+        int s = (int)super.skip(n);
+        if (s > 0) {
+            offset += s;
+        }
+        return s;
+    }
+}
+
