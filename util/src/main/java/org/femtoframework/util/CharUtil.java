@@ -82,7 +82,7 @@ public interface CharUtil {
     static String toUnicodeStr(char c)
     {
         StringBuilder sb = new StringBuilder(6);
-        sb = toUnicodeStr(sb, c);
+        toUnicodeStr(sb, c);
         return sb.toString();
     }
 
@@ -106,4 +106,13 @@ public interface CharUtil {
     {
         return Hex.HEX_CHARS[(nibble & 0xF)];
     }
+
+    /**
+     * The function is not same as Character.isDigit(char)
+     */
+    static boolean isDigit(int c)
+    {
+        return Octet.isDigit(c);
+    }
+
 }
