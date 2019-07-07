@@ -115,6 +115,7 @@
         <plugin>
           <artifactId>maven-release-plugin</artifactId>
           <configuration>
+            <tagNameFormat>v@{project.version}</tagNameFormat>
             <autoVersionSubmodules>true</autoVersionSubmodules>
             <checkModificationExcludes>
               <checkModificationExclude>pom.xml</checkModificationExclude>
@@ -167,13 +168,6 @@
       </plugins>
     </pluginManagement>
     <plugins>
-      <plugin>
-        <artifactId>maven-release-plugin</artifactId>
-        <configuration>
-          <branchName>v@{project.version}</branchName>
-          <autoVersionSubmodules>true</autoVersionSubmodules>
-        </configuration>
-      </plugin>
       <plugin>
         <artifactId>maven-source-plugin</artifactId>
         <executions>
