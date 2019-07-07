@@ -13,6 +13,8 @@
 .idea/
 target/
 *.iml
+.DS_Store
+**/.DS_Store
 
 # Package Files #
 *.jar

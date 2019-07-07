@@ -233,7 +233,7 @@
     <connection>scm:git:git@github.com:femtoframework/femto-util.git</connection>
     <developerConnection>scm:git:git@github.com:femtoframework/femto-util.git</developerConnection>
     <url>https://github.com/femtoframework/femto-util.git</url>
-    <tag>v-7.0.2-SNAPSHOT</tag>
+    <tag>v7.0.2</tag>
   </scm>
 
   <licenses>
