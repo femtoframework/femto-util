@@ -27,7 +27,7 @@ public class ThreadPool extends AbstractExecutorService implements ThreadContain
     public static final int MIN_SPARE_THREADS = 10;
     public static final int INC_THREADS = 10;
 
-    private String name;
+    private String name = "thread_pool";
 
     protected ThreadController[] pool;
 

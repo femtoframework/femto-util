@@ -20,9 +20,10 @@ public class ExecutorUtil
      *
      * @return the newly created thread pool
      */
-    public static ExecutorService newThreadPool(int minSpareThreads, int maxSpareThreads, int maxThreads)
+    public static ExecutorService newThreadPool(String name, int minSpareThreads, int maxSpareThreads, int maxThreads)
     {
         ThreadPool pool = new ThreadPool();
+        pool.setName(name);
         pool.setMinSpareThreads(minSpareThreads);
         pool.setMaxSpareThreads(maxSpareThreads);
         pool.setMaxThreads(maxThreads);
@@ -35,9 +36,10 @@ public class ExecutorUtil
      *
      * @return the newly created thread pool
      */
-    public static ExecutorService newThreadPool()
+    public static ExecutorService newThreadPool(String name)
     {
         ThreadPool pool = new ThreadPool();
+        pool.setName(name);
         pool.start();
         return pool;
     }
