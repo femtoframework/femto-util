@@ -14,6 +14,8 @@ import org.femtoframework.util.convert.DataConverter;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Map;
 
 /**
@@ -45,6 +47,9 @@ import java.util.Map;
 @Coined
 public class SimplePropertyInfo extends AbstractFeatureInfo implements PropertyInfo {
     private String type;
+
+    @Ignore
+    private transient Type genericType;
 
     @Ignore
     private transient Class<?> typeClass;
@@ -86,11 +91,12 @@ public class SimplePropertyInfo extends AbstractFeatureInfo implements PropertyI
      * Constructs an <CODE>PropertyInfo</CODE> object.
      *
      * @param name        The name of the attribute.
-     * @param type        The type or class name of the attribute.
+     * @param typeClass   The type or class name of the attribute.
+     * @param genericType GenericType of the property
      */
-    public SimplePropertyInfo(String name, Class<?> type) {
+    public SimplePropertyInfo(String name, Class<?> typeClass, Type genericType) {
         super(name, "");
-        setTypeClass(type);
+        setType(typeClass, genericType);
     }
 
     public void setName(String name) {
@@ -165,7 +171,7 @@ public class SimplePropertyInfo extends AbstractFeatureInfo implements PropertyI
             }
             Object expectedValue = value;
             if (value != null) {
-                DataConverter converter = ConverterUtil.getConverter(getTypeClass());
+                DataConverter converter = ConverterUtil.getConverter(getGenericType());
                 if (converter != null) {
                     expectedValue = converter.convert(value);
                 }
@@ -215,7 +221,7 @@ public class SimplePropertyInfo extends AbstractFeatureInfo implements PropertyI
     @Ignore
     public <T> T getExpectedDefaultValue() {
         if (defaultValue != null) {
-            DataConverter converter = ConverterUtil.getConverter(getTypeClass());
+            DataConverter converter = ConverterUtil.getConverter(getGenericType());
             if (converter != null) {
                 return (T)converter.convert(defaultValue);
             }
@@ -231,6 +237,14 @@ public class SimplePropertyInfo extends AbstractFeatureInfo implements PropertyI
     @Override
     public Class<?> getTypeClass() {
         return typeClass;
+    }
+
+    /**
+     * Return type generic type of this property
+     */
+    @Override
+    public Type getGenericType() {
+        return genericType;
     }
 
     /**
@@ -263,11 +277,11 @@ public class SimplePropertyInfo extends AbstractFeatureInfo implements PropertyI
         boolean setter = false;
         if (StringUtil.isInvalid(type) && method != null) {
             if (method.getParameterTypes().length == 1) {
-                setTypeClass(method.getParameterTypes()[0]);
+                setType(method.getParameterTypes()[0], method.getGenericParameterTypes()[0]);
                 setter = true;
             }
             else {
-                setTypeClass(method.getReturnType());
+                setType(method.getReturnType(), method.getGenericReturnType());
             }
         }
 
@@ -298,7 +312,7 @@ public class SimplePropertyInfo extends AbstractFeatureInfo implements PropertyI
     @Ignore
     public void setProperty(Property property, Field field) {
         if (StringUtil.isInvalid(type) && field != null) {
-            setTypeClass(field.getType());
+            setType(field.getType(), field.getGenericType());
         }
 
         String name = property.value();
@@ -310,9 +324,10 @@ public class SimplePropertyInfo extends AbstractFeatureInfo implements PropertyI
         setProperty(property);
     }
 
-    public void setTypeClass(Class<?> type) {
-        this.typeClass = type;
-        this.type = type.getName();
+    public void setType(Class<?> typeClass, Type type) {
+        this.genericType = type;
+        this.typeClass = typeClass;
+        this.type = typeClass.getName();
     }
 
     public void setReadable(boolean readable) {

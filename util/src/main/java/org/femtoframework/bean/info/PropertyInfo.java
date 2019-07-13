@@ -2,6 +2,8 @@ package org.femtoframework.bean.info;
 
 import org.femtoframework.text.NamingConvention;
 
+import java.lang.reflect.Type;
+
 /**
  * Property Info
  *
@@ -44,6 +46,12 @@ public interface PropertyInfo extends FeatureInfo, DefaultValued {
      * @return the type class
      */
     Class<?> getTypeClass();
+
+
+    /**
+     * Return type generic type of this property
+     */
+    Type getGenericType();
 
 
     /**

@@ -137,7 +137,7 @@ public interface DataUtil extends DataTypes {
             result = (boolean[])object;
         }
         else if (object instanceof Boolean) {
-            result = new boolean[]{((Boolean)object).booleanValue()};
+            result = new boolean[]{(Boolean)object};
         }
         else if (object instanceof Number) {
             result = new boolean[]{getBoolean(object, false)};
@@ -205,7 +205,7 @@ public interface DataUtil extends DataTypes {
             return defValue;
         }
 
-        byte result = defValue;
+        byte result;
         if (value instanceof Number) {
             result = ((Number)value).byteValue();
         }
@@ -229,7 +229,7 @@ public interface DataUtil extends DataTypes {
             }
         }
         else if (value instanceof Boolean) {
-            result = ((Boolean)value).booleanValue() ? (byte)1 : (byte)0;
+            result = ((Boolean)value) ? (byte)1 : (byte)0;
         }
         else {
             result = defValue;

@@ -3,6 +3,7 @@ package org.femtoframework.util.convert;
 import org.femtoframework.implement.ImplementUtil;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +38,16 @@ public interface ConverterUtil
      * @return
      */
     static <T> DataConverter<T> getConverter(Class<T> expectedType) {
+        return factory.getConverter(expectedType);
+    }
+
+    /**
+     * Return DataConverter by expectedType
+     *
+     * @param expectedType Expected Type class
+     * @return
+     */
+    static <T> DataConverter<T> getConverter(Type expectedType) {
         return factory.getConverter(expectedType);
     }
 

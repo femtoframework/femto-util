@@ -85,8 +85,14 @@ public class SimpleBeanInfo implements BeanInfo {
     public PropertyInfo getProperty(String propertyName) {
         PropertyInfo propertyInfo =  properties.get(propertyName);
         if (propertyInfo == null) {
-            String formatted = NamingConvention.format(propertyName);
-            return properties.get(formatted);
+            String diffFormat = null;
+            if (propertyName.contains("_")) {
+                diffFormat = NamingConvention.parse(propertyName);
+            }
+            else {
+                diffFormat = NamingConvention.format(propertyName);
+            }
+            return properties.get(diffFormat);
         }
         return propertyInfo;
     }
