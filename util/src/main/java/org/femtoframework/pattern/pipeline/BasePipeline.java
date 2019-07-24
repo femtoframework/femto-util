@@ -57,6 +57,16 @@ public class BasePipeline<V> implements Pipeline, Nameable
         return valves;
     }
 
+
+    /**
+     * Set valves
+     *
+     * @param valves Values
+     */
+    public void setValves(List<V> valves) {
+        this.valves = valves;
+    }
+
     public String getName() {
         return name;
     }

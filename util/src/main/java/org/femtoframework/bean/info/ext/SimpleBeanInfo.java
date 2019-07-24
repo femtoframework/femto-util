@@ -87,7 +87,7 @@ public class SimpleBeanInfo implements BeanInfo {
         if (propertyInfo == null) {
             String diffFormat = null;
             if (propertyName.contains("_")) {
-                diffFormat = NamingConvention.parse(propertyName);
+                diffFormat = NamingConvention.parse(propertyName, false);
             }
             else {
                 diffFormat = NamingConvention.format(propertyName);
