@@ -1,6 +1,7 @@
 package org.femtoframework.util.convert.time;
 
 import org.femtoframework.util.DataType;
+import org.femtoframework.util.StringUtil;
 import org.femtoframework.util.convert.AbstractConverter;
 
 import java.time.Duration;
@@ -8,6 +9,8 @@ import java.time.Period;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAmount;
+import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * Since Java8
@@ -55,7 +58,7 @@ public class TemporalAmountConverter<TA extends TemporalAmount> extends Abstract
                     case PERIOD:
                         return (TA) Period.parse((CharSequence) obj);
                     case DURATION:
-                        return (TA) Duration.parse((CharSequence) obj);
+                        return (TA) simpleParse(((CharSequence) obj).toString());
                 }
             }
             catch (DateTimeParseException dtpe) {
@@ -79,5 +82,33 @@ public class TemporalAmountConverter<TA extends TemporalAmount> extends Abstract
             }
         }
         return defValue;
+    }
+
+    private static Duration simpleParse(String rawTime) {
+        if (StringUtil.isInvalid(rawTime))
+            return null;
+        if (!Character.isDigit(rawTime.charAt(0)))
+            return null;
+
+        String time = rawTime.toLowerCase();
+        return tryParse(time, "ns", Duration::ofNanos)
+                .orElseGet(() -> tryParse(time, "ms", Duration::ofMillis)
+                        .orElseGet(() -> tryParse(time, "s", Duration::ofSeconds)
+                                .orElseGet(() -> tryParse(time, "m", Duration::ofMinutes)
+                                        .orElseGet(() -> tryParse(time, "h", Duration::ofHours)
+                                                .orElseGet(() -> tryParse(time, "d", Duration::ofDays)
+                                                        .orElse(null))))));
+    }
+
+    private static Optional<Duration> tryParse(String time, String unit, Function<Long, Duration> toDuration) {
+        if (time.endsWith(unit)) {
+            String trim = time.substring(0, time.lastIndexOf(unit)).trim();
+            try {
+                return Optional.of(toDuration.apply(Long.parseLong(trim)));
+            } catch (NumberFormatException ignore) {
+                return Optional.empty();
+            }
+        }
+        return Optional.empty();
     }
 }

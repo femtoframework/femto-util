@@ -104,7 +104,7 @@ public class ThreadPool extends AbstractExecutorService implements ThreadContain
              */
             protected void doRun() throws Exception
             {
-                Thread.sleep(monitorPeriod);
+                Thread.sleep(getMonitorPeriod());
                 doMonitor();
             }
         };
@@ -628,5 +628,13 @@ public class ThreadPool extends AbstractExecutorService implements ThreadContain
     @Override
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getMonitorPeriod() {
+        return monitorPeriod;
+    }
+
+    public void setMonitorPeriod(int monitorPeriod) {
+        this.monitorPeriod = monitorPeriod;
     }
 }
