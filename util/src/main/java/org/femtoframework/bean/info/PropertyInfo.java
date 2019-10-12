@@ -2,6 +2,8 @@ package org.femtoframework.bean.info;
 
 import org.femtoframework.text.NamingConvention;
 
+import java.lang.reflect.Member;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 
 /**
@@ -122,12 +124,29 @@ public interface PropertyInfo extends FeatureInfo, DefaultValued {
     }
 
     /**
+     * Return Getter Method
+     * @return
+     */
+    default Method getGetterMethod() {
+        return null;
+    }
+
+    /**
      * Invoke setter method to set the value
      *
      * @param bean Bean
      * @param value Value
      */
     void invokeSetter(Object bean, Object value);
+
+    /**
+     * Return Setter Method
+     *
+     * @return
+     */
+    default Method getSetterMethod() {
+        return null;
+    }
 
     /**
      * Invoke getter method to get the value

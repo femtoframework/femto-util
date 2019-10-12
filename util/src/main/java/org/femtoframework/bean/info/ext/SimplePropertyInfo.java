@@ -12,10 +12,7 @@ import org.femtoframework.util.StringUtil;
 import org.femtoframework.util.convert.ConverterUtil;
 import org.femtoframework.util.convert.DataConverter;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import java.lang.reflect.*;
 import java.util.Map;
 
 /**
@@ -62,6 +59,12 @@ public class SimplePropertyInfo extends AbstractFeatureInfo implements PropertyI
 
     @Ignore
     private transient Method getterMethod = null;
+
+    @Ignore
+    private boolean noGetterMethod = false;
+
+    @Ignore
+    private boolean noSetterMethod = false;
 
     @Ignore
     private transient Method setterMethod = null;
@@ -165,18 +168,18 @@ public class SimplePropertyInfo extends AbstractFeatureInfo implements PropertyI
             ((Map)bean).put(getName(), value);
         }
         else {
-            Method setterMethod = this.setterMethod;
-            if (setterMethod == null) {
-                this.setterMethod = setterMethod = Reflection.getMethod(bean.getClass(), getSetter());
-            }
-            Object expectedValue = value;
-            if (value != null) {
-                DataConverter converter = ConverterUtil.getConverter(getGenericType());
-                if (converter != null) {
-                    expectedValue = converter.convert(value);
+            Method setterMethod = getSetterMethod();
+            if (setterMethod != null) {
+                this.setterMethod = setterMethod;
+                Object expectedValue = value;
+                if (value != null) {
+                    DataConverter converter = ConverterUtil.getConverter(getGenericType());
+                    if (converter != null) {
+                        expectedValue = converter.convert(value);
+                    }
                 }
+                Reflection.invoke(bean, setterMethod, expectedValue);
             }
-            Reflection.invoke(bean, setterMethod, expectedValue);
         }
     }
 
@@ -192,14 +195,52 @@ public class SimplePropertyInfo extends AbstractFeatureInfo implements PropertyI
             return (T)((Map)bean).getOrDefault(getName(), getExpectedDefaultValue());
         }
         else {
-            Method getterMethod = this.getterMethod;
-            if (getterMethod == null) {
-                getterMethod = Reflection.getMethod(bean.getClass(), getGetter());
+            Method getterMethod = getGetterMethod();
+            if (getterMethod != null) {
                 this.getterMethod = getterMethod;
+                Object value = Reflection.invoke(bean, getterMethod, null);
+                return value != null ? (T)value : getExpectedDefaultValue();
             }
-            Object value = Reflection.invoke(bean, getterMethod, null);
-            return value != null ? (T)value : getExpectedDefaultValue();
+            return null;
         }
+    }
+
+    /**
+     * Return Getter Method
+     *
+     * @return Getter Method
+     */
+    public Method getGetterMethod() {
+        Method getterMethod = this.getterMethod;
+        if (getterMethod == null) {
+            if (noGetterMethod) { //Return null to avoid check again
+                return null;
+            }
+            getterMethod = Reflection.getMethod(getTypeClass(), getGetter());
+            if (getterMethod == null) {
+                noGetterMethod = true;
+            }
+        }
+        return getterMethod;
+    }
+
+    /**
+     * Return Setter Method
+     *
+     * @return Setter Method
+     */
+    public Method getSetterMethod() {
+        Method setterMethod = this.setterMethod;
+        if (setterMethod == null) {
+            if (noSetterMethod) { //Return null to avoid check again
+                return null;
+            }
+            setterMethod = Reflection.getMethod(getTypeClass(), getSetter());
+            if (setterMethod == null) {
+                noSetterMethod = true;
+            }
+        }
+        return setterMethod;
     }
 
     /**
