@@ -549,4 +549,437 @@ public interface ArrayUtil
             return new ArrayIterator<T>(array, off, len);
         }
     }
+
+    /**
+     * Returns a string representation of the contents of the specified array.
+     * The string representation consists of a list of the array's elements,
+     * enclosed in square brackets (<tt>"[]"</tt>).  Adjacent elements are
+     * separated by the characters <tt>", "</tt> (a comma followed by a
+     * space).  Elements are converted to strings as by
+     * <tt>String.valueOf(long)</tt>.  Returns <tt>"null"</tt> if <tt>a</tt>
+     * is <tt>null</tt>.
+     *
+     * @param a the array whose string representation to return
+     *          a string representation of <tt>a</tt>
+     * @since 1.5
+     */
+    public static String toString(long[] a)
+    {
+        if (a == null) {
+            return "null";
+        }
+        if (a.length == 0) {
+            return "[]";
+        }
+
+        StringBuilder buf = new StringBuilder();
+        buf.append('[');
+        buf.append(a[0]);
+
+        for (int i = 1; i < a.length; i++) {
+            buf.append(", ");
+            buf.append(a[i]);
+        }
+
+        buf.append("]");
+        return buf.toString();
+    }
+
+    /**
+     * Returns a string representation of the contents of the specified array.
+     * The string representation consists of a list of the array's elements,
+     * enclosed in square brackets (<tt>"[]"</tt>).  Adjacent elements are
+     * separated by the characters <tt>", "</tt> (a comma followed by a
+     * space).  Elements are converted to strings as by
+     * <tt>String.valueOf(int)</tt>.  Returns <tt>"null"</tt> if <tt>a</tt> is
+     * <tt>null</tt>.
+     *
+     * @param a the array whose string representation to return
+     *          a string representation of <tt>a</tt>
+     * @since 1.5
+     */
+    public static String toString(int[] a)
+    {
+        if (a == null) {
+            return "null";
+        }
+        if (a.length == 0) {
+            return "[]";
+        }
+
+        StringBuilder buf = new StringBuilder();
+        buf.append('[');
+        buf.append(a[0]);
+
+        for (int i = 1; i < a.length; i++) {
+            buf.append(", ");
+            buf.append(a[i]);
+        }
+
+        buf.append("]");
+        return buf.toString();
+    }
+
+    /**
+     * Returns a string representation of the contents of the specified array.
+     * The string representation consists of a list of the array's elements,
+     * enclosed in square brackets (<tt>"[]"</tt>).  Adjacent elements are
+     * separated by the characters <tt>", "</tt> (a comma followed by a
+     * space).  Elements are converted to strings as by
+     * <tt>String.valueOf(short)</tt>.  Returns <tt>"null"</tt> if <tt>a</tt>
+     * is <tt>null</tt>.
+     *
+     * @param a the array whose string representation to return
+     *          a string representation of <tt>a</tt>
+     * @since 1.5
+     */
+    public static String toString(short[] a)
+    {
+        if (a == null) {
+            return "null";
+        }
+        if (a.length == 0) {
+            return "[]";
+        }
+
+        StringBuilder buf = new StringBuilder();
+        buf.append('[');
+        buf.append(a[0]);
+
+        for (int i = 1; i < a.length; i++) {
+            buf.append(", ");
+            buf.append(a[i]);
+        }
+
+        buf.append("]");
+        return buf.toString();
+    }
+
+    /**
+     * Returns a string representation of the contents of the specified array.
+     * The string representation consists of a list of the array's elements,
+     * enclosed in square brackets (<tt>"[]"</tt>).  Adjacent elements are
+     * separated by the characters <tt>", "</tt> (a comma followed by a
+     * space).  Elements are converted to strings as by
+     * <tt>String.valueOf(char)</tt>.  Returns <tt>"null"</tt> if <tt>a</tt>
+     * is <tt>null</tt>.
+     *
+     * @param a the array whose string representation to return
+     *          a string representation of <tt>a</tt>
+     * @since 1.5
+     */
+    public static String toString(char[] a)
+    {
+        if (a == null) {
+            return "null";
+        }
+        if (a.length == 0) {
+            return "[]";
+        }
+
+        StringBuilder buf = new StringBuilder();
+        buf.append('[');
+        buf.append(a[0]);
+
+        for (int i = 1; i < a.length; i++) {
+            buf.append(", ");
+            buf.append(a[i]);
+        }
+
+        buf.append("]");
+        return buf.toString();
+    }
+
+    /**
+     * Returns a string representation of the contents of the specified array.
+     * The string representation consists of a list of the array's elements,
+     * enclosed in square brackets (<tt>"[]"</tt>).  Adjacent elements
+     * are separated by the characters <tt>", "</tt> (a comma followed
+     * by a space).  Elements are converted to strings as by
+     * <tt>String.valueOf(byte)</tt>.  Returns <tt>"null"</tt> if
+     * <tt>a</tt> is <tt>null</tt>.
+     *
+     * @param a the array whose string representation to return
+     *          a string representation of <tt>a</tt>
+     * @since 1.5
+     */
+    public static String toString(byte[] a)
+    {
+        if (a == null) {
+            return "null";
+        }
+        if (a.length == 0) {
+            return "[]";
+        }
+
+        StringBuilder buf = new StringBuilder();
+        buf.append('[');
+        buf.append(a[0]);
+
+        for (int i = 1; i < a.length; i++) {
+            buf.append(", ");
+            buf.append(a[i]);
+        }
+
+        buf.append("]");
+        return buf.toString();
+    }
+
+    /**
+     * Returns a string representation of the contents of the specified array.
+     * The string representation consists of a list of the array's elements,
+     * enclosed in square brackets (<tt>"[]"</tt>).  Adjacent elements are
+     * separated by the characters <tt>", "</tt> (a comma followed by a
+     * space).  Elements are converted to strings as by
+     * <tt>String.valueOf(boolean)</tt>.  Returns <tt>"null"</tt> if
+     * <tt>a</tt> is <tt>null</tt>.
+     *
+     * @param a the array whose string representation to return
+     *          a string representation of <tt>a</tt>
+     * @since 1.5
+     */
+    public static String toString(boolean[] a)
+    {
+        if (a == null) {
+            return "null";
+        }
+        if (a.length == 0) {
+            return "[]";
+        }
+
+        StringBuilder buf = new StringBuilder();
+        buf.append('[');
+        buf.append(a[0]);
+
+        for (int i = 1; i < a.length; i++) {
+            buf.append(", ");
+            buf.append(a[i]);
+        }
+
+        buf.append("]");
+        return buf.toString();
+    }
+
+    /**
+     * Returns a string representation of the contents of the specified array.
+     * The string representation consists of a list of the array's elements,
+     * enclosed in square brackets (<tt>"[]"</tt>).  Adjacent elements are
+     * separated by the characters <tt>", "</tt> (a comma followed by a
+     * space).  Elements are converted to strings as by
+     * <tt>String.valueOf(float)</tt>.  Returns <tt>"null"</tt> if <tt>a</tt>
+     * is <tt>null</tt>.
+     *
+     * @param a the array whose string representation to return
+     *          a string representation of <tt>a</tt>
+     * @since 1.5
+     */
+    public static String toString(float[] a)
+    {
+        if (a == null) {
+            return "null";
+        }
+        if (a.length == 0) {
+            return "[]";
+        }
+
+        StringBuilder buf = new StringBuilder();
+        buf.append('[');
+        buf.append(a[0]);
+
+        for (int i = 1; i < a.length; i++) {
+            buf.append(", ");
+            buf.append(a[i]);
+        }
+
+        buf.append("]");
+        return buf.toString();
+    }
+
+    /**
+     * Returns a string representation of the contents of the specified array.
+     * The string representation consists of a list of the array's elements,
+     * enclosed in square brackets (<tt>"[]"</tt>).  Adjacent elements are
+     * separated by the characters <tt>", "</tt> (a comma followed by a
+     * space).  Elements are converted to strings as by
+     * <tt>String.valueOf(double)</tt>.  Returns <tt>"null"</tt> if <tt>a</tt>
+     * is <tt>null</tt>.
+     *
+     * @param a the array whose string representation to return
+     *          a string representation of <tt>a</tt>
+     * @since 1.5
+     */
+    public static String toString(double[] a)
+    {
+        if (a == null) {
+            return "null";
+        }
+        if (a.length == 0) {
+            return "[]";
+        }
+
+        StringBuilder buf = new StringBuilder();
+        buf.append('[');
+        buf.append(a[0]);
+
+        for (int i = 1; i < a.length; i++) {
+            buf.append(", ");
+            buf.append(a[i]);
+        }
+
+        buf.append("]");
+        return buf.toString();
+    }
+
+    /**
+     * Returns a string representation of the contents of the specified array.
+     * If the array contains other arrays as elements, they are converted to
+     * strings by the {@link Object#toString} method inherited from
+     * <tt>Object</tt>, which describes their <i>identities</i> rather than
+     * their contents.
+     * <p/>
+     * <p>The value returned by this method is equal to the value that would
+     * be returned by <tt>Arrays.asList(a).toString()</tt>, unless <tt>a</tt>
+     * is <tt>null</tt>, in which case <tt>"null"</tt> is returned.
+     *
+     * @param a the array whose string representation to return
+     *          a string representation of <tt>a</tt>
+     * @see #deepToString(Object[])
+     * @since 1.5
+     */
+    public static String toString(Object[] a)
+    {
+        if (a == null) {
+            return "null";
+        }
+        if (a.length == 0) {
+            return "[]";
+        }
+
+        StringBuilder buf = new StringBuilder();
+
+        for (int i = 0; i < a.length; i++) {
+            if (i == 0) {
+                buf.append('[');
+            }
+            else {
+                buf.append(", ");
+            }
+
+            buf.append(String.valueOf(a[i]));
+        }
+
+        buf.append("]");
+        return buf.toString();
+    }
+
+    /**
+     * Returns a string representation of the "deep contents" of the specified
+     * array.  If the array contains other arrays as elements, the string
+     * representation contains their contents and so on.  This method is
+     * designed for converting multidimensional arrays to strings.
+     * <p/>
+     * <p>The string representation consists of a list of the array's
+     * elements, enclosed in square brackets (<tt>"[]"</tt>).  Adjacent
+     * elements are separated by the characters <tt>", "</tt> (a comma
+     * followed  by a space).  Elements are converted to strings as by
+     * <tt>String.valueOf(Object)</tt>, unless they are themselves
+     * arrays.
+     * <p/>
+     * <p>If an element <tt>e</tt> is an array of a primitive type, it is
+     * converted to a string as by invoking the appropriate overloading of
+     * <tt>Arrays.toString(e)</tt>.  If an element <tt>e</tt> is an array of a
+     * reference type, it is converted to a string as by invoking
+     * this method recursively.
+     * <p/>
+     * <p>To avoid infinite recursion, if the specified array contains itself
+     * as an element, or contains an indirect reference to itself through one
+     * or more levels of arrays, the self-reference is converted to the string
+     * <tt>"[...]"</tt>.  For example, an array containing only a reference
+     * to itself would be rendered as <tt>"[[...]]"</tt>.
+     * <p/>
+     * <p>This method returns <tt>"null"</tt> if the specified array
+     * is <tt>null</tt>.
+     *
+     * @param a the array whose string representation to return
+     *          a string representation of <tt>a</tt>
+     * @see #toString(Object[])
+     * @since 1.5
+     */
+    public static String deepToString(Object[] a)
+    {
+        if (a == null) {
+            return "null";
+        }
+
+        int bufLen = 20 * a.length;
+        if (a.length != 0 && bufLen <= 0) {
+            bufLen = Integer.MAX_VALUE;
+        }
+        StringBuilder buf = new StringBuilder(bufLen);
+        deepToString(a, buf, new HashSet<>());
+        return buf.toString();
+    }
+
+    static void deepToString(Object[] a, StringBuilder buf, Set<Object> dejaVu)
+    {
+        if (a == null) {
+            buf.append("null");
+            return;
+        }
+        dejaVu.add(a);
+        buf.append('[');
+        for (int i = 0; i < a.length; i++) {
+            if (i != 0) {
+                buf.append(", ");
+            }
+
+            Object element = a[i];
+            if (element == null) {
+                buf.append("null");
+            }
+            else {
+                Class eClass = element.getClass();
+
+                if (eClass.isArray()) {
+                    if (eClass == byte[].class) {
+                        buf.append(toString((byte[])element));
+                    }
+                    else if (eClass == short[].class) {
+                        buf.append(toString((short[])element));
+                    }
+                    else if (eClass == int[].class) {
+                        buf.append(toString((int[])element));
+                    }
+                    else if (eClass == long[].class) {
+                        buf.append(toString((long[])element));
+                    }
+                    else if (eClass == char[].class) {
+                        buf.append(toString((char[])element));
+                    }
+                    else if (eClass == float[].class) {
+                        buf.append(toString((float[])element));
+                    }
+                    else if (eClass == double[].class) {
+                        buf.append(toString((double[])element));
+                    }
+                    else if (eClass == boolean[].class) {
+                        buf.append(toString((boolean[])element));
+                    }
+                    else { // element is an array of object references
+                        if (dejaVu.contains(element)) {
+                            buf.append("[...]");
+                        }
+                        else {
+                            deepToString((Object[])element, buf, dejaVu);
+                        }
+                    }
+                }
+                else {  // element is non-null and not an array
+                    buf.append(element.toString());
+                }
+            }
+        }
+        buf.append("]");
+        dejaVu.remove(a);
+    }
 }
