@@ -46,6 +46,10 @@ public class SystemUtil {
         if (hostname == null) {
             hostname = identity;
         }
+        int index = hostname.indexOf('.');
+        if (index > 0) {
+            hostname = hostname.substring(0, index);
+        }
     }
 
     /**
