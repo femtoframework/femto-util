@@ -154,14 +154,14 @@ public class SystemUtil {
      */
     public static Environment getEnvironment() {
         if (environment == null) {
-            String environmentClass = System.getProperty("femto.environment.class");
+            String environmentClass = System.getProperty("femto.env.class");
             if (environmentClass == null) {
                 environmentClass = DefaultEnvironment.class.getName();
             }
-            String env = System.getProperty("femto.environment");
+            String env = System.getProperty("femto.env");
             env = StringUtil.isInvalid(env) ? System.getenv("FEMTO_ENV") : env;
             env = StringUtil.isInvalid(env) ? "dev" : env;
-            System.setProperty("femto.environment", env);
+            System.setProperty("femto.env", env);
 
             try {
                 Class<?> clazz = Reflection.loadClass(environmentClass);
