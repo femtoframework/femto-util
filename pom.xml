@@ -12,6 +12,7 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <logback.version>1.2.3</logback.version>
+    <femto.util.version>7.1.1-SNAPSHOT</femto.util.version>
   </properties>
 
   <name>femto-parent</name>
@@ -57,27 +58,27 @@
       <dependency>
         <groupId>org.femtoframework.util</groupId>
         <artifactId>femto-util</artifactId>
-        <version>7.1.1-SNAPSHOT</version>
+        <version>${femto.util.version}</version>
       </dependency>
       <dependency>
         <groupId>org.femtoframework.util</groupId>
         <artifactId>femto-selector</artifactId>
-        <version>7.1.1-SNAPSHOT</version>
+        <version>${femto.util.version}</version>
       </dependency>
       <dependency>
         <groupId>org.femtoframework.util</groupId>
         <artifactId>femto-io</artifactId>
-        <version>7.1.1-SNAPSHOT</version>
+        <version>${femto.util.version}</version>
       </dependency>
       <dependency>
         <groupId>org.femtoframework.util</groupId>
         <artifactId>femto-text</artifactId>
-        <version>7.1.1-SNAPSHOT</version>
+        <version>${femto.util.version}</version>
       </dependency>
       <dependency>
         <groupId>org.femtoframework.util</groupId>
         <artifactId>femto-i18n</artifactId>
-        <version>7.1.1-SNAPSHOT</version>
+        <version>${femto.util.version}</version>
       </dependency>
       <dependency>
         <groupId>junit</groupId>
