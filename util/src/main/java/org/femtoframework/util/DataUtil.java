@@ -169,7 +169,7 @@ public interface DataUtil extends DataTypes {
         return result;
     }
 
-    static int tryRadix(String str, int radix) {
+    static String tryRadix(String str, int radix, int[] radixOut) {
         if (str.length() > 2 && str.charAt(0) == '0') {
             char c = str.charAt(1);
             switch (c) {
@@ -190,7 +190,8 @@ public interface DataUtil extends DataTypes {
                 str = str.substring(2);
             }
         }
-        return radix;
+        radixOut[0] = radix;
+        return str;
     }
 
     /**
@@ -212,8 +213,9 @@ public interface DataUtil extends DataTypes {
         else if (value instanceof String) {
             String str = (String)value;
             try {
-                int radix = tryRadix(str, 10);
-                result = (byte)Integer.parseInt(str, radix);
+                int[] radixOut = new int[1];
+                str = tryRadix(str, 10, radixOut);
+                result = (byte)Integer.parseInt(str, radixOut[0]);
             }
             catch (Exception ex) {
                 result = defValue;
@@ -319,8 +321,9 @@ public interface DataUtil extends DataTypes {
             String str = (String)value;
             str = str.trim();
             try {
-                int radix = tryRadix(str, 10);
-                result = Short.parseShort(str, radix);
+                int[] radixOut = new int[1];
+                str = tryRadix(str, 10, radixOut);
+                result = Short.parseShort(str, radixOut[0]);
             }
             catch (Exception ex) {
                 result = defValue;
@@ -356,8 +359,9 @@ public interface DataUtil extends DataTypes {
             String str = (String)value;
             str = str.trim();
             try {
-                int radix = tryRadix(str, 10);
-                result = Integer.parseInt(str, radix);
+                int[] radixOut = new int[1];
+                str = tryRadix(str, 10, radixOut);
+                result = Integer.parseInt(str, radixOut[0]);
             }
             catch (Exception ex) {
                 result = defValue;
@@ -402,8 +406,9 @@ public interface DataUtil extends DataTypes {
             String str = (String)value;
             str = str.trim();
             try {
-                int radix = tryRadix(str, 10);
-                result = Long.parseLong(str, radix);
+                int[] radixOut = new int[1];
+                str = tryRadix(str, 10, radixOut);
+                result = Long.parseLong(str, radixOut[0]);
             }
             catch (Exception ex) {
                 result = defValue;

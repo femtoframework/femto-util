@@ -111,6 +111,13 @@ public class DataUtilTest {
     }
 
     @Test
+    public void getByte() throws Exception {
+        assertEquals(DataUtil.getInt("0x20", 0), 32);
+        assertEquals(DataUtil.getByte("0O20", (byte)0), 16);
+        assertEquals(DataUtil.getByte("0B101", (byte)0), 5);
+    }
+
+    @Test
     public void getDouble() throws Exception {
         assertEquals(DataUtil.getDouble(null, 8), 8, 0.1);
         assertEquals(DataUtil.getDouble(Boolean.TRUE, 8), 1, 0.1);
