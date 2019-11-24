@@ -73,6 +73,9 @@ public class SimplePropertyInfo extends AbstractFeatureInfo implements PropertyI
     private int index = Property.INDEX_UNKNOWN;
     private boolean required = false;
 
+    @Ignore
+    private Class<?> declaringClass;
+
     protected static String getType(String type) {
         if (StringUtil.isValid(type)) {
             return type;
@@ -83,10 +86,12 @@ public class SimplePropertyInfo extends AbstractFeatureInfo implements PropertyI
     }
 
     public SimplePropertyInfo(Property property, Field field) {
+        this.declaringClass = field.getDeclaringClass();
         setProperty(property, field);
     }
 
     public SimplePropertyInfo(Property property, Method method) {
+        this.declaringClass = method.getDeclaringClass();
         setProperty(property, method);
     }
 
@@ -97,8 +102,9 @@ public class SimplePropertyInfo extends AbstractFeatureInfo implements PropertyI
      * @param typeClass   The type or class name of the attribute.
      * @param genericType GenericType of the property
      */
-    public SimplePropertyInfo(String name, Class<?> typeClass, Type genericType) {
+    public SimplePropertyInfo(Class<?> parentClass, String name, Class<?> typeClass, Type genericType) {
         super(name, "");
+        this.declaringClass = parentClass;
         setType(typeClass, genericType);
     }
 
@@ -216,7 +222,7 @@ public class SimplePropertyInfo extends AbstractFeatureInfo implements PropertyI
             if (noGetterMethod) { //Return null to avoid check again
                 return null;
             }
-            getterMethod = Reflection.getMethod(getTypeClass(), getGetter());
+            getterMethod = Reflection.getMethod(declaringClass, getGetter());
             if (getterMethod == null) {
                 noGetterMethod = true;
             }
@@ -235,9 +241,27 @@ public class SimplePropertyInfo extends AbstractFeatureInfo implements PropertyI
             if (noSetterMethod) { //Return null to avoid check again
                 return null;
             }
-            setterMethod = Reflection.getMethod(getTypeClass(), getSetter());
+            Class<?> typeClass = getTypeClass();
+            setterMethod = Reflection.getMethod(declaringClass, getSetter(), typeClass);
             if (setterMethod == null) {
-                noSetterMethod = true;
+                Method[] methods = Reflection.getMethods(declaringClass, getSetter());
+                if (methods == null || methods.length == 0) {
+                    noSetterMethod = true;
+                }
+                else {
+                    for(Method method: methods) {
+                        int count = method.getParameterCount();
+                        if (count == 1) {
+                            if (typeClass.isAssignableFrom(method.getParameterTypes()[0])) {
+                                setterMethod = method;
+                                break;
+                            }
+                        }
+                    }
+                    if (setterMethod == null) {
+                        noSetterMethod = true;
+                    }
+                }
             }
         }
         return setterMethod;

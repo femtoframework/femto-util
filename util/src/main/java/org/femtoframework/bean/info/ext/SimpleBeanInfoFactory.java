@@ -115,7 +115,7 @@ public class SimpleBeanInfoFactory extends BaseFactory<BeanInfo> implements Bean
                 propertyInfo = new SimplePropertyInfo(jsonProperty, field);
             }
             else {
-                propertyInfo = new SimplePropertyInfo(field.getName(), field.getType(), field.getGenericType());
+                propertyInfo = new SimplePropertyInfo(field.getDeclaringClass(), field.getName(), field.getType(), field.getGenericType());
                 propertyInfo.setWritable(false);
                 propertyInfo.setReadable(false);
             }
