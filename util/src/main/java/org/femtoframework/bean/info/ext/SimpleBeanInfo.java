@@ -188,7 +188,13 @@ public class SimpleBeanInfo implements BeanInfo {
         for(String name: getOrderedPropertyNames()) {
             PropertyInfo propertyInfo = getProperty(name);
             if (propertyInfo.isReadable()) {
-                Object value = propertyInfo.invokeGetter(bean);
+                Object value = null;
+                try {
+                    value = propertyInfo.invokeGetter(bean);
+                }
+                catch(Exception ex) {
+                    //Ignore
+                }
                 if (value != null) {
                     Class<?> typeClass = value.getClass();
                     Object converted = toValue(typeClass, value);
