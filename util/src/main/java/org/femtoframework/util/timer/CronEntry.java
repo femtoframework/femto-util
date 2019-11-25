@@ -294,6 +294,15 @@ public class CronEntry
     }
 
     /**
+     * Do get next running time, without re-calc
+     *
+     * @return  next running time
+     */
+    public long getRunningTime() {
+        return nextRunningTime;
+    }
+
+    /**
      * 返回下一次任务执行的时间
      *
      * @return
